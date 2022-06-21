@@ -1,0 +1,14 @@
+---
+# tasks file for dotfiles
+- name: install stow
+  apt:
+    name: stow
+    state: present
+
+- name: stow dotfiles
+  shell:
+    cmd: bash stow.sh
+  become: true
+  become_user: "{{ username }}"
+  ignore_errors: true
+  changed_when: false # TODO: report accurately

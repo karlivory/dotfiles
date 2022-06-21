@@ -1,0 +1,55 @@
+---
+# ╔═════════════════════════════════╗
+# ║ Intended to run on Ubuntu 22.04 ║
+# ╚═════════════════════════════════╝
+- name: "Configure my pc"
+  hosts: localhost
+  connection: local
+  become: true
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - role: geerlingguy.docker
+      tags:
+        - system
+      vars:
+        docker_daemon_options:
+          data-root: "/home/docker"
+          bip: "172.20.0.1/24"
+          default-address-pools:
+            - base: 172.20.0.0/16
+              size: 24
+    - role: geerlingguy.nodejs
+      tags:
+        - system
+      vars:
+        nodejs_version: "14.x"
+        nodejs_install_npm_user: "{{ username }}"
+
+  tasks:
+    - import_role:
+        name: system
+      tags:
+        - system
+    - import_role:
+        name: fonts
+      tags:
+        - system
+    - import_role:
+        name: dotfiles
+      tags:
+        - dotfiles
+    - import_role:
+        name: desktop
+      tags:
+        - desktop
+    - import_role: 
+        name: neovim
+      tags:
+        - neovim
+    - import_role:
+        name: software
+      tags:
+        - software

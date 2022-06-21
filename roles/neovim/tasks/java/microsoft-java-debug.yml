@@ -1,0 +1,24 @@
+---
+- name: Clone java-debug
+  become: yes
+  become_user: "{{ username }}"
+  git:
+    repo: https://github.com/microsoft/java-debug
+    dest: "/home/{{ username }}/.local/ls/java/java-debug"
+  register: clone_java_debug
+
+- name: Install java-17-openjdk
+  apt:
+    pkg: openjdk-17-jdk
+    state: present
+
+- name: Build java-debug
+  when: clone_java_debug.changed
+  become: yes
+  become_user: "{{ username }}"
+  command: ./mvnw clean install
+  environment:
+    JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+  args:
+    chdir: "/home/{{ username }}/.local/ls/java/java-debug"
+

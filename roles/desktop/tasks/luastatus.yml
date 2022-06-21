@@ -1,0 +1,49 @@
+---
+# TODO: run/debug these tasks on a VM
+
+- name: "Create /placeholder"
+  file:
+    path: /placeholder
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
+
+- name: "Clone luastatus repo"
+  git:
+    repo: https://github.com/shdown/luastatus
+    dest: /placeholder/luastatus
+    version: master
+    depth: 1
+    update: yes
+
+- name: "Install prerequisites"
+  apt:
+    pkg: 
+      - libyajl-dev
+      - libasound2-dev
+      - libnl-3-dev
+      - libudev-dev
+      - libxcb-xrm-dev
+      - libxcb-ewmh-dev
+      - libxcb-icccm4-dev
+      - lua5.1
+      - liblua5.1-0-dev
+
+- name: build luastatus
+  command: "cmake ."
+  args:
+    chdir: /placeholder/luastatus
+  changed_when: false
+
+- name: build luastatus
+  command: "make"
+  args:
+    chdir: /placeholder/luastatus
+  changed_when: false
+
+- name: build luastatus
+  command: "make install"
+  args:
+    chdir: /placeholder/luastatus
+  changed_when: false

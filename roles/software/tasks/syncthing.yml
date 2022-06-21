@@ -1,0 +1,16 @@
+---
+- name: Install syncthing
+  apt:
+    name: syncthing
+    state: present
+
+# syncthing.service user-level systemd enable is in xinitrc
+
+- name: Create syncthing folder
+  file:
+    state: directory
+    path: /st
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+# this needs some manual setup...

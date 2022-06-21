@@ -1,0 +1,17 @@
+---
+- name: Remove and purge snapd
+  become: true
+  apt:
+    pkg: 
+      - snapd
+    state: absent
+    purge: true
+    autoremove: true
+
+- name: Pin negative priority for snapd
+  copy:
+    src: files/nosnap.pref
+    dest: /etc/apt/preferences.d/nosnap.pref
+    owner: root
+    group: root
+    mode: 0664

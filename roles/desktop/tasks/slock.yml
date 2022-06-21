@@ -1,0 +1,15 @@
+---
+- name: install dependencies for building slock
+  apt:
+    name: 
+      - libpam0g-dev
+      - libxrandr-dev
+    state: present
+
+- name: build slock
+  make:
+    chdir: dotfiles/.config/slock
+    target: install
+  become: true
+  register: slock
+  changed_when: slock.stdout is search("c99 -o") or slock.stdout is search("CC -o")

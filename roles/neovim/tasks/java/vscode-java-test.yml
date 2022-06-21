@@ -1,0 +1,20 @@
+---
+- name: Clone vscode-java-test
+  become: yes
+  become_user: "{{ username }}"
+  git:
+    repo: https://github.com/microsoft/vscode-java-test
+    dest: "/home/{{ username }}/.local/ls/java/vscode-java-test"
+    force: true  # npm commands below modify the package.json
+    version: main
+  register: clone_vscode_java_test
+
+- name: Build vscode-java-test
+  when: clone_vscode_java_test.changed
+  command: ./mvnw clean verify -DskipTests
+  become: yes
+  become_user: "{{ username }}"
+  environment:
+    JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+  args:
+    chdir: "/home/{{ username }}/.local/ls/java/vscode-java-test/java-extension"

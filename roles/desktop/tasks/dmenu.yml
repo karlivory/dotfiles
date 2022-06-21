@@ -1,0 +1,9 @@
+---
+- name: build dmenu
+  make:
+    chdir: dotfiles/.config/dmenu
+    target: install
+  become: true
+  register: dmenu
+  changed_when: dmenu.stdout is search("c99 -o") or dmenu.stdout is search("cc -o")
+

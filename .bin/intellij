@@ -1,0 +1,2 @@
+#!/bin/sh
+_JAVA_AWT_WM_NONREPARENTING=1 nohup ~/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/**/bin/idea.sh > /dev/null 2>&1 &

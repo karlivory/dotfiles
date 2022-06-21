@@ -1,0 +1,28 @@
+---
+- name: apt update, upgrade
+  become: yes
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
+
+- name: copy over global_env.sh
+  copy:
+    src: files/global_env.sh
+    dest: /etc/profile.d/global_env.sh
+    owner: root
+    group: root
+    mode: 0664
+
+- name: Install some system packages
+  apt:
+    name: 
+      - software-properties-common
+      - curl
+    state: present
+
+- import_tasks: ./grub.yml
+- import_tasks: ./gnome_cleanup.yml
+- import_tasks: ./nosnap.yml
+- import_tasks: ./yubikey.yml
+

@@ -1,0 +1,33 @@
+# Browser
+super + w
+	google-chrome
+
+super + Return
+    st
+
+super + Tab
+    dmenu_run
+
+super+ shift + n
+    xsetroot -name "fsignal:3" # dwm:togglebar
+
+super + shift + t
+	theme_changer
+
+super + Escape
+	slock
+
+super + F1
+	sxhkd_reload
+
+super + F3
+	st
+
+super + F2
+	st -e pulsemixer
+
+super + F11
+	autorandr -c && set_default_wallpaper && remaps
+
+super + F12
+	pkill -1 dwm

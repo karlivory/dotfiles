@@ -1,0 +1,26 @@
+---
+- name: "Create /{{ confdir }}/fonts"
+  file:
+    path: "/{{ confdir }}/fonts"
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
+
+
+- name: "Clone nerd fonts git"
+  git:
+    repo: https://github.com/ryanoasis/nerd-fonts
+    dest: "/{{ confdir }}/fonts/nerd-fonts"
+    version: master
+    depth: 1
+    update: no
+
+- name: "Copy UbuntuMono font to /usr/share/fonts"
+  synchronize:
+    src: "/{{ confdir }}/fonts/nerd-fonts/patched-fonts/UbuntuMono"
+    dest: /usr/share/fonts/
+
+- name: " Update font cache"
+  command: fc-cache -f
+  changed_when: false

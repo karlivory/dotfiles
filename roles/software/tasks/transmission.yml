@@ -1,0 +1,38 @@
+---
+- name: Ensure transmission, pip are installed
+  apt:
+    pkg:
+      - transmission
+      - transmission-daemon
+      - python3-pip
+
+- name: Install stig
+  pip:
+    name:
+      - stig
+
+- name: Make transmission directory
+  file:
+    path: /transmission
+    state: directory
+    mode: 0777
+    group: root
+    owner: root
+
+- name: remove transmission daemon authentication
+  lineinfile:
+    path: /etc/transmission-daemon/settings.json
+    regexp: ' *"rpc-authentication-required":'
+    line: "    \"rpc-authentication-required\": false,"
+  register: transmission_auth
+
+- name: change transmission download dir
+  lineinfile:
+    path: /etc/transmission-daemon/settings.json
+    regexp: ' *"download-dir":'
+    line: "    \"download-dir\": \"/transmission\","
+  register: transmission_dir
+
+- name: reload transmission daemon
+  command: /etc/init.d/transmission-daemon reload
+  when: transmission_auth.changed or transmission_dir.changed

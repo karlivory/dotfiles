@@ -1,0 +1,93 @@
+---
+- name: Add neovim nightly ppa
+  ansible.builtin.apt_repository:
+    repo: ppa:neovim-ppa/unstable
+    state: present
+
+- name: Install neovim
+  apt:
+    name: neovim
+    state: present
+
+- name: Install some neovim plugin dependencies
+  apt:
+    pkg: 
+    - ripgrep
+    - fzf
+    state: present
+
+- name: Install pynvim
+  apt:
+    pkg: python3-pynvim
+    state: present
+
+# - name: install vim-runtime (vimtutor)
+#   apt:
+#     name:
+#     - vim-runtime
+#     state: present
+
+# - name: Install coc extensions
+#   command: nvim -c "TSInstall -sync {{ item }} | qall" --headless
+#   become: true
+#   become_user: "{{ username }}"
+#   when: coc_installed_extensions is not search(item)
+#   with_items:
+#     - "coc-json"
+#     - "coc-html"
+#     - "coc-pyright"
+#     - "coc-vimlsp"
+#     - "@yaegassy/coc-ansible"
+#     - "coc-sh"
+#     - "coc-css"
+#     - "coc-cmake"
+#     - "coc-go"
+#     - "coc-tsserver"
+#     - "coc-eslint"
+#     - "coc-clangd"
+
+- import_tasks: ./packer.yml
+- import_tasks: ./java/main.yml
+
+# TODO: make idempotent (currently always reports changed)
+# - name: Run a headless nvim PlugInstall
+#   command: nvim --headless +'PlugInstall --sync' +qall
+#   become: true
+#   become_user: "{{ username }}"
+
+# - name: Check whether .config/coc/extensions/package.json exists
+#   stat:
+#     path: "/home/{{ username }}/.config/coc/extensions/package.json" 
+#   register: package_stat
+
+# - name: Get currently installed coc extensions (if package.json exists)
+#   slurp:
+#     src: "/home/{{ username }}/.config/coc/extensions/package.json"
+#   register: coc_installed_extensions
+#   when: package_stat.stat.exists
+# - set_fact:
+#     coc_installed_extensions: "{{ coc_installed_extensions['content'] | b64decode }}"
+#   when: package_stat.stat.exists
+# - set_fact:
+#     coc_installed_extensions: ""
+#   when: not package_stat.stat.exists
+
+# - name: Install coc extensions
+#   command: nvim -c "CocInstall -sync {{ item }} | qall" --headless
+#   become: true
+#   become_user: "{{ username }}"
+#   when: coc_installed_extensions is not search(item)
+#   with_items:
+#     - "coc-json"
+#     - "coc-html"
+#     - "coc-pyright"
+#     - "coc-vimlsp"
+#     - "@yaegassy/coc-ansible"
+#     - "coc-sh"
+#     - "coc-css"
+#     - "coc-cmake"
+#     - "coc-go"
+#     - "coc-tsserver"
+#     - "coc-eslint"
+#     - "coc-clangd"
+

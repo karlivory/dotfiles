@@ -1,0 +1,14 @@
+---
+- name: Install st build tools
+  apt:
+    name: 
+      - libharfbuzz-dev
+    state: present
+
+- name: build st
+  make:
+    chdir: dotfiles/.config/st
+    target: install
+  become: true
+  register: st
+  changed_when: st.stdout is search("c99 -o") or st.stdout is search("cc -o")

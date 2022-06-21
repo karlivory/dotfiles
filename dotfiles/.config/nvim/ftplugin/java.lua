@@ -1,0 +1,129 @@
+-- local plugin_settings_fd = require("utils").get_plugin_settings_folder_name()
+local ok, jd = pcall(require, "nvim.plugins.configs.nvim_jdtls")
+-- print(vim.inspect(jd))
+jd.setup()
+
+-- jd.setup()
+-- Settings
+-- vim.bo.tabstop = 2
+-- vim.bo.shiftwidth = 2
+--
+-- local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+--
+-- local home = os.getenv "HOME"
+-- local workspace_folder = home .. "/.local/share/jdtls_workspaces/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+--
+-- -- Lsp
+-- -- local lsp_utils = require "ikws4.plugin.config.lsp.utils"
+-- --
+-- -- CANT USE ~ IN LUA PATH!!!! REMEMBER THIS !!!!!!!!!!!!!!!!!!
+-- --
+-- --
+-- --
+-- local lsp_installer = require "nvim-lsp-installer"
+-- local ok, jdtls = lsp_installer.get_server "jdtls"
+--
+-- if ok == false then
+--   vim.notify("lsp_installer: jdtls not found, please install it first", vim.log.levels.ERROR)
+--   return
+-- end
+--
+-- local config = {
+--   on_attach = function(client, bufnr)
+--     require("jdtls.setup").add_commands()
+--     require'jdtls'.setup_dap()
+--     require'lsp-status'.register_progress()
+--     -- lsp_utils.on_attach(client, bufnr)
+--   end,
+--
+--   -- cmd = jdtls:get_default_options().cmd,
+--   cmd = {
+--     'java',
+--     '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044',
+--     '-javaagent:/home/karl/.local/ls/java/lombok-1.18.22.jar',
+--     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+--     '-Dosgi.bundles.defaultStartLevel=4',
+--     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+--     '-Dlog.protocol=true',
+--     '-Dlog.level=ALL',
+--     '-Xms1g',
+--     '-Xmx1g',
+--     '--add-modules=ALL-SYSTEM',
+--     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+--     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+--     '-jar', '/home/karl/.local/ls/java/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+--     '-configuration', '/home/karl/.local/ls/java/jdtls/config_linux',
+--     '-data', workspace_folder
+--   },
+--   root_dir = jdtls:get_default_options().root_dir,
+--   settings = {
+--     java = {
+--       format = {
+--         comments = {
+--           enabled = false,
+--         },
+--         settings = {
+--           url = "https://gist.githubusercontent.com/ikws4/7880fdcb4e3bf4a38999a628d287b1ab/raw/9005c451ed1ff629679d6100e22d63acc805e170/jdtls-formatter-style.xml",
+--         },
+--       },
+--     },
+--   },
+--   init_options = {
+--     bundles = {},
+--   },
+-- }
+-- require("jdtls").start_or_attach(config)
+--
+-- -- Organize import on save
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*.java",
+--   callback = function()
+--     local params = vim.lsp.util.make_range_params()
+--     local bufnr = vim.api.nvim_get_current_buf()
+--     params.context = {
+--       diagnostics = vim.lsp.diagnostic.get_line_diagnostics(bufnr),
+--     }
+--     local result, err = vim.lsp.buf_request_sync(0, "java/organizeImports", params)
+--
+--     if err then
+--       print("Error on organize imports: " .. err)
+--       return
+--     end
+--
+--     if result and result[1].result then
+--       vim.lsp.util.apply_workspace_edit(result[1].result, "utf-16")
+--     end
+--   end,
+-- })
+--
+-- -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
+-- -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- -- local config = {
+-- --   -- The command that starts the language server
+-- --   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
+-- --   cmd = {
+-- --     'java', -- or '/path/to/java11_or_newer/bin/java'
+-- --     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+-- --     '-Dosgi.bundles.defaultStartLevel=4',
+-- --     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+-- --     '-Dlog.protocol=true',
+-- --     '-Dlog.level=ALL',
+-- --     '-Xms1g',
+-- --     '--add-modules=ALL-SYSTEM',
+-- --     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+-- --     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+-- --     '-jar', '~/.local/ls/java/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_*.jar',
+-- --     '-configuration', '~/.local/ls/java/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/config_linux/',
+-- --     '-data', '~/workspace/foobar'
+-- --   },
+-- --
+-- --   -- 💀
+-- --   -- This is the default if not provided, you can remove it. Or adjust as needed.
+-- --   -- One dedicated LSP server & client will be started per unique root_dir
+-- --   root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
+-- --   capabilities = capabilities
+-- -- }
+-- -- print("fooooooooooooooooooooooooooooooooooooooooooooooooo")
+-- -- -- This starts a new client & server,
+-- -- -- or attaches to an existing client & server depending on the `root_dir`.
+-- -- require('jdtls').start_or_attach(config)

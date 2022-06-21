@@ -1,0 +1,77 @@
+---
+- name: Add yubico repository
+  ansible.builtin.apt_repository:
+    repo: ppa:yubico/stable
+    state: present
+
+- name: Install yubikey manager (ykman)
+  apt:
+    update_cache: true
+    name: yubikey-manager
+    state: present
+
+- name: install yubikey packages
+  apt:
+    name:
+      - gnupg
+      - pcscd
+      - scdaemon
+    state: present
+
+- name: create gnupg folder
+  file:
+    state: directory
+    path: "~{{username}}/.gnupg"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0700'
+
+- name: copy over scdaemon.conf
+  copy:
+    src: files/scdaemon.conf
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    dest: "~{{ username }}/.gnupg/scdaemon.conf"
+    mode: '0644'
+  register: scdaemon_conf
+
+- name: restart pcscd
+  systemd:
+    name: pcscd.service
+    enabled: true
+    state: restarted
+  when: scdaemon_conf.changed
+
+- name: copy over gpg.conf
+  copy:
+    src: files/gpg.conf
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    dest: "~{{ username }}/.gnupg/gpg.conf"
+    mode: '0644'
+
+- name: copy over gpg-agent.conf
+  copy:
+    src: files/gpg-agent.conf
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    dest: "~{{ username }}/.gnupg/gpg-agent.conf"
+    mode: '0644'
+  register: gpg_agent_conf
+
+- name: restart gpg-agent
+  become: true
+  become_user: "{{ username }}"
+  systemd:
+    name: gpg-agent.service
+    enabled: true
+    state: restarted
+    scope: user
+  when: gpg_agent_conf.changed
+  failed_when: false # gpg-agent not running
+
+- name: Install pinentry program (pinentry-qt)
+  apt:
+    name: pinentry-qt
+    state: present
+

@@ -1,0 +1,17 @@
+! source dwm colorscheme !
+#include ".config/themes/dwm/theme"
+
+! source dmenu colorscheme !
+#include ".config/themes/dmenu/theme"
+
+! sxiv !
+Sxiv.background: #282828
+
+! fonts config !
+Xft.dpi: 96
+Xft.antialias:	1
+Xft.hinting:	1
+Xft.autohint:	0
+Xft.hintstyle:	hintslight
+Xft.rgba:	rgb
+Xft.lcdfilter:	lcddefault

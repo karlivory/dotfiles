@@ -1,0 +1,15 @@
+---
+username: karl
+remove_gnome: false
+vm_deployment: false
+
+confdir: "/placeholder"
+
+# software
+software_lf_binary: "https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz"
+software_lf_binary_checksum: "sha256:b8f9431dc63f7b2cff8e4306cff4c075adbe9f0900b563f91a6b742a41290d7f"
+
+
+# neovim vars
+nvim_jdtls_server: "https://download.eclipse.org/jdtls/milestones/1.9.0/jdt-language-server-1.9.0-202203031534.tar.gz"
+nvim_jdtls_server_checksum: "sha256:b8af1925cb3b817fd1061e00a45ffbc6aca76819d8b2f5939626009ebf432fc7"

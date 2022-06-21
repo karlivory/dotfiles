@@ -1,0 +1,27 @@
+---
+- name: Install a bunch of software
+  apt:
+    pkg: 
+      - curl
+      - lxrandr
+      - xvkbd
+      - xbindkeys
+      - autorandr
+      - unclutter
+      - net-tools
+      - jq
+      - neofetch
+      - fzf
+      - xclip
+      - mdp
+      - htop
+      - ranger
+      - tmux
+      - expect
+      - cmatrix
+      - tree
+      - pulsemixer
+      - software-properties-common
+      - gimp
+      - net-tools
+      - ncal
