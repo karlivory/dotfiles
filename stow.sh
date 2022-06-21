@@ -24,7 +24,13 @@ rm_if_not_link ~/.config/nvim
 mkdir -p ~/.config/systemd/user
 
 stow dotfiles -t ~
-stow config_personal/dotfiles -t ~
+if [ ! $(find config_personal -maxdepth 0 -empty) ]
+then
+    echo "stowing personal dotfiles"
+    cd config_personal
+    stow dotfiles_personal -t ~
+    cd ..
+fi
 
 # Init themes if they do not exist
 if [ ! -f ~/.config/themes/dwm/theme ]; then
@@ -36,3 +42,5 @@ fi
 if [ ! -f ~/.config/themes/luastatus/theme ]; then
     cp ~/.config/themes/luastatus/gruvbox.lua ~/.config/themes/luastatus/color.lua
 fi
+
+echo "done"
