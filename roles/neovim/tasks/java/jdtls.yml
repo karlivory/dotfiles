@@ -5,7 +5,7 @@
   get_url:
     url: "{{ nvim_jdtls_server }}"
     dest: "/home/{{ username }}/.local/ls/java/jdtls.tar.gz"
-    checksum: "{{ nvim_jdtls_server_cksum }}"
+    checksum: "{{ nvim_jdtls_server_checksum }}"
   register: jdtls
 
 - name: Create ~/.local/ls/java/jdtls
