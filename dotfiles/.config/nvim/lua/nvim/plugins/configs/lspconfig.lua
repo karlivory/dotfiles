@@ -43,6 +43,7 @@ capabilities.textDocument.completion.completionItem = {
    },
 }
 lspconfig.eslint.setup{}
+lspconfig.tsserver.setup{}
 
 lspconfig.pyright.setup{}
 -- lspconfig.jedi_language_server.setup{}

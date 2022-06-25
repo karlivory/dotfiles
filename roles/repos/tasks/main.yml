@@ -1,0 +1,6 @@
+---
+- name: "Clone repo group"
+  include_tasks: ./repo_group.yml
+  loop: "{{ repositories }}"
+  vars:
+    repo_group: "{{ item }}"

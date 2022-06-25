@@ -10,6 +10,17 @@ function sigint_handler()
     echo "Execution halted via SIGINT!" | tee -a $logfile
     exit
 }
+function invalid_tag()
+{
+    echo "Invalid tag! Exiting..." | tee -a $logfile
+    exit 1
+}
+function root_playbook(){
+    sudo unbuffer ansible-playbook playbook.yml $sudo_tags_arg 2>&1 | tee -a $logfile
+}
+function user_playbook(){
+    unbuffer ansible-playbook playbook_user.yml $user_tags_arg 2>&1 | tee -a $logfile
+}
 trap sigint_handler SIGINT
 
 mkdir -p logs
@@ -17,22 +28,44 @@ logfile="logs/ansible-$(date +%F)"
 touch $logfile
 echo "============================ $(date) ============================" >> "$logfile"
 
+sudo_tags_arg=""
+user_tags_arg=""
+all=0
+if [ ! $# -eq 0 ]
+then
+    case $1 in
+        system|fonts|dotfiles|desktop|neovim|software)
+            sudo_tags_arg="-t $1" ;;
+        repos|ssh_test)
+            user_tags_arg="-t $1" ;;
+        *)
+            invalid_tag ;;
+    esac
+
+    echo "Running playbook with given tag: $1" | tee -a $logfile
+fi
+
 if ! command -v ansible &> /dev/null
 then
     echo "Ansible not installed!"
     sudo apt install ansible -y
 fi
-#sudo apt install python3-pip -y
-#sudo pip install ansible
 
+ansible-galaxy install -r roles/requirements.yml
 sudo ansible-galaxy install -r roles/requirements.yml
 
-tags_arg=""
-if [ ! $# -eq 0 ]
+if [[ -z $sudo_tags_arg && -z $user_tags_arg ]]
 then
-    echo "Running playbook with given tag: $1" | tee -a $logfile
-    tags_arg="-t $1"
+    echo "No tags specified. Running all tasks..."
+    root_playbook
+    user_playbook
+elif [[ ! -z $sudo_tags_arg ]]
+then
+    echo "Running root playbook with tag: $1"
+    root_playbook
+elif [[ ! -z $user_tags_arg ]]
+then
+    echo "Running user playbook with tag: $1"
+    user_playbook
 fi
-
-sudo unbuffer ansible-playbook playbook.yml $tags_arg 2>&1 | tee -a $logfile
 

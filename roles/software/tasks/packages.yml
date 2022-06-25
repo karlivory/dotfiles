@@ -25,3 +25,5 @@
       - gimp
       - net-tools
       - ncal
+      - fuse
+      - libfuse2

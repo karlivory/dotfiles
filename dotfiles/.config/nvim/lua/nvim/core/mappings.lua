@@ -33,7 +33,7 @@ M.general = {
 
       -- line numbers
       ["<leader>n"] = { "<cmd> set nu! <CR>", "   toggle line number" },
-      ["<leader>rn"] = { "<cmd> set rnu! <CR>", "   toggle relative number" },
+      -- ["<leader>rn"] = { "<cmd> set rnu! <CR>", "   toggle relative number" },
 
    },
 
@@ -120,12 +120,12 @@ M.lspconfig = {
          "   lsp definition type",
       },
 
-      ["<leader>ra"] = {
-         function()
-            require("ui.renamer").open()
-         end,
-         "   lsp rename",
-      },
+      -- ["<leader>rn"] = {
+      --    function()
+      --       require("ui.renamer").open()
+      --    end,
+      --    "   lsp rename",
+      -- },
 
       ["<leader>ca"] = {
          function()

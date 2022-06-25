@@ -2,13 +2,15 @@
 # ╔═════════════════════════════════╗
 # ║ Intended to run on Ubuntu 22.04 ║
 # ╚═════════════════════════════════╝
-- name: "Configure my pc"
+- name: "Configure my pc (root)"
+  become: true
+  become_method: sudo
   hosts: localhost
   connection: local
-  become: true
 
   vars_files:
-    - vars/main.yml
+    - ./vars/main.yml
+    # - ./config_personal/vars/main.yml
 
   roles:
     - role: geerlingguy.docker

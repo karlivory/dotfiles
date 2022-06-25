@@ -1,0 +1,29 @@
+--- # TODO: create tar.gz extract common utils tasks
+- name: Download jetbrains toolbox binary
+  get_url:
+    url: "{{ software_jetbrains_toolbox }}"
+    dest: "{{ confdir }}/toolbox.tar.gz"
+    checksum: "{{software_jetbrains_toolbox_checksum }}"
+  register: toolbox
+
+- name: Create toolbox unpack dir
+  file:
+    state: directory
+    path: "{{ confdir }}/toolbox"
+
+- name: Clean up existing toolbox
+  when: toolbox.changed
+  file:
+    state: absent
+    path: "{{ confdir }}/toolbox/*"
+
+- name: unpack toolbox
+  when: toolbox.changed
+  unarchive:
+    src: "{{ confdir }}/toolbox.tar.gz"
+    dest: "{{ confdir }}/toolbox"
+
+# remember this: ansible file globbing sucks
+- name: symlink jetbrains-toolbox
+  shell: ln -fs /placeholder/toolbox/*/jetbrains-toolbox /usr/local/bin/
+

@@ -1,6 +1,7 @@
 ---
-- import_tasks: ./lf.yml
 - import_tasks: ./packages.yml
+- import_tasks: ./jetbrains.yml
+- import_tasks: ./lf.yml
 - import_tasks: ./chrome.yml
 - import_tasks: ./syncthing.yml
 - import_tasks: ./firefox.yml

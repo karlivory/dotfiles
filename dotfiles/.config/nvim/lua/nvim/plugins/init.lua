@@ -62,7 +62,6 @@ local plugins = {
    },
 
    -- lsp stuff
-
    ["williamboman/nvim-lsp-installer"] = {
       opt = true,
       setup = function()
@@ -88,6 +87,12 @@ local plugins = {
       config = function()
          require("nvim.plugins.configs.others").signature()
       end,
+   },
+
+   ["smjonas/inc-rename.nvim"] = {
+     config = function()
+       require("inc_rename").setup()
+     end,
    },
 
    -- load luasnips + cmp related in insert mode only
