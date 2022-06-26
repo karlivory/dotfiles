@@ -1,0 +1,11 @@
+--- 
+- name: Download, unarchive and link ytdlp
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: "{{ software_ytdlp }}"
+    dl_filename: "yt-dlp"
+    dl_dest: "/usr/local/bin/yt-dlp"
+    # dl_unarchive: no
+    # dl_link_file_path: "/jetbrains-toolbox"
+    # dl_link_file_dest: "/usr/local/bin/jetbrains-toolbox"
+

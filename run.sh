@@ -16,9 +16,11 @@ function invalid_tag()
     exit 1
 }
 function root_playbook(){
+    sudo ansible-galaxy install -r roles/requirements.yml
     sudo unbuffer ansible-playbook playbook.yml $sudo_tags_arg 2>&1 | tee -a $logfile
 }
 function user_playbook(){
+    ansible-galaxy install -r roles/requirements.yml
     unbuffer ansible-playbook playbook_user.yml $user_tags_arg 2>&1 | tee -a $logfile
 }
 trap sigint_handler SIGINT
@@ -34,7 +36,7 @@ all=0
 if [ ! $# -eq 0 ]
 then
     case $1 in
-        system|fonts|dotfiles|desktop|neovim|software)
+        system|fonts|dotfiles|desktop|neovim|software|virt)
             sudo_tags_arg="-t $1" ;;
         repos|ssh_test)
             user_tags_arg="-t $1" ;;
@@ -50,9 +52,6 @@ then
     echo "Ansible not installed!"
     sudo apt install ansible -y
 fi
-
-ansible-galaxy install -r roles/requirements.yml
-sudo ansible-galaxy install -r roles/requirements.yml
 
 if [[ -z $sudo_tags_arg && -z $user_tags_arg ]]
 then

@@ -1,32 +1,11 @@
 ---
-- name: Download latest lf release binary
-  get_url:
-    url: "{{ software_lf_binary }}"
-    dest: "{{ confdir }}/lf.tar.gz"
-    checksum: "{{software_lf_binary_checksum }}"
-  register: lf
-
-- name: Create lf unpack dir
-  file:
-    state: directory
-    path: "{{ confdir }}/lf"
-
-- name: Clean up existing lf
-  when: lf.changed
-  file:
-    state: absent
-    path: "{{ confdir }}/lf/*"
-
-- name: unpack lf
-  when: lf.changed
-  unarchive:
-    src: "{{ confdir }}/lf.tar.gz"
-    dest: "{{ confdir }}/lf"
-
-- name: Install lf
-  when: lf.changed
-  copy:
-    src: "{{ confdir }}/lf/lf"
-    dest: /usr/local/bin/lf
-    mode: 0755
+- name: Download and install lf
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: "{{ software_lf_binary }}"
+    dl_filename: "lf.tar.gz"
+    dl_unarchive: yes
+    dl_unarchive_dir: "{{ confdir }}/lf"
+    dl_link_file_path: "{{ dl_unarchive_dir }}/lf"
+    dl_link_file_dest: "/usr/local/bin/lf"
 

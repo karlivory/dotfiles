@@ -1,5 +1,6 @@
 ---
 - import_tasks: ./packages.yml
+- import_tasks: ./ytdlp.yml
 - import_tasks: ./jetbrains.yml
 - import_tasks: ./lf.yml
 - import_tasks: ./chrome.yml

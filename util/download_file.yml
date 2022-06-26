@@ -1,0 +1,116 @@
+---
+# required args:
+# dl_url
+# dl_filename
+# dl_dest_dir
+# optional args:
+# dl_checksum
+# dl_unarchive (boolean)
+# dl_unarchive_dir
+# dl_link_file_path (path of file, creates link dl_link_file_dest)
+# dl_link_file_dest (default /usr/local/bin/{{ dl_filename }})
+
+- set_fact:
+    dl_url: "{{ dl_url | default(\"\") }}"
+    dl_dest: "{{ dl_dest | default(\"\") }}"
+    dl_dest_dir: "{{ dl_dest_dir | default(\"\") }}"
+    dl_filename: "{{ dl_filename | default(\"\") }}"
+    dl_checksum: "{{ dl_checksum | default(\"\") }}"
+    dl_link_file_path: "{{ dl_link_file_path | default(\"\") }}"
+    dl_link_file_dest: "{{ dl_link_file_dest | default(\"\") }}"
+    dl_unarchive: "{{ dl_unarchive | default(false) }}" 
+    dl_unarchive_dir: "{{ dl_unarchive_dir | default(\"\") }}"
+
+- set_fact:
+    dl_dest_dir: "{{ confdir }}/downloads"
+  when: not dl_dest_dir 
+
+- set_fact:
+    dl_dest: "{{ dl_dest_dir }}/{{ dl_filename }}"
+
+- name: "Get checksum of {{ dl_filename }}"
+  when: not dl_checksum 
+  shell: "grep \"{{ dl_filename }}\" vars/checksums.yml | sed 's/^.*: //g'"
+  changed_when: false
+  register: checksum_grep
+
+- when: not dl_checksum and checksum_grep.stdout != ""
+  set_fact:
+    dl_checksum: "{{ checksum_grep.stdout }}"
+
+- name: "Ensure download destination ({{ dl_dest_dir }}) exists"
+  file:
+    path: "{{ dl_dest_dir }}"
+    state: directory 
+
+- name: "Download {{ dl_filename }} (with checksum)"
+  when: dl_checksum 
+  get_url:
+    url: "{{ dl_url }}"
+    dest: "{{ dl_dest }}"
+    checksum: "{{ dl_checksum }}"
+  register: dl1
+
+- name: "Download {{ dl_filename }} (without checksum)"
+  when: not dl_checksum 
+  get_url:
+    url: "{{ dl_url }}"
+    dest: "{{ dl_dest }}"
+  register: dl2
+
+- set_fact:
+    dl_changed: "{{ dl1.changed or dl2.changed }}"
+
+- name: "Calculate sha256 checksum of {{ dl_filename }}"
+  when: dl_changed
+  stat:
+    path: "{{ dl_dest }}"
+    checksum_algorithm: sha256
+    get_checksum: yes
+  register: sha256
+
+- name: "Update checksum of {{ dl_filename }} in vars/checksums.yml file"
+  when: dl_changed
+  lineinfile:
+    path: "vars/checksums.yml"
+    regexp: "^{{ dl_filename }}:.*"
+    line: "{{ dl_filename }}: sha256:{{ sha256.stat.checksum }}"
+
+- name: "Create unpack dir ({{ dl_unarchive_dir }}) for {{ dl_filename }}"
+  when: dl_unarchive
+  file:
+    state: directory
+    path: "{{ dl_unarchive_dir }}"
+
+- name: Clean up existing archive files
+  when: dl_unarchive and dl_changed
+  file:
+    state: absent
+    path: "{{ dl_unarchive_dir }}/*"
+
+- name: "Unarchive {{ dl_filename }}" 
+  when: dl_unarchive and dl_changed
+  unarchive:
+    src: "{{ dl_dest }}"
+    dest: "{{ dl_unarchive_dir }}"
+
+- name: "Symlink {{ dl_link_file_path }} to {{ dl_link_file_dest }}"
+  when: dl_changed and dl_link_file_path and dl_link_file_dest
+  file:
+    src: "{{ dl_link_file_path }}"
+    dest: "{{ dl_link_file_dest }}"
+    mode: 0755
+    state: link
+
+# Cleanup
+- set_fact:
+    dl_url: ""
+    dl_dest: ""
+    dl_dest_dir: ""
+    dl_filename: ""
+    dl_checksum: ""
+    dl_link_file_path: ""
+    dl_link_file_dest: ""
+    dl_unarchive: ""
+    dl_unarchive_dir: ""
+  
