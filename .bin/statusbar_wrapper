@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# could not get this to work w/ systemd
-while true; do
-    $HOME/.config/luastatus/statusbar.sh
-    echo "Killed, restarting..."
-    sleep 0.1
-done

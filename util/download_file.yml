@@ -95,11 +95,12 @@
     dest: "{{ dl_unarchive_dir }}"
 
 - name: "Symlink {{ dl_link_file_path }} to {{ dl_link_file_dest }}"
-  when: dl_changed and dl_link_file_path and dl_link_file_dest
+  when: dl_link_file_path and dl_link_file_dest
   file:
     src: "{{ dl_link_file_path }}"
     dest: "{{ dl_link_file_dest }}"
     mode: 0755
+    force: yes
     state: link
 
 # Cleanup

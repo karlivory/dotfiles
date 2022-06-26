@@ -4,8 +4,7 @@
   vars:
     dl_url: "{{ software_ytdlp }}"
     dl_filename: "yt-dlp"
-    dl_dest: "/usr/local/bin/yt-dlp"
-    # dl_unarchive: no
-    # dl_link_file_path: "/jetbrains-toolbox"
-    # dl_link_file_dest: "/usr/local/bin/jetbrains-toolbox"
+    dl_dest_dir: "{{ confdir }}/yt-dlp"
+    dl_link_file_path: "{{ dl_dest_dir }}/yt-dlp"
+    dl_link_file_dest: "/usr/local/bin/yt-dlp"
 
