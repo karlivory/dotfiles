@@ -11,11 +11,12 @@ prompt="dmenu -l 9 "
 # Theme
 cancel="窱 Cancel"
 theme1=" Cozy-Night"
-theme2=" Cozy-Night(Warm Color)"
+theme2=" Dracula"
 theme3=" Gruvbox"
+theme4=" Nord"
 
 # Variable to pass to dmenu or rofi
-option="$cancel\n$theme1\n$theme2\n$theme3"
+option="$cancel\n$theme1\n$theme2\n$theme3\n$theme4"
 
 theme_change()
 {
@@ -39,10 +40,15 @@ case $select in
 		theme_change cozy-night
 		;;
 	$theme2)
-		feh --bg-fill $HOME/.config/wallpapers/pixelart_night_train_cozy_gas_warm-color.png
-		theme_change cozy-night_warm
+		feh --bg-fill $HOME/.config/wallpapers/pixelart_arabian_palace_princess.png
+		theme_change dracula
 		;;
 	$theme3)
 		feh --bg-fill $HOME/.config/wallpapers/pixelart_house_inside_girl_book_dog.png
 		theme_change gruvbox
+        ;;
+	$theme4)
+		feh --bg-fill $HOME/.config/wallpapers/pixelart_medicine_flower_reminder_nord.png
+		theme_change nord
+		;;
 esac
