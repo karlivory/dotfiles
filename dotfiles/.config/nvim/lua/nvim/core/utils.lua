@@ -31,6 +31,7 @@ M.load_mappings = function(mappings, mapping_opt)
         end
     end
     vim.keymap.set("n", "<leader>rn", ":IncRename ")
+    vim.keymap.set("i", "<C-H>", "<C-W>")
 end
 
 -- load plugin after entering vim ui

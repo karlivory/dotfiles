@@ -141,6 +141,7 @@ alias b='bluetoothctl'
 alias v='nvim'
 alias drm='docker rm $(docker ps -q) --force'
 alias cdg='cd $(git rev-parse --show-toplevel)'
+alias fcd='cd $(find -type d 2>/dev/null | fzf)'
 #############################################################################
 
 # needed for st

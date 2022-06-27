@@ -13,6 +13,8 @@ set keymap vi-insert
 "\C-p": previous-history
 "\C-n": next-history
 "\C-l": clear-screen
+"\C-f": "fcd\n"
+"\C-h": "\C-w"
 
 set keymap vi-command
 "daw": "lbdw"
