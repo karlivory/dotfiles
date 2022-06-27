@@ -8,7 +8,7 @@ super + Return
 super + Tab
     dmenu_run
 
-super+ shift + n
+super + shift + n
     xsetroot -name "fsignal:3" # dwm:togglebar
 
 super + shift + t
@@ -17,13 +17,19 @@ super + shift + t
 super + Escape
 	slock
 
-super + F1
+super + shift + F1
 	sxhkd_reload
 
-super + F3
-	st
+super + F1
+    pulsemixer --change-volume -10 && touch $HOME/.config/luastatus/fifo/.volume
 
 super + F2
+    pulsemixer --change-volume +10 && touch $HOME/.config/luastatus/fifo/.volume
+
+super + F3
+	pulsemixer --toggle-mute && touch $HOME/.config/luastatus/fifo/.volume
+
+super + F4
 	st -e pulsemixer
 
 super + F11

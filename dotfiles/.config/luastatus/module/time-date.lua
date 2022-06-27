@@ -5,8 +5,8 @@ widget = {
     plugin = 'timer',
     cb = function()
         return {
-            string.format(os.date(color.sep .. color.time_ic_fg .. color.time_ic_bg .. "  " .. color.time_fg .. color.time_bg .. " %I:%M %p ")), -- time
-						string.format(os.date(color.sep .. color.date_ic_fg .. color.date_ic_bg .. "  " .. color.date_fg .. color.date_bg .. " %a, %d %b ")), --date
+            string.format(os.date(color.sep .. color.col1_ic_fg .. color.col1_ic_bg .. "  " .. color.col1_fg .. color.col1_bg .. " %H:%M ")), -- col0
+						string.format(os.date(color.sep .. color.col0_ic_fg .. color.col0_ic_bg .. "  " .. color.col0_fg .. color.col0_bg .. " %a, %d %b ")), --col1
         }
     end,
 }

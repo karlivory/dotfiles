@@ -17,6 +17,7 @@ set keymap vi-insert
 "\C-h": "\C-w"
 
 set keymap vi-command
+"\C-y": copyline
 "daw": "lbdw"
 "yaw": "lbyw"
 "caw": "lbcw"

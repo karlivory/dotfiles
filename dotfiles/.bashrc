@@ -2,6 +2,11 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# ctrl-y copies current bash readline to clipboard
+copyline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
+bind -m "vi-command" -x '"\C-Y": copyline'
+bind -m "vi-insert" -x '"\C-Y": copyline'
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;

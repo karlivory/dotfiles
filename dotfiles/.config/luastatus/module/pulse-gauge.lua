@@ -16,3 +16,18 @@ widget = {
         end
     end,
 }
+
+widget = {
+    plugin = 'timer',
+    opts = {period = 5},
+    cb = function()
+      return "foo"
+    end,
+}
+
+widget = {
+    plugin = 'pulse',
+    cb = function(t)
+      return "foo"
+    end,
+}
