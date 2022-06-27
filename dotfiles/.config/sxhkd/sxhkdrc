@@ -23,10 +23,19 @@ super + shift + F1
 super + F1
     pulsemixer --change-volume -10 && touch $HOME/.config/luastatus/fifo/.volume
 
+XF86AudioLowerVolume
+    pulsemixer --change-volume -10 && touch $HOME/.config/luastatus/fifo/.volume
+
 super + F2
     pulsemixer --change-volume +10 && touch $HOME/.config/luastatus/fifo/.volume
 
+XF86AudioRaiseVolume
+    pulsemixer --change-volume +10 && touch $HOME/.config/luastatus/fifo/.volume
+
 super + F3
+	pulsemixer --toggle-mute && touch $HOME/.config/luastatus/fifo/.volume
+
+XF86AudioMute
 	pulsemixer --toggle-mute && touch $HOME/.config/luastatus/fifo/.volume
 
 super + F4
