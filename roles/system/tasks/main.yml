@@ -21,6 +21,7 @@
       - curl
     state: present
 
+- import_tasks: ./zfs.yml
 - import_tasks: ./grub.yml
 - import_tasks: ./gnome_cleanup.yml
 - import_tasks: ./nosnap.yml

@@ -1,0 +1,28 @@
+---
+- name: Install sanoid (automatic zfs snapshots)
+  apt:
+    name: sanoid
+    state: present
+
+- name: Copy over sanoid.conf 
+  synchronize:
+    src: files/sanoid.conf
+    dest: /etc/sanoid/sanoid.conf
+
+- name: Disable default sanoid timer (systemd)
+  systemd:
+    name: sanoid.timer
+    enabled: no
+    state: stopped
+
+- name: Disable default sanoid-prune service (systemd)
+  systemd:
+    name: sanoid-prune.service
+    enabled: no
+    state: stopped
+
+- name: Add cron entry for sanoid
+  cron:
+    name: "sanoid"
+    job: "sanoid --cron"
+    user: root
