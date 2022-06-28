@@ -9,3 +9,25 @@
     dl_link_file_path: "{{ dl_unarchive_dir }}/lf"
     dl_link_file_dest: "/usr/local/bin/lf"
 
+- name: Install some packages required for file previews
+  apt:
+    pkg:
+      - libcdio-utils
+      - p7zip-full
+      - unrar
+      - odt2txt
+      - catdoc
+      - docx2txt
+      - ffmpegthumbnailer
+      - libimage-exiftool-perl
+      - xdotool
+      - highlight
+      - atool
+      - bat
+      - mediainfo
+      - lynx
+
+- name: Install ueberzug (pip)
+  pip:
+    name:
+      - ueberzug

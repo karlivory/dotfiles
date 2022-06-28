@@ -1,5 +1,5 @@
 ---
-- name: Install a bunch of software
+- name: Install a bunch of software from apt (this might take a while)
   apt:
     pkg: 
       - curl
@@ -23,3 +23,6 @@
       - ncal
       - fuse
       - libfuse2
+      - vlc
+      - mpv
+

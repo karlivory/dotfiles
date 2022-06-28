@@ -1,4 +1,9 @@
 ---
+- name: Ensure pip is installed
+  apt:
+    pkg:
+      - python3-pip
+
 - import_tasks: ./packages.yml
 - import_tasks: ./ytdlp.yml
 - import_tasks: ./jetbrains.yml
