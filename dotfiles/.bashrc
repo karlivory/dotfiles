@@ -28,7 +28,12 @@ _cddown () {
 bind -m "vi-command" '"\C-j": "ddi_cddown # ==>\C-m"'
 bind -m "vi-insert" '"\C-j": "\eddi_cddown # ==>\C-m"'
 _clearcd () {
-    cd "$1" && dirs -c
+    if [ $# -eq 0 ]; then
+        DIR="${HOME}"
+    else
+        DIR="$1"
+    fi
+    cd "${DIR}" && dirs -c
 }
 
 # If not running interactively, don't do anything
