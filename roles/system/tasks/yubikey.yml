@@ -18,10 +18,13 @@
       - scdaemon
     state: present
 
+- set_fact:
+    gnupghome: "/home/{{ username }}/.local/share/gnupg"
+
 - name: create gnupg folder
   file:
     state: directory
-    path: "~{{username}}/.gnupg"
+    path: "{{ gnupghome }}"
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: '0700'
@@ -31,7 +34,7 @@
     src: files/scdaemon.conf
     owner: "{{ username }}"
     group: "{{ username }}"
-    dest: "~{{ username }}/.gnupg/scdaemon.conf"
+    dest: "{{ gnupghome }}/scdaemon.conf"
     mode: '0644'
   register: scdaemon_conf
 
@@ -47,7 +50,7 @@
     src: files/gpg.conf
     owner: "{{ username }}"
     group: "{{ username }}"
-    dest: "~{{ username }}/.gnupg/gpg.conf"
+    dest: "{{ gnupghome }}/gpg.conf"
     mode: '0644'
 
 - name: copy over gpg-agent.conf
@@ -55,7 +58,7 @@
     src: files/gpg-agent.conf
     owner: "{{ username }}"
     group: "{{ username }}"
-    dest: "~{{ username }}/.gnupg/gpg-agent.conf"
+    dest: "{{ gnupghome }}/gpg-agent.conf"
     mode: '0644'
   register: gpg_agent_conf
 

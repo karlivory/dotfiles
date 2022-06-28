@@ -1,2 +1,2 @@
 #!/bin/bash
-feh --bg-fill ~/.config/wallpapers/default
+feh --no-fehbg --bg-fill ~/.config/wallpapers/default

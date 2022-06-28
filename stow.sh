@@ -20,6 +20,7 @@ mkdir -p ~/.config
 rm_if_not_link ~/.config/picom
 rm_if_not_link ~/.config/ranger
 rm_if_not_link ~/.config/nvim
+rm_if_not_link ~/.config/user-dirs.dirs
 
 mkdir -p ~/.config/systemd/user
 

@@ -25,7 +25,7 @@ theme_change()
 	cp ${luastatus_dir}/$1.lua ${luastatus_dir}/color.lua
 	# cp ${zathura_dir}/theme/$1 ${zathura_dir}/theme.color
 
-	xrdb -merge -I$HOME ~/.Xresources # reload Xresources
+	xrdb -merge -I$HOME $HOME/.config/X11/.Xresources # reload Xresources
 
     # calls xrdb function in dwm
     xsetroot -name "fsignal:2"
@@ -36,19 +36,19 @@ theme_change()
 select="$(echo -e "$option" | $prompt -p "Choose a theme: " )"
 case $select in
 	$theme1)
-		feh --bg-fill $HOME/.config/wallpapers/pixelart_night_train_cozy_gas.png
+		feh --no-fehbg --bg-fill $HOME/.config/wallpapers/pixelart_night_train_cozy_gas.png
 		theme_change cozy-night
 		;;
 	$theme2)
-		feh --bg-fill $HOME/.config/wallpapers/pixelart_arabian_palace_princess.png
+		feh --no-fehbg --bg-fill $HOME/.config/wallpapers/pixelart_arabian_palace_princess.png
 		theme_change dracula
 		;;
 	$theme3)
-		feh --bg-fill $HOME/.config/wallpapers/pixelart_house_inside_girl_book_dog.png
+		feh --no-fehbg --bg-fill $HOME/.config/wallpapers/pixelart_house_inside_girl_book_dog.png
 		theme_change gruvbox
         ;;
 	$theme4)
-		feh --bg-fill $HOME/.config/wallpapers/pixelart_medicine_flower_reminder_nord.png
+		feh --no-fehbg --bg-fill $HOME/.config/wallpapers/pixelart_medicine_flower_reminder_nord.png
 		theme_change nord
 		;;
 esac

@@ -29,7 +29,6 @@ HISTFILESIZE=20000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-export PATH=${PATH}:~/.local/share/coursier/bin
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
@@ -92,9 +91,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
@@ -128,12 +124,28 @@ fi
 # for ctrl-r fzf history search
 source /usr/share/doc/fzf/examples/key-bindings.bash
 
+# EXPORTS
+#############################################################################
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_STATE_HOME=$HOME/.local/state
+export XDG_CACHE_HOME=$HOME/.cache
+
+export ANDROID_HOME="$XDG_DATA_HOME"/android
+export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
+export GOPATH="$XDG_DATA_HOME"/go
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
+export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
 export EDITOR='nvim'
 export VISUAL='nvim'
-# gpg ssh setup
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
-echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1
+export _JAVA_AWT_WM_NONREPARENTING=1
+export PATH=${PATH}:~/.local/share/coursier/bin
+#############################################################################
 
 # ALIASES
 #############################################################################
@@ -149,9 +161,8 @@ alias cdg='cd $(git rev-parse --show-toplevel)'
 alias fcd='cd $(find -type d 2>/dev/null | fzf)'
 #############################################################################
 
+echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1
 # needed for st
 tput smkx
 # for intellij-idea
-export _JAVA_AWT_WM_NONREPARENTING=1
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
