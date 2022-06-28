@@ -13,6 +13,8 @@ M.general = {
       ["."] = { ".<C-g>u", "undo breakpoints" },
       ["!"] = { "!<C-g>u", "undo breakpoints" },
       ["?"] = { "?<C-g>u", "undo breakpoints" },
+
+      ["<C-s>"] = { "<cmd> w <CR>", "﬚  save file" },
    },
 
    n = {

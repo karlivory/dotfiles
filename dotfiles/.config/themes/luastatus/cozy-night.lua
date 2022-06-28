@@ -14,6 +14,7 @@ bg_white = "^b" .. "#F9F3ED" .. "^";
 bg_white0 = "^b" .. "#F0D1A9" .. "^";
 bg_purple1 = "^b" .. "#C49DA3" .. "^";
 bg_purple2 = "^b" .. "#896C9A" .. "^";
+bg_purple3 = "^b" .. "#484C7D" .. "^";
 
 local color =
 {

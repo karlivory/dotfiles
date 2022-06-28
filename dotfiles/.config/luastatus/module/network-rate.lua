@@ -48,31 +48,31 @@ end
 
 
 local function get_block(line, interface)
-    local iface, recv, sent = line:match(line_pattern)
-    assert(iface and recv and sent)
+  local iface, recv, sent = line:match(line_pattern)
+  assert(iface and recv and sent)
 
-    -- Alternatively, you can filter out unneeded interfaces here, e.g.
-    --   if iface ~= 'wlp2s0' then return nil end
-    if iface == 'lo' then return nil end
-    if iface ~= interface then return nil end
+  -- Alternatively, you can filter out unneeded interfaces here, e.g.
+  --   if iface ~= 'wlp2s0' then return nil end
+  if iface == 'lo' then return nil end
+  if iface ~= interface then return nil end
 
-    recv, sent = tonumber(recv), tonumber(sent)
-    local prev_recv, prev_sent = last_recv[iface], last_sent[iface]
-    local res = nil
-    if prev_recv and prev_sent then
-        local delta_recv = recv - prev_recv
-        local delta_sent = sent - prev_sent
-        if (delta_recv >= 0 and delta_sent >= 0) and (recv > 0 and sent > 0) then
-            res = string.format(' %s %s/s↓ %s/s↑ ',
-                format_iface(iface),
-                bytesToSize(delta_recv / PERIOD),
-                bytesToSize(delta_sent / PERIOD)
-            )
-        end
+  recv, sent = tonumber(recv), tonumber(sent)
+  local prev_recv, prev_sent = last_recv[iface], last_sent[iface]
+  local res = nil
+  if prev_recv and prev_sent then
+    local delta_recv = recv - prev_recv
+    local delta_sent = sent - prev_sent
+    if (delta_recv >= 0 and delta_sent >= 0) and (recv > 0 and sent > 0) then
+      res = string.format(' %s %s/s↓ %s/s↑ ',
+      format_iface(iface),
+      bytesToSize(delta_recv / PERIOD),
+      bytesToSize(delta_sent / PERIOD)
+      )
     end
-    last_recv[iface] = recv
-    last_sent[iface] = sent
-    return res
+  end
+  last_recv[iface] = recv
+  last_sent[iface] = sent
+  return res
 end
 
 local function get_default_gw_if()
@@ -87,23 +87,23 @@ local function get_default_gw_if()
 end
 
 widget = {
-    plugin = 'timer',
-    opts = {period = PERIOD},
-    cb = function()
-        local res = ""
-        local gw_if = get_default_gw_if()
-        local f = assert(io.open('/proc/net/dev', 'r'))
-        for line in f:lines() do
-            if not line:find('|') then -- skip the "header" lines
-              local block = get_block(line, gw_if)
-              if block then
-                res = block
-                break 
-              end
-            end
+  plugin = 'timer',
+  opts = {period = PERIOD},
+  cb = function()
+    local res = ""
+    local gw_if = get_default_gw_if()
+    local f = assert(io.open('/proc/net/dev', 'r'))
+    for line in f:lines() do
+      if not line:find('|') then -- skip the "header" lines
+        local block = get_block(line, gw_if)
+        if block then
+          res = block
+          break 
         end
-        f:close()
-        local icon = ' ﰬ '
-        return color.sep .. color.col1_ic_fg .. color.col1_ic_bg .. icon .. color.col1_fg .. color.col1_bg .. res
+      end
     end
+    f:close()
+    local icon = ' ﰬ '
+    return color.sep .. color.col1_ic_fg .. color.col1_ic_bg .. icon .. color.col1_fg .. color.col1_bg .. res
+  end
 }
