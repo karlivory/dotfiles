@@ -26,6 +26,10 @@ function root_playbook(){
     sudo unbuffer ansible-playbook playbook.yml $sudo_tags_arg 2>&1 | tee -a $logfile
 }
 function user_playbook(){
+    if [ -z "$(ls -A ./config_personal)" ]; then
+       echo "config_personal is empty. Skipping playbook_user.yml"
+       exit 0
+    fi
     ansible-galaxy install -r roles/requirements.yml
     unbuffer ansible-playbook playbook_user.yml $user_tags_arg 2>&1 | tee -a $logfile
 }

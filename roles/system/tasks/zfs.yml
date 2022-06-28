@@ -4,6 +4,13 @@
     name: sanoid
     state: present
 
+- name: Ensure /etc/sanoid/ exists
+  file:
+    path: /etc/sanoid
+    state: directory
+    mode: 0755
+    owner: root
+
 - name: Copy over sanoid.conf 
   synchronize:
     src: files/sanoid.conf
