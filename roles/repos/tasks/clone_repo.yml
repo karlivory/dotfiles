@@ -1,7 +1,10 @@
 ---
+- debug:
+    var: repo.update_repo
+
 - name: "Clone {{ repo.url }}"
   git:
     repo: "{{ repo.url }}"
     dest: "{{ repo_group_dest }}/{{ repo.dirname }}"
     force: "{{ repo_group_force }}"
-    update: "{{ repo.update }}"
+    update: "{{ repo.update_repo }}"
