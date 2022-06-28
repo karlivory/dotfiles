@@ -10,6 +10,7 @@
       - autorandr
       - picom
       - unclutter
+      - dunst
 
 - name: Remove autorandr service
   file:
