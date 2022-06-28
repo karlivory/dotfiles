@@ -9,10 +9,8 @@ MANPREFIX = ${PREFIX}/share/man
 
 # X11INC = /usr/X11R6/include
 # X11LIB = /usr/X11R6/lib
-# TODO: change path
-X11INC = /home/karl/bgra/libxft/include
-X11LIB = /home/karl/bgra/libxft/src/.libs
-
+X11INC = /placeholder/libs/libxft/include
+X11LIB = /placeholder/libs/libxft/src/.libs
 
 # FreeBSD (uncomment)
 #X11INC = /usr/local/include
