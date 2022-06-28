@@ -211,6 +211,10 @@ local plugins = {
      config = function()
        require "nvim.plugins.configs.nvim_metals"
      end,
+   },
+
+   ['VebbNix/lf-vim'] = {
+     commit = "23d38227077f09a926f00424b6dfcdb1613da6d2"
    }
 }
 
