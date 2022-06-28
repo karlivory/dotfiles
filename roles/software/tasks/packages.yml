@@ -6,7 +6,6 @@
       - lxrandr
       - xvkbd
       - xbindkeys
-      - autorandr
       - unclutter
       - net-tools
       - jq

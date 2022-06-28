@@ -1,0 +1,11 @@
+---
+- name: clean up home (remove some default files/directories)
+  file:
+    path: "/home/{{ username }}/{{ item }}"
+    state: absent
+  with_items:
+    - "Desktop"
+    - "Music"
+    - "Public"
+    - "Templates"
+    - ".profile"

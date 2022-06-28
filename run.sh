@@ -5,6 +5,12 @@ if [ "$0" != "./run.sh" ]; then
     cd "$(dirname "$0")"
 fi
 
+if ! command -v unbuffer &> /dev/null
+then
+    echo "expect not installed! Installing..."
+    sudo apt install expect -y
+fi
+
 function sigint_handler()
 {
     echo "Execution halted via SIGINT!" | tee -a $logfile
@@ -49,9 +55,10 @@ fi
 
 if ! command -v ansible &> /dev/null
 then
-    echo "Ansible not installed!"
+    echo "Ansible not installed! Installing..."
     sudo apt install ansible -y
 fi
+
 
 if [[ -z $sudo_tags_arg && -z $user_tags_arg ]]
 then

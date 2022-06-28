@@ -1,6 +1,7 @@
 # Browser
 super + w
-	google-chrome
+	google-chrome \
+        --no-default-browser-check
 
 super + Return
     st

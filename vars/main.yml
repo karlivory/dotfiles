@@ -6,6 +6,9 @@ vm_deployment: false
 
 confdir: "/placeholder"
 
+# fonts
+fonts_ubuntu_mono: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/UbuntuMono.zip"
+
 # software
 software_lf_binary: "https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz"
 # software_lf_binary_checksum: "sha256:b8f9431dc63f7b2cff8e4306cff4c075adbe9f0900b563f91a6b742a41290d7f"

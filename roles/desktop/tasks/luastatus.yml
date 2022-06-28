@@ -29,6 +29,9 @@
       - libxcb-icccm4-dev
       - lua5.1
       - liblua5.1-0-dev
+      - libnl-genl-3-dev
+      - python3-docutils
+      - cmake
 
 - name: build luastatus
   command: "cmake ."

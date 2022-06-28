@@ -17,6 +17,7 @@
     version: master
     depth: 1
     update: no
+  register: libxft_clone
 
 - name: "fetch"
   command: git fetch https://gitlab.freedesktop.org/mawww/libxft.git bgra-glyphs
@@ -42,12 +43,14 @@
       - xutils-dev
 
 - name: "build libxft-bgra"
+  when: libxft_clone.changed
   command: "sh autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man"
   changed_when: false
   args:
     chdir: /placeholder/libs/libxft
 
 - name: "build libxft-bgra"
+  when: libxft_clone.changed
   command: "make"
   changed_when: false
   args:

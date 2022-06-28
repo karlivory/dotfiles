@@ -1,10 +1,7 @@
 ---
-- name: install picom
-  apt:
-    name: 
-      - picom
-    state: present
 
+- import_tasks: ./packages.yml
+- import_tasks: ./cleanup_home.yml
 - import_tasks: ./libxft_bgra.yml # needs to be done first
 - import_tasks: ./dwm.yml
 - import_tasks: ./st.yml

@@ -21,6 +21,12 @@
     pkg: python3-pynvim
     state: present
 
+- name: Upgrade npm to latest version
+  npm:
+    name: npm
+    global: yes
+    state: latest
+
 - import_tasks: ./packer.yml
 - import_tasks: ./java/main.yml
 

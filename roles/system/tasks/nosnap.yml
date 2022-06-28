@@ -15,3 +15,8 @@
     owner: root
     group: root
     mode: 0664
+
+- name: Remove snap folder from home directory
+  file:
+    path: "/home/{{ username }}/snap"
+    state: absent

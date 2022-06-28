@@ -1,0 +1,19 @@
+---
+- name: Install some desktop-specific packages
+  apt:
+    pkg:
+      - sxhkd
+      - feh
+      - xcape
+      - autorandr
+      - picom
+
+- name: Remove autorandr service
+  file:
+    dest: /lib/systemd/system/autorandr.service
+    state: absent
+  register: autorandr_service
+
+- name: Reload system-daemon
+  when: autorandr_service.changed
+  shell: systemctl daemon-reload

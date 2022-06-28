@@ -12,6 +12,13 @@
     - ./vars/main.yml
     # - ./config_personal/vars/main.yml
 
+  pre_tasks:
+    - name: Ensure /usr/local/bin exists
+      file:
+        dest: /usr/local/bin
+        state: directory
+        mode: 0755
+
   roles:
     - role: geerlingguy.docker
       tags:
@@ -38,7 +45,7 @@
     - import_role:
         name: fonts
       tags:
-        - system
+        - fonts
     - import_role:
         name: dotfiles
       tags:
