@@ -4,9 +4,6 @@
     pkg: 
       - curl
       - lxrandr
-      - xvkbd
-      - xbindkeys
-      - unclutter
       - net-tools
       - jq
       - neofetch
