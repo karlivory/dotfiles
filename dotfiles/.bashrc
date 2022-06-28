@@ -18,15 +18,18 @@ bind -m "vi-insert" '"\C-o": "\eddilfcd\C-m"'
 bind -m "vi-command" '"\C-k": "ddipushd .. > /dev/null\C-m"'
 bind -m "vi-insert" '"\C-k": "\eddipushd .. > /dev/null\C-m"'
 _cdup () {
-    pushd .. > /dev/null
+    [[ "$PWD" != "/" ]] && pushd .. > /dev/null
 }
-bind -m "vi-command" '"\C-k": "ddi_cdup\C-m"'
-bind -m "vi-insert" '"\C-k": "\eddi_cdup\C-m"'
+bind -m "vi-command" '"\C-k": "ddi_cdup # <==\C-m"'
+bind -m "vi-insert" '"\C-k": "\eddi_cdup # <==\C-m"'
 _cddown () {
     popd > /dev/null
 }
-bind -m "vi-command" '"\C-j": "ddi_cddown\C-m"'
-bind -m "vi-insert" '"\C-j": "\eddi_cddown\C-m"'
+bind -m "vi-command" '"\C-j": "ddi_cddown # ==>\C-m"'
+bind -m "vi-insert" '"\C-j": "\eddi_cddown # ==>\C-m"'
+_clearcd () {
+    cd "$1" && dirs -c
+}
 
 # If not running interactively, don't do anything
 case $- in
@@ -139,6 +142,7 @@ alias drm='docker rm $(docker ps -q) --force'
 alias cdg='cd $(git rev-parse --show-toplevel)'
 alias fcd='cd $(find -type d 2>/dev/null | fzf)'
 alias lf='lfub'
+alias cd='_clearcd'
 #############################################################################
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1
