@@ -8,8 +8,13 @@
       - sxhkd
       - feh
       - xcape
-      - picom
       - unclutter
+
+- name: Install picom (if not vm)
+  when: not vm_deployment
+  apt:
+    pkg:
+      - picom
 
 - name: Remove autorandr service
   file:

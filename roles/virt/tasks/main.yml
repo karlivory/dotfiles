@@ -9,4 +9,5 @@
       - virtinst
       - libvirt-daemon
       - virt-manager
+      - guestfs-tools
 

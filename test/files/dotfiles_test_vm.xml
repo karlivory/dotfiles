@@ -1,0 +1,34 @@
+<domain type='kvm'>
+    <name>dotfiles_test_vm</name>
+    <memory unit='GiB'>6</memory>
+    <currentMemory unit='GiB'>6</currentMemory>
+    <vcpu>2</vcpu>
+    <os>
+        <type arch='x86_64'>hvm</type>
+        <boot dev='hd'/>
+    </os>
+    <clock offset='utc'/>
+    <on_poweroff>destroy</on_poweroff>
+    <on_reboot>restart</on_reboot>
+    <on_crash>destroy</on_crash>
+    <devices>
+        <emulator>/usr/bin/kvm</emulator>
+        <disk type='file' device='disk'>
+            <driver name='qemu' type='qcow2'/>
+            <source file='/tmp/jammy-server-cloudimg-amd64.img'/>
+            <target dev='vda' bus='virtio'/>
+        </disk>
+        <interface type='bridge'>
+            <source network='default' bridge='virbr0'/>
+            <model type='virtio'/>
+            <!-- bus 0 slot 2 => interface name is deterministically enp0s2 -->
+            <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x0"/>
+        </interface>
+        <serial type='pty'>
+            <target port='0'/>
+        </serial>
+        <console type='pty'>
+            <target type='serial' port='0'/>
+        </console>
+    </devices>
+</domain>

@@ -1,0 +1,12 @@
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s2:
+      dhcp4: no
+      addresses: [192.168.122.222/24]
+      gateway4: 192.168.122.1
+      nameservers:
+        addresses: [1.1.1.1]
+
