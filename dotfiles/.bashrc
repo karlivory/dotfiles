@@ -1,3 +1,6 @@
+bind -m "vi-command" '"\C-q": "dditmux-sessionizer\C-m"'
+bind -m "vi-insert" '"\C-q": "\edditmux-sessionizer\C-m"'
+
 # ctrl-y copies current bash readline to clipboard
 copyline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
 bind -m "vi-command" -x '"\C-Y": copyline'
@@ -49,6 +52,11 @@ case $- in
     *i*) ;;
       *) return;;
 esac
+
+if [[ -t 0 && $- = *i* ]]
+then
+    stty -ixon
+fi
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options

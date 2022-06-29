@@ -219,3 +219,4 @@ local plugins = {
 }
 
 require("nvim.core.packer").run(plugins)
+require("nvim.plugins.custom")
