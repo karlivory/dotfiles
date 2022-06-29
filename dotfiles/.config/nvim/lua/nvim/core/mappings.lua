@@ -50,8 +50,8 @@ M.bufferline = {
 
    n = {
       -- cycle through buffers
-      ["<TAB>"] = { "<cmd> BufferLineCycleNext <CR>", "  cycle next buffer" },
-      ["<S-Tab>"] = { "<cmd> BufferLineCyclePrev <CR>", "  cycle prev buffer" },
+      ["<C-TAB>"] = { "<cmd> BufferLineCycleNext <CR>", "  cycle next buffer" },
+      ["<C-S-Tab>"] = { "<cmd> BufferLineCyclePrev <CR>", "  cycle prev buffer" },
    },
 }
 

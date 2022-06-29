@@ -486,8 +486,11 @@ static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
  * This is the huge key array which defines all compatibility to the Linux
  * world. Please decide about changes wisely.
  */
+// Remember this: holding down shift and tab sends XK_ISO_Left_Tab instead of XK_Tab
 static Key key[] = {
 	/* keysym           mask            string      appkey appcursor */
+    { XK_Tab,           ControlMask,                    "\033[9;5u",   0,  +1},
+    { XK_ISO_Left_Tab,  ShiftMask|ControlMask,          "\033[1;5Z",   0,  +1},
 	{ XK_KP_Home,       ShiftMask,      "\033[2J",       0,   -1},
 	{ XK_KP_Home,       ShiftMask,      "\033[1;2H",     0,   +1},
 	{ XK_KP_Home,       XK_ANY_MOD,     "\033[H",        0,   -1},
