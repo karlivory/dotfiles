@@ -352,8 +352,8 @@ static const char *const autostart[] = {
 #endif // COOL_AUTOSTART_PATCH
 
 #if SCRATCHPADS_PATCH
-const char *spcmd1[] = {"st", "-n", "spterm1", "-g", "150x40", "-e", "ranger_wrapper", NULL };
-const char *spcmd2[] = {"st", "-n", "spterm2", "-g", "120x34", NULL };
+const char *spcmd1[] = {"st", "-n", "spterm1", "-g", "150x40", "-e", "lf_wrapper", NULL };
+const char *spcmd2[] = {"st", "-n", "spterm2", "-g", "150x34", NULL };
 const char *spcmd3[] = {"st", "-n", "spterm3", "-g", "120x34", NULL };
 const char *spcmd4[] = {"st", "-n", "spterm4", "-g", "120x34", NULL };
 static Sp scratchpads[] = {

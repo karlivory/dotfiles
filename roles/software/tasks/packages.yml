@@ -2,8 +2,10 @@
 - name: Install a bunch of software from apt (this might take a while)
   apt:
     pkg: 
+      - software-properties-common
       - curl
       - lxrandr
+      - autorandr
       - net-tools
       - jq
       - neofetch
@@ -17,7 +19,6 @@
       - cmatrix
       - tree
       - pulsemixer
-      - software-properties-common
       - gimp
       - net-tools
       - ncal
@@ -27,4 +28,6 @@
       - vlc
       - redshift
       - zathura
+      - thunar
+      - dunst
 

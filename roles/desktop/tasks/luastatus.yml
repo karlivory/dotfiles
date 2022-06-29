@@ -1,9 +1,9 @@
 ---
 # TODO: run/debug these tasks on a VM
 
-- name: "Create /placeholder"
+- name: "Create {{ confdir }}"
   file:
-    path: /placeholder
+    path: "{{ confdir }}"
     state: directory
     mode: 0755
     group: root
@@ -12,12 +12,14 @@
 - name: "Clone luastatus repo"
   git:
     repo: https://github.com/shdown/luastatus
-    dest: /placeholder/luastatus
+    dest: "{{ confdir }}/luastatus"
     version: master
     depth: 1
     update: yes
+  register: clone_luastatus
 
 - name: "Install prerequisites"
+  when: clone_luastatus.changed
   apt:
     pkg: 
       - libyajl-dev
@@ -34,19 +36,22 @@
       - cmake
 
 - name: build luastatus
+  when: clone_luastatus.changed
   command: "cmake ."
   args:
-    chdir: /placeholder/luastatus
+    chdir: "{{ confdir }}/luastatus"
   changed_when: false
 
 - name: build luastatus
+  when: clone_luastatus.changed
   command: "make"
   args:
-    chdir: /placeholder/luastatus
+    chdir: "{{ confdir }}/luastatus"
   changed_when: false
 
 - name: build luastatus
+  when: clone_luastatus.changed
   command: "make install"
   args:
-    chdir: /placeholder/luastatus
+    chdir: "{{ confdir }}/luastatus"
   changed_when: false

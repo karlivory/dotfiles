@@ -12,3 +12,15 @@
   become: true
   register: st
   changed_when: st.stdout is search("c99 -o") or st.stdout is search("cc -o")
+
+- name: Ensure /usr/share/applications exists
+  when: st.changed
+  file:
+    path: /usr/share/applications
+    state: directory
+
+- name: add st.desktop xsession entry
+  when: st.changed
+  copy:
+    src: files/st.desktop
+    dest: /usr/share/applications/st.desktop

@@ -21,11 +21,13 @@
   changed_when: dwm.stdout is search("c99 -o") or dwm.stdout is search("cc -o")
 
 - name: Ensure /usr/share/xsessions exists
+  when: dwm.changed
   file:
     path: /usr/share/xsessions
     state: directory
 
 - name: add dwm.desktop xsession entry
+  when: dwm.changed
   copy:
     src: files/dwm.desktop
     dest: /usr/share/xsessions/dwm.desktop

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while true; do
+    lf
+    echo "Killed, restarting..."
+    sleep 0.1
+done

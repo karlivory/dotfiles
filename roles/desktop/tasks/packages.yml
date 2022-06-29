@@ -1,4 +1,5 @@
 ---
+# Do this before software role so that startx doesn't crash
 - name: Install some desktop-specific packages (everything in .xinitrc)
   apt:
     pkg:
@@ -7,10 +8,8 @@
       - sxhkd
       - feh
       - xcape
-      - autorandr
       - picom
       - unclutter
-      - dunst
 
 - name: Remove autorandr service
   file:

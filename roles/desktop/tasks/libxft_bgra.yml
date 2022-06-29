@@ -20,18 +20,21 @@
   register: libxft_clone
 
 - name: "fetch"
+  when: libxft_clone.changed
   command: git fetch https://gitlab.freedesktop.org/mawww/libxft.git bgra-glyphs
   changed_when: false
   args:
     chdir: /placeholder/libs/libxft
 
 - name: "checkout"
+  when: libxft_clone.changed
   command: "sh -c \"git checkout mawww/libxft-bgra-glyphs || git checkout -b mawww/libxft-bgra-glyphs FETCH_HEAD\""
   changed_when: false
   args:
     chdir: /placeholder/libs/libxft
 
 - name: "Install required packages to build libxft-bgra"
+  when: libxft_clone.changed
   apt:
     pkg:
       - build-essential
