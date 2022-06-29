@@ -2,7 +2,7 @@
 username: karl
 home: "/home/{{ username }}"
 remove_gnome: true
-vm_deployment: false
+vm: false
 
 confdir: "/placeholder"
 

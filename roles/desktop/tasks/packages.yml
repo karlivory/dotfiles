@@ -11,7 +11,7 @@
       - unclutter
 
 - name: Install picom (if not vm)
-  when: not vm_deployment
+  when: not vm
   apt:
     pkg:
       - picom
