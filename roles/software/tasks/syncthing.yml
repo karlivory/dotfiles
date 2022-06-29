@@ -13,4 +13,9 @@
     owner: "{{ username }}"
     group: "{{ username }}"
 
+- name: Delete the default Sync dir
+  file:
+    state: absent
+    path: "/home/{{ username }}/Sync"
+
 # this needs some manual setup...

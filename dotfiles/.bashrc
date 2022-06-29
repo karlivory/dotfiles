@@ -3,13 +3,14 @@ copyline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
 bind -m "vi-command" -x '"\C-Y": copyline'
 bind -m "vi-insert" -x '"\C-Y": copyline'
 
-foocd () {
-    # placeholder
-    cd $(find $HOME/git -type d | fzf)
+# BEST FUNCTION EVER!!!
+_common_dirs () {
+    cd $( $HOME/.config/vars/common_dirs | fzf)
 }
-bind -m "vi-command" '"\C-f": "foocd"'
-bind -m "vi-insert" '"\C-f": "\eddiecho foo\C-m"'
+bind -m "vi-command" '"\C-f": "ddi_common_dirs\C-m"'
+bind -m "vi-insert" '"\C-f": "\eddi_common_dirs\C-m"'
 
+# Mildly useful
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1' HUP INT QUIT TERM PWR EXIT
@@ -22,8 +23,7 @@ lfcd () {
 bind -m "vi-command" '"\C-o": "ddilfcd\C-m"'
 bind -m "vi-insert" '"\C-o": "\eddilfcd\C-m"'
 
-bind -m "vi-command" '"\C-k": "ddipushd .. > /dev/null\C-m"'
-bind -m "vi-insert" '"\C-k": "\eddipushd .. > /dev/null\C-m"'
+# Kinda nice. ctrl-j/k to go up directories fast. Using cd clears the stack
 _cdup () {
     [[ "$PWD" != "/" ]] && pushd .. > /dev/null
 }
@@ -42,6 +42,7 @@ _clearcd () {
     fi
     cd "${DIR}" && dirs -c
 }
+alias cd='_clearcd'
 
 # If not running interactively, don't do anything
 case $- in
@@ -153,7 +154,7 @@ alias drm='docker rm $(docker ps -q) --force'
 alias cdg='cd $(git rev-parse --show-toplevel)'
 alias fcd='cd $(find -type d 2>/dev/null | fzf)'
 alias lf='lfub'
-alias cd='_clearcd'
+alias cx='chmod +x'
 #############################################################################
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1
