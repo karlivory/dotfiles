@@ -1,27 +1,8 @@
-# Luke's lf settings
-
-
-# Note on Image Previews
-# For those wanting image previews, like this system, there are four steps to
-# set it up. These are done automatically for LARBS users, but I will state
-# them here for others doing it manually.
-#
-# 1. ueberzug must be installed.
-# 2. The scope file (~/.config/lf/scope for me), must have a command similar to
-#    mine to generate ueberzug images.
-# 3. A `set cleaner` line as below is a cleaner script.
-# 4. lf should be started through a wrapper script (~/.local/bin/lfub for me)
-#    that creates the environment for ueberzug. This command can be be aliased
-#    in your shellrc (`alias lf="lfub") or if set to a binding, should be
-#    called directly instead of normal lf.
-
-# Basic vars
 # ============================== OPTIONS ========================================
 set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
 set period 1
-#set hiddenfiles ".*"
 set cleaner '~/.config/lf/cleaner'
 set previewer '~/.config/lf/scope'
 set drawbox
@@ -29,7 +10,6 @@ set hidden
 # ===============================================================================
 
 # ================================ CMDS =========================================
-
 cmd open ${{
     test -L $f && f=$(readlink -f $f)
     case $(file --mime-type $f -b) in
@@ -41,100 +21,46 @@ cmd open ${{
     esac
 }}
 
-cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
-
-cmd extract ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "extract?[y/N]"
-	read ans
-	[ $ans = "y" ] && aunpack $fx
-}}
-
-cmd mkfile ${{
-  printf "File Name: "
-  read ans
-  $EDITOR $ans
-}}
-
-cmd delete ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "delete?[y/N]"
-	read ans
-	[ $ans = "y" ] && rm -rf -- $fx
-}}
-
-cmd moveto ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	clear; echo "Move to where?"
-	#dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf | sed 's|~|$HOME|')" &&
-    dest="$(find $HOME -type d ! -path "$HOME/.zfs*" | fzf)" &&
-	for x in $fx; do
-		eval mv -iv \"$x\" \"$dest\"
-	done &&
-	notify-send "🚚 File(s) moved." "File(s) moved to $dest."
-}}
-
-cmd copyto ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	clear; echo "Copy to where?"
-	#dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf | sed 's|~|$HOME|')" &&
-    dest="$(find $HOME -type d ! -path "$HOME/.zfs*" | fzf)" &&
-	for x in $fx; do
-		eval cp -ivr \"$x\" \"$dest\"
-	done &&
-	notify-send "📋 File(s) copied." "File(s) copies to $dest."
-}}
-
-cmd paste &{{
-    set -- $(cat ~/.local/share/lf/files)
-    mode="$1"
-    shift
-    case "$mode" in
-        copy)
-            rsync -av --ignore-existing --progress -- "$@" . |
-            stdbuf -i0 -o0 -e0 tr '\r' '\n' |
-            while IFS= read -r line; do
-                lf -remote "send $id echo $line"
-            done
-            ;;
-        move) mv -n -- "$@" .;;
+cmd create_file %{{
+    # arguments are pre-split by newlines somehow? this fixes it
+    file=$(echo "$*" | tr "\n" " " | sed 's/.$//')
+    case "$file" in 
+        */) mkdir "$file" ;;
+        *) [ ! -f "$file" ] && echo "#" > "$file" ;;
     esac
-    rm ~/.local/share/lf/files
-    lf -remote "send clear"
 }}
 
-cmd setbg "$1"
+cmd extract %{{
+    len=$(echo "$fx" | wc -l)
+    if [ "$((len))" -gt 1 ]; then
+        echo "$((len - 0)) Cannot extract! More than one file selected!"; exit 1
+    fi
+    if [ "$((len))" -lt 1 ]; then
+        echo "$((len - 0)) Cannot extract! No archives selected!"; exit 1
+    fi
+	printf "%s\textract?[y/N]" "$f"
+	#read ans
+	#[ $ans = "y" ] && aunpack $fx
+    aunpack $fx
+}}
 # ===============================================================================
 
 # Bindings
 # ============================== KEYBINDS =======================================
-map ` mark-load
-map <c-f> $lf -remote "send $id select \"$(fzf)\""
-map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
+# unbind some defaults
 map gh
-map D delete
+
+map ` mark-load
+map d delete
+map x cut
+map <esc> :clear; unselect
 map E extract
-map C copyto
-map M moveto
-map <c-n> push :mkdir<space>
 map R reload
 map . set hidden!
-#map <enter> shell
 map <enter> open
 
-map mf mkfile
-# execute file
-map x $$f
-# execute file with output
-map X !$f
+map a push :create_file<space>
 
-map o &mimeopen $f
 map O $mimeopen --ask $f
 
 map V push :!nvim<space>

@@ -1,2 +1,13 @@
 ---
+- name: Ensure /images exists
+  file:
+    state: directory
+    path: "/images"
+
+- name: Download ubuntu jammy cloud img
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: "https://cloud-images.ubuntu.com/jammy/20220622/jammy-server-cloudimg-amd64.img"
+    dl_filename: "jammy-server-cloudimg-amd64.img"
+    dl_dest_dir: "/images"
 

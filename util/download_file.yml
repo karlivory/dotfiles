@@ -53,7 +53,7 @@
   register: dl1
 
 - name: "Download {{ dl_filename }} (without checksum)"
-  when: dl1.failed or not dl_checksum 
+  when: not dl_checksum or dl1.failed
   get_url:
     url: "{{ dl_url }}"
     dest: "{{ dl_dest }}"

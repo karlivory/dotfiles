@@ -11,3 +11,4 @@
       - virt-manager
       - guestfs-tools
 
+- import_tasks: ./images.yml
