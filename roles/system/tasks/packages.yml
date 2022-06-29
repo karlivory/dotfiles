@@ -1,0 +1,8 @@
+---
+- name: Install some system packages (needed for ansible file handlers)
+  apt:
+    name: 
+      - software-properties-common
+      - curl
+      - unzip
+    state: present

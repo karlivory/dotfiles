@@ -14,13 +14,7 @@
     group: root
     mode: 0664
 
-- name: Install some system packages
-  apt:
-    name: 
-      - software-properties-common
-      - curl
-    state: present
-
+- import_tasks: ./packages.yml
 - import_tasks: ./zfs.yml
   when: not vm
 - import_tasks: ./grub.yml
