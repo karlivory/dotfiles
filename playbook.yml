@@ -32,7 +32,6 @@
             - base: 172.20.0.0/16
               size: 24
     - role: geerlingguy.nodejs
-      when: not vm
       tags:
         - system
       vars:
