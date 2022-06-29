@@ -2,6 +2,7 @@
 # to be run as root
 USERNAME=karl
 
+apt update
 adduser $USERNAME --shell /bin/bash --gecos "user" --disabled-password
 usermod -aG sudo $USERNAME
 echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopasswd
