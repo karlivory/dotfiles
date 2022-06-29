@@ -1,13 +1,15 @@
 #!/bin/bash
 
 SCRIPTDIR=$PWD
+USERNAME=karl
+TEST_KEY_NAME=id_test_rsa
 VM_IP=192.168.122.222
 echo "$SCRIPTDIR"
 
-if [ ! -f ./test_key_rsa ]
+if [ ! -f $TEST_KEY_NAME ]
 then
     echo "==================== Test key not found. Generating... ======================="
-    ssh-keygen -f test_key_rsa -C "TESTKEY" -t rsa -b 2048 -N ""
+    ssh-keygen -f $TEST_KEY_NAME -C "TESTKEY" -t rsa -b 2048 -N ""
     echo "=============================================================================="
 fi
 
@@ -22,7 +24,7 @@ fi
 
 sudo qemu-img resize $vm_location 20G
 sudo virt-customize -a $vm_location \
-    --ssh-inject root:file:$SCRIPTDIR/test_key_rsa.pub \
+    --ssh-inject root:file:$SCRIPTDIR/$TEST_KEY_NAME.pub \
     --copy-in $SCRIPTDIR/files/01-netcfg.yaml:/etc/netplan/ \
     --root-password password:root \
     --uninstall cloud-init \
@@ -57,7 +59,13 @@ echo "==========================================================================
 echo "====================== Waiting until ssh is available... ========================="
 echo "=================================================================================="
 
+ssh -i $TEST_KEY_NAME root@$VM_IP "mkdir -p /root/tests"
+
+echo "=================================== test 1 ======================================="
+scp -i $TEST_KEY_NAME tests/test0.sh root@$VM_IP:/root/tests/
+ssh -t -i $TEST_KEY_NAME root@$VM_IP "bash /root/tests/test0.sh"
+echo "=================================================================================="
+
 read -p "Finished. Press <ENTER> to terminate..."
 sudo virsh destroy dotfiles_test_vm
 sudo virsh undefine dotfiles_test_vm
-# rm /tmp/jammy-server-cloudimg-amd64.img
