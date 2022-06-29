@@ -23,6 +23,8 @@
       - ncal
       - fuse
       - libfuse2
-      - vlc
       - mpv
+      - vlc
+      - redshift
+      - zathura
 

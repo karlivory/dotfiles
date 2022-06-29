@@ -29,10 +29,15 @@ set hidden
 # ===============================================================================
 
 # ================================ CMDS =========================================
+
 cmd open ${{
-    case $(file --mime-type "$f" -bL) in
-        text/*|application/json) $EDITOR "$f";;
-        *) xdg-open "$f" ;;
+    test -L $f && f=$(readlink -f $f)
+    case $(file --mime-type $f -b) in
+        text/*) $EDITOR $fx;;
+        image/gif) setsid animate $fx > /dev/null 2>&1 &;;
+        image/*) setsid sxiv $fx > /dev/null 2>&1 &;;
+        video/*) setsid vlc $fx > /dev/null 2>&1 &;;
+        *) for f in $fx; do setsid xdg-open $f > /dev/null 2> /dev/null & done;;
     esac
 }}
 

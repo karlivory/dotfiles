@@ -13,7 +13,7 @@ set keymap vi-insert
 "\C-p": previous-history
 "\C-n": next-history
 "\C-l": clear-screen
-"\C-f": "fcd\n"
+# ctrl-backspace: delete last word
 "\C-h": "\C-w"
 
 set keymap vi-command

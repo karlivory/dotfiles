@@ -1,0 +1,42 @@
+[Default Applications]
+application/x-yaml=nvim.desktop;
+application/pdf=google-chrome.desktop;org.pwmt.zathura-pdf-poppler.desktop;
+image/png=sxiv.desktop;
+image/jpeg=sxiv.desktop;
+video/3gp=mpv.desktop;vlc.desktop;
+video/3gpp=mpv.desktop;vlc.desktop;
+video/3gpp2=mpv.desktop;vlc.desktop;
+video/avi=vlc.desktop;mpv.desktop;
+video/mp4=vlc.desktop;mpv.desktop;
+video/mp2t=vlc.desktop;mpv.desktop;
+video/mp4=vlc.desktop;mpv.desktop;
+video/mkv=vlc.desktop;mpv.desktop;
+video/mpeg=vlc.desktop;mpv.desktop;
+video/mpeg-system=vlc.desktop;
+video/msvideo=vlc.desktop;mpv.desktop;
+video/ogg=vlc.desktop;mpv.desktop;
+video/flv=vlc.desktop;mpv.desktop;
+video/quicktime=vlc.desktop;mpv.desktop;
+video/vnd.rn-realvideo=vlc.desktop;mpv.desktop;
+video/vnd.mpegurl=mpv.desktop;vlc.desktop;
+video/webm=google-chrome.desktop;vlc.desktop;mpv.desktop;
+video/x-avi=vlc.desktop;mpv.desktop;
+video/x-fli=vlc.desktop;mpv.desktop;
+video/x-flv=vlc.desktop;mpv.desktop;
+video/x-matroska=vlc.desktop;mpv.desktop;
+video/x-mpeg=vlc.desktop;mpv.desktop;
+video/x-mpeg2=vlc.desktop;mpv.desktop;
+video/x-mpeg3=vlc.desktop;
+video/x-ms-afs=vlc.desktop;mpv.desktop;
+video/x-ms-asf=vlc.desktop;mpv.desktop;
+video/x-msvideo=vlc.desktop;mpv.desktop;
+video/x-ms-wmv=vlc.desktop;mpv.desktop;
+video/x-ms-wmx=vlc.desktop;mpv.desktop;
+video/x-ms-wvxvideo=vlc.desktop;mpv.desktop;
+video/x-ogm+ogg=vlc.desktop;mpv.desktop;
+video/x-theora=vlc.desktop;mpv.desktop
+
+[Removed Associations]
+
+[Added Associations]
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop

@@ -3,6 +3,13 @@ copyline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
 bind -m "vi-command" -x '"\C-Y": copyline'
 bind -m "vi-insert" -x '"\C-Y": copyline'
 
+foocd () {
+    # placeholder
+    cd $(find $HOME/git -type d | fzf)
+}
+bind -m "vi-command" '"\C-f": "foocd"'
+bind -m "vi-insert" '"\C-f": "\eddiecho foo\C-m"'
+
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1' HUP INT QUIT TERM PWR EXIT
@@ -86,15 +93,6 @@ else
 fi
 unset color_prompt force_color_prompt
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias l='ls -alF'
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -134,8 +132,16 @@ export _JAVA_AWT_WM_NONREPARENTING=1 # needed for jetbrains software
 export PATH=${PATH}:~/.local/share/coursier/bin
 #############################################################################
 
+alias tree='tree -C'
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
 # ALIASES
 #############################################################################
+alias l='ls -alF'
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias xc='xclip -selection clipboard'
 alias xv='xclip -selection clipboard -o'
 alias vpn='sudo openvpn --config'
