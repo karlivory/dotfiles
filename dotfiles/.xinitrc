@@ -9,7 +9,7 @@ remaps
 set_default_wallpaper
 
 unclutter -noevents &
-statusbar_wrapper &
+wrap "$HOME/.config/luastatus/statusbar.sh" &
 sxhkd &
 
 exec dwm

@@ -352,10 +352,10 @@ static const char *const autostart[] = {
 #endif // COOL_AUTOSTART_PATCH
 
 #if SCRATCHPADS_PATCH
-const char *spcmd1[] = {"st", "-n", "spterm1", "-g", "150x40", "-e", "lf_wrapper", NULL };
+const char *spcmd1[] = {"st", "-n", "spterm1", "-g", "150x40", "-e", "wrap", "lf", NULL };
 const char *spcmd2[] = {"st", "-n", "spterm2", "-g", "150x34", NULL };
 const char *spcmd3[] = {"st", "-n", "spterm3", "-g", "120x34", NULL };
-const char *spcmd4[] = {"st", "-n", "spterm4", "-g", "120x34", NULL };
+const char *spcmd4[] = {"st", "-n", "spterm4", "-g", "120x34", "-e", "wrap", "bluetoothctl", NULL };
 static Sp scratchpads[] = {
    /* name          cmd  */
    {"spterm1",      spcmd1},
@@ -1029,10 +1029,10 @@ static Key keys[] = {
 	/* { MODKEY|ShiftMask,             XK_Escape,     togglenomodbuttons,     {0} }, */
 	#endif // NO_MOD_BUTTONS_PATCH
 	#if SCRATCHPADS_PATCH
-	{ MODKEY,                       XK_a,          togglescratch,          {.ui = 0 } },
-	{ MODKEY,                       XK_s,          togglescratch,          {.ui = 1 } },
-	{ MODKEY,                       XK_d,          togglescratch,          {.ui = 2 } },
-	{ MODKEY,                       XK_r,          togglescratch,          {.ui = 3 } },
+	// { MODKEY,                       XK_a,          togglescratch,          {.ui = 0 } },
+	// { MODKEY,                       XK_s,          togglescratch,          {.ui = 1 } },
+	// { MODKEY,                       XK_d,          togglescratch,          {.ui = 2 } },
+	// { MODKEY,                       XK_r,          togglescratch,          {.ui = 3 } },
 	/* { MODKEY|ControlMask,           XK_grave,      setscratch,             {.ui = 0 } }, */
 	/* { MODKEY|ShiftMask,             XK_grave,      removescratch,          {.ui = 0 } }, */
 	#endif // SCRATCHPADS_PATCH
@@ -1491,6 +1491,10 @@ static Signal signals[] = {
 	{ 1,            setlayout,      {.v = 0} },
 	{ 2,            xrdb,      {.v = NULL} },
 	{ 3,            togglebar,      {.v = NULL} },
+	{ 100,          togglescratch,          {.ui = 0 } },
+	{ 101,          togglescratch,          {.ui = 1 } },
+	{ 102,          togglescratch,          {.ui = 2 } },
+	{ 103,          togglescratch,          {.ui = 3 } },
 };
 #endif // DWMC_PATCH
 

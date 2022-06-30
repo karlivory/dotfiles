@@ -29,7 +29,7 @@ theme_change()
 
     # calls xrdb function in dwm
     xsetroot -name "fsignal:2"
-    # reset luastatus (statusbar_wrapper restarts it)
+    # reset luastatus (~/.xinitrc wrap *statusbar.sh restarts it)
     kill -9 $(pidof luastatus)
 }
 
