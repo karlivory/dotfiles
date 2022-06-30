@@ -3,16 +3,16 @@
 last_session_file=$HOME/.cache/.tmux_last_session
 
 if [ ! -f  $last_session_file ]; then
-    echo "No last session found!"
+    echo "ERROR! No last session found!"
     exit 1
 fi
 session_name=$(cat $last_session_file | tr -s '\n' ' ')
 if [ -z $session_name ]; then
-    echo "Invalid session name!"
+    echo "ERROR! Invalid session name!"
     exit 1
 fi
 if ! tmux has-session -t=$session_name 2> /dev/null; then
-    echo "Session $session_name does not exist! Removing $last_session_file..."
+    echo "ERROR! Session $session_name does not exist! Removing $last_session_file..."
     rm $last_session_file
     exit 1
 fi

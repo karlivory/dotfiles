@@ -13,6 +13,11 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
+if echo $selected | grep -q "ERROR!"; then
+    echo $selected
+    exit 1
+fi
+
 session_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 inside_tmux=$TMUX
