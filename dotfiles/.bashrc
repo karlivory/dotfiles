@@ -1,3 +1,30 @@
+#############################################################################
+# For ctrl-r fzf history search
+# copied from: /usr/share/doc/fzf/examples/key-bindings.bash
+# (because I don't want the other keybindings)
+__fzfcmd() {
+  [[ -n "$TMUX_PANE" ]] && { [[ "${FZF_TMUX:-0}" != 0 ]] || [[ -n "$FZF_TMUX_OPTS" ]]; } &&
+    echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
+}
+__fzf_history__() {
+  local output
+  output=$(
+    builtin fc -lnr -2147483648 |
+      last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
+      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS +m --read0" $(__fzfcmd) --query "$READLINE_LINE"
+  ) || return
+  READLINE_LINE=${output#*$'\t'}
+  if [[ -z "$READLINE_POINT" ]]; then
+    echo "$READLINE_LINE"
+  else
+    READLINE_POINT=0x7fffffff
+  fi
+}
+bind -m emacs-standard -x '"\C-r": __fzf_history__'
+bind -m vi-command -x '"\C-r": __fzf_history__'
+bind -m vi-insert -x '"\C-r": __fzf_history__'
+#############################################################################
+
 bind -m "vi-command" '"\C-q": "dditmux-sessionizer\C-m"'
 bind -m "vi-insert" '"\C-q": "\edditmux-sessionizer\C-m"'
 
@@ -112,11 +139,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-#############################################################################
-#############################################################################
-# for ctrl-r fzf history search
-source /usr/share/doc/fzf/examples/key-bindings.bash
 
 # EXPORTS
 #############################################################################

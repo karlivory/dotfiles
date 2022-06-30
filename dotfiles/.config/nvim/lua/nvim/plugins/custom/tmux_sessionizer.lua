@@ -2,7 +2,6 @@ local M = {}
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
--- local sorters = require("telescope.sorters")
 local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
@@ -10,8 +9,6 @@ local action_state = require "telescope.actions.state"
 local home = os.getenv "HOME"
 local input = {'sh', home .. '/.config/vars/repos'}
 
--- check https://github.com/nvim-telescope/telescope.nvim/blob/master/lua/telescope/themes.lua
--- make it look like fzf
 local default_theme = {
   border = true,
   borderchars = {
@@ -19,23 +16,22 @@ local default_theme = {
     prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
     results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" }
   },
-  -- layout_config = {
-  --   height = <function 1>,
-  --   preview_cutoff = 1,
-  --   width = <function 2>
-  -- },
   layout_strategy = "bottom_pane",
   layout_config = {
     prompt_position = "bottom",
+    height = 0.5
   },
+  mappings = {},
   results_title = false,
-  sorting_strategy = "ascending",
+  sorting_strategy = "descending",
   theme = "dropdown"
 }
 
 -- has to match tmux-sessionizer script
 local function get_session_name(dir)
-  return dir:match("[^/]*$")
+  local basename = dir:match("[^/]*$")
+  session = basename:gsub("%.", "_")
+  return session
 end
 
 local function isempty(s)
@@ -59,7 +55,6 @@ end
 
 local function switch_to_session(dir)
   local session = get_session_name(dir)
-  print(session)
   local tmux = is_inside_tmux()
   if not tmux then
     print("Not in tmux!")
@@ -79,7 +74,8 @@ M.find = function(opts)
     prompt_title = "tmux-sessionizer",
     finder = finders.new_oneshot_job(input),
     sorter = conf.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, _)
+    attach_mappings = function(prompt_bufnr, map)
+      map('i', '<c-q>', false)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()[1]
