@@ -168,4 +168,3 @@ alias cx='chmod +x'
 echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1
 # needed for st
 tput smkx
-
