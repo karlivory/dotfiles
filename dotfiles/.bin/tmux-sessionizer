@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # src: https://github.com/ThePrimeagen/.dotfiles/blob/196aa23e0e2dfc6245f69c77bd2b05c8849f9908/bin/.local/bin/tmux-sessionizer
 
+last_session_file=$HOME/.cache/.tmux_last_session
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$( $HOME/.config/vars/repos | fzf)
+    selected=$( $HOME/.config/vars/repos | fzf --bind "ctrl-q:execute(tmux-last-session)+abort")
 fi
 
 if [[ -z $selected ]]; then
@@ -28,6 +30,7 @@ fi
 
 # tmux is running and the session already exists.
 if [[ ! -z $inside_tmux ]]; then
+    tmux display -p "#S" > $last_session_file
     tmux switch-client -t $session_name
 else
     tmux attach-session -d -t $session_name

@@ -61,6 +61,7 @@ local function switch_to_session(dir)
     return
   end
   local session_exists = isempty(shell_command("tmux has-session -t=" .. session .. " 2>&1"))
+  shell_command('tmux display -p "#S" > ' .. os.getenv("HOME") .. '/.cache/.tmux_last_session')
   if session_exists then
     shell_command("tmux switch-client -t " .. session)
   else
@@ -75,7 +76,10 @@ M.find = function(opts)
     finder = finders.new_oneshot_job(input),
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
-      map('i', '<c-q>', false)
+      map('i', '<c-q>', function()
+        actions.close(prompt_bufnr)
+        shell_command("tmux-last-session")
+      end)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()[1]

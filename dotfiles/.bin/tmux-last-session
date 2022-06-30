@@ -1,0 +1,37 @@
+#!/bin/bash
+
+last_session_file=$HOME/.cache/.tmux_last_session
+
+if [ ! -f  $last_session_file ]; then
+    echo "No last session found!"
+    exit 1
+fi
+session_name=$(cat $last_session_file | tr -s '\n' ' ')
+if [ -z $session_name ]; then
+    echo "Invalid session name!"
+    exit 1
+fi
+if ! tmux has-session -t=$session_name 2> /dev/null; then
+    echo "Session $session_name does not exist! Removing $last_session_file..."
+    rm $last_session_file
+    exit 1
+fi
+
+echo $session_name
+
+tmux_running=$(pgrep tmux)
+inside_tmux=$TMUX
+
+# is tmux running?
+if [[ -z $inside_tmux ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $session_name -c $selected
+    exit 0
+fi
+
+# tmux is running and the session already exists.
+if [[ ! -z $inside_tmux ]]; then
+    tmux display -p "#S" > $last_session_file
+    tmux switch-client -t $session_name
+else
+    tmux attach-session -d -t $session_name
+fi
