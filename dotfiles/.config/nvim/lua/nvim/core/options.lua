@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 opt.laststatus = 3 -- global statusline
 opt.statusline = "%!v:lua.require'nvim.ui.statusline'.run()"
 opt.showmode = false
+opt.cedit = ""
 
 opt.title = true
 opt.clipboard = "unnamedplus"

@@ -60,8 +60,7 @@ end
 local config = {
   cmd = {
     '/usr/lib/jvm/java-11-openjdk-amd64/bin/java',
-    '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044',
-    '-javaagent:/home/karl/.local/ls/java/lombok-1.18.22.jar',
+    '-javaagent:/home/karl/.local/ls/java/lombok.jar',
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -74,7 +73,7 @@ local config = {
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
     '-jar', '/home/karl/.local/ls/java/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
     '-configuration', '/home/karl/.local/ls/java/jdtls/config_linux',
-    '-data', workspace_folder
+    '-data', home .. "/.local/share/jdtls_workspaces/" .. vim.fn.fnamemodify(jdtls:get_default_options().root_dir, ":p:h:t")
   },
   init_options = {
     bundles = {
@@ -106,6 +105,38 @@ function M.setup()
   local ok, dap = pcall(require, "nvim.plugins.configs.nvim_dap")
   local ok, dapui = pcall(require, "nvim.plugins.configs.nvim_dap_ui")
   local ok, jdtls = pcall(require, "jdtls")
+
+  local finders = require'telescope.finders'
+  local sorters = require'telescope.sorters'
+  local actions = require'telescope.actions'
+  local pickers = require'telescope.pickers'
+  require('jdtls.ui').pick_one_async = function(items, prompt, label_fn, cb)
+    local opts = {}
+    pickers.new(opts, {
+      prompt_title = prompt,
+      finder    = finders.new_table {
+        results = items,
+        entry_maker = function(entry)
+          return {
+            value = entry,
+            display = label_fn(entry),
+            ordinal = label_fn(entry),
+          }
+        end,
+      },
+      sorter = sorters.get_generic_fuzzy_sorter(),
+      attach_mappings = function(prompt_bufnr)
+        actions.goto_file_selection_edit:replace(function()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          actions.close(prompt_bufnr)
+
+          cb(selection.value)
+        end)
+
+        return true
+      end,
+    }):find()
+  end
 
   jdtls.start_or_attach(config)
 end

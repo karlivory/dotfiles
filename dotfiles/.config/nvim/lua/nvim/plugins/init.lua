@@ -186,14 +186,14 @@ local plugins = {
     end
   },
   ["rcarriga/nvim-dap-ui"] = {
-    -- after = {"nvim-dap"},
+    after = {"nvim-dap"},
     ft = {"java", "scala"},
     config = function()
       require "nvim.plugins.configs.nvim_dap_ui"
     end
   },
   ["theHamsta/nvim-dap-virtual-text"] = {
-    -- after = {"nvim-dap-ui"},
+    after = {"nvim-dap-ui"},
     ft = {"java"},
     config = function()
       require "nvim.plugins.configs.nvim_dap_virtual_text"
@@ -212,10 +212,6 @@ local plugins = {
        require "nvim.plugins.configs.nvim_metals"
      end,
    },
-
-   ['VebbNix/lf-vim'] = {
-     commit = "23d38227077f09a926f00424b6dfcdb1613da6d2"
-   }
 }
 
 require("nvim.core.packer").run(plugins)

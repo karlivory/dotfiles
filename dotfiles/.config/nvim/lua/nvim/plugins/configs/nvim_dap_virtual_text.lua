@@ -1,5 +1,4 @@
 require("dap")
-require("dapui")
 local ok, virtual_text = pcall(require, "nvim-dap-virtual-text")
 virtual_text.setup {
     enabled = true,                        -- enable this plugin (the default)

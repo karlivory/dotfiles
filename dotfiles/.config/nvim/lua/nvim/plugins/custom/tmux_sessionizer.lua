@@ -30,7 +30,7 @@ local default_theme = {
 -- has to match tmux-sessionizer script
 local function get_session_name(dir)
   local basename = dir:match("[^/]*$")
-  session = basename:gsub("%.", "_")
+  local session = basename:gsub("%.", "_")
   return session
 end
 
@@ -65,7 +65,7 @@ local function switch_to_session(dir)
   if session_exists then
     shell_command("tmux switch-client -t " .. session)
   else
-    local res = shell_command("tmux new-session -ds " .. session .. " -c " .. dir .. " && tmux switch-client -t " .. session)
+    shell_command("tmux new-session -ds " .. session .. " -c " .. dir .. " && tmux switch-client -t " .. session)
   end
 end
 
