@@ -60,6 +60,7 @@ local options = {
 }
 
 telescope.setup(options)
+require('telescope').load_extension('fzf')
 
 -- load extensions
 pcall(function()

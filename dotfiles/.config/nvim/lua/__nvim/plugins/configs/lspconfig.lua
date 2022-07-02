@@ -42,15 +42,17 @@ capabilities.textDocument.completion.completionItem = {
       },
    },
 }
-lspconfig.eslint.setup{}
-lspconfig.tsserver.setup{}
-
-lspconfig.pyright.setup{}
--- lspconfig.jedi_language_server.setup{}
-
-lspconfig.bashls.setup{}
-
-lspconfig.ansiblels.setup{}
+-- lspconfig.eslint.setup{}
+-- lspconfig.tsserver.setup{}
+--
+-- lspconfig.pyright.setup{}
+-- -- lspconfig.jedi_language_server.setup{}
+--
+-- lspconfig.bashls.setup{
+--   capabilities = capabilities
+-- }
+--
+-- lspconfig.ansiblels.setup{}
 
 lspconfig.sumneko_lua.setup {
    on_attach = M.on_attach,

@@ -16,6 +16,12 @@
     - fzf
     state: present
 
+- name: Install some packages needed for linting
+  apt:
+    pkg: 
+    - shellcheck
+    state: present
+
 - name: Install pynvim
   apt:
     pkg: python3-pynvim
