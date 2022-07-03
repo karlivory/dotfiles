@@ -1,4 +1,11 @@
 local option = vim.opt
+local g = vim.g
+local settings = require("nvim2.settings")
+
+vim.opt.background = "dark" -- or "light" for light mode
+g.nvchad_theme = settings.ui.theme
+g.transparency = settings.ui.transparency
+-- g.theme_switcher_loaded = false
 
 -- NOTE: Global
 option.smartcase = true
@@ -14,6 +21,7 @@ option.shortmess = 'atOIc'
 -- option.shortmess:append({ c = true, F = true, T = true })
 option.clipboard:append({ 'unnamedplus' })
 option.fillchars = 'eob: '
+option.statusline = "%!v:lua.require('nvim2.ui.statusline').run()" 
 
 -- NOTE: Local to window
 option.number = true

@@ -9,15 +9,19 @@ utils.autocommand_by_filetypes(
     [[lua require('format').format()]]
 )
 
+local autocmd = vim.api.nvim_create_autocmd
+-- Don't auto commenting new lines
+autocmd('BufEnter', {
+  pattern = '*',
+  command = 'set fo-=c fo-=r fo-=o'
+})
+
 -- Code action
 utils.autocommand_by_filetypes(
     require('nvim2.settings').codeaction.filetypes,
     'CursorHold,CursorHoldI',
     [[lua require('utils.lightbulb').code_action()]]
 )
-
--- Toggle comment
-cmd("command! -range CommentToggle lua require('utils.comment').comment_toggle(<line1>, <line2>)")
 
 augroup(
     [[
@@ -48,14 +52,14 @@ augroup END
 --     true
 -- )
 
-augroup(
-    [[
-augroup Highlight
-    autocmd!
-    autocmd FileType dapui* setlocal winhighlight=Normal:DapUINormal
-    autocmd FileType aerial setlocal winhighlight=Normal:AerialNormal
-    autocmd FileType DiffviewFiles setlocal winhighlight=Normal:DiffviewFilesNormal
-augroup END
-]],
-    true
-)
+-- augroup(
+--     [[
+-- augroup Highlight
+--     autocmd!
+--     autocmd FileType dapui* setlocal winhighlight=Normal:DapUINormal
+--     autocmd FileType aerial setlocal winhighlight=Normal:AerialNormal
+--     autocmd FileType DiffviewFiles setlocal winhighlight=Normal:DiffviewFilesNormal
+-- augroup END
+-- ]],
+--     true
+-- )

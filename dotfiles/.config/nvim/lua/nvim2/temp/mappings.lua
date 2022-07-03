@@ -36,7 +36,7 @@ M.general = {
       -- line numbers
       ["<leader>n"] = { "<cmd> set nu! <CR>", "   toggle line number" },
       -- ["<leader>rn"] = { "<cmd> set rnu! <CR>", "   toggle relative number" },
-      ["<C-q>"] = { "<cmd>lua require('nvim2.plugins.custom.tmux_sessionizer').find()<cr>", "tmux-sessionizer"}
+      ["<C-q>"] = { "<cmd>lua require('nvim2.plugins.custom.tmux_sessionizer').find()<cr>", "tmux-sessionizer"},
 
    },
 
@@ -60,20 +60,20 @@ M.comment = {
 
    -- toggle comment in both modes
    n = {
-      ["<leader>/"] = {
-         function()
-            require("Comment.api").toggle_current_linewise()
-         end,
-
-         "蘒  toggle comment",
-      },
+      -- ["<leader>/"] = {
+      --    function()
+      --       require("Comment.api").toggle_current_linewise()
+      --    end,
+      --
+      --    "蘒  toggle comment",
+      -- },
    },
 
    v = {
-      ["<leader>/"] = {
-         "<ESC><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>",
-         "蘒  toggle comment",
-      },
+      -- ["<leader>/"] = {
+      --    "<ESC><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>",
+      --    "蘒  toggle comment",
+      -- },
    },
 }
 
@@ -81,124 +81,124 @@ M.lspconfig = {
    -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
 
    n = {
-      ["gD"] = {
-         function()
-            vim.lsp.buf.declaration()
-         end,
-         "   lsp declaration",
-      },
-
-      ["gd"] = {
-         function()
-            vim.lsp.buf.definition()
-         end,
-         "   lsp definition",
-      },
-
-      ["K"] = {
-         function()
-            vim.lsp.buf.hover()
-         end,
-         "   lsp hover",
-      },
-
-      ["gi"] = {
-         function()
-            vim.lsp.buf.implementation()
-         end,
-         "   lsp implementation",
-      },
-
-      ["<leader>ls"] = {
-         function()
-            vim.lsp.buf.signature_help()
-         end,
-         "   lsp signature_help",
-      },
-
-      ["<leader>D"] = {
-         function()
-            vim.lsp.buf.type_definition()
-         end,
-         "   lsp definition type",
-      },
-
-      -- ["<leader>rn"] = {
+      -- ["gD"] = {
       --    function()
-      --       require("ui.renamer").open()
+      --       vim.lsp.buf.declaration()
       --    end,
-      --    "   lsp rename",
+      --    "   lsp declaration",
       -- },
-
-      ["<leader>ca"] = {
-         function()
-            vim.lsp.buf.code_action()
-         end,
-         "   lsp code_action",
-      },
-
-      ["gr"] = {
-         function()
-            vim.lsp.buf.references()
-         end,
-         "   lsp references",
-      },
-
-      ["<leader>f"] = {
-         function()
-            vim.diagnostic.open_float()
-         end,
-         "   floating diagnostic",
-      },
-
-      ["[d"] = {
-         function()
-            vim.diagnostic.goto_prev()
-         end,
-         "   goto prev",
-      },
-
-      ["d]"] = {
-         function()
-            vim.diagnostic.goto_next()
-         end,
-         "   goto_next",
-      },
-
-      ["<leader>q"] = {
-         function()
-            vim.diagnostic.setloclist()
-         end,
-         "   diagnostic setloclist",
-      },
-
-      ["<leader>fm"] = {
-         function()
-            vim.lsp.buf.formatting()
-         end,
-         "   lsp formatting",
-      },
-
-      ["<leader>wa"] = {
-         function()
-            vim.lsp.buf.add_workspace_folder()
-         end,
-         "   add workspace folder",
-      },
-
-      ["<leader>wr"] = {
-         function()
-            vim.lsp.buf.remove_workspace_folder()
-         end,
-         "   remove workspace folder",
-      },
-
-      ["<leader>wl"] = {
-         function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-         end,
-         "   list workspace folders",
-      },
+      --
+      -- ["gd"] = {
+      --    function()
+      --       vim.lsp.buf.definition()
+      --    end,
+      --    "   lsp definition",
+      -- },
+      --
+      -- ["K"] = {
+      --    function()
+      --       vim.lsp.buf.hover()
+      --    end,
+      --    "   lsp hover",
+      -- },
+      --
+      -- ["gi"] = {
+      --    function()
+      --       vim.lsp.buf.implementation()
+      --    end,
+      --    "   lsp implementation",
+      -- },
+      --
+      -- ["<leader>ls"] = {
+      --    function()
+      --       vim.lsp.buf.signature_help()
+      --    end,
+      --    "   lsp signature_help",
+      -- },
+      --
+      -- ["<leader>D"] = {
+      --    function()
+      --       vim.lsp.buf.type_definition()
+      --    end,
+      --    "   lsp definition type",
+      -- },
+      --
+      -- -- ["<leader>rn"] = {
+      -- --    function()
+      -- --       require("ui.renamer").open()
+      -- --    end,
+      -- --    "   lsp rename",
+      -- -- },
+      --
+      -- ["<leader>ca"] = {
+      --    function()
+      --       vim.lsp.buf.code_action()
+      --    end,
+      --    "   lsp code_action",
+      -- },
+      --
+      -- ["gr"] = {
+      --    function()
+      --       vim.lsp.buf.references()
+      --    end,
+      --    "   lsp references",
+      -- },
+      --
+      -- ["<leader>f"] = {
+      --    function()
+      --       vim.diagnostic.open_float()
+      --    end,
+      --    "   floating diagnostic",
+      -- },
+      --
+      -- ["[d"] = {
+      --    function()
+      --       vim.diagnostic.goto_prev()
+      --    end,
+      --    "   goto prev",
+      -- },
+      --
+      -- ["d]"] = {
+      --    function()
+      --       vim.diagnostic.goto_next()
+      --    end,
+      --    "   goto_next",
+      -- },
+      --
+      -- ["<leader>q"] = {
+      --    function()
+      --       vim.diagnostic.setloclist()
+      --    end,
+      --    "   diagnostic setloclist",
+      -- },
+      --
+      -- ["<leader>fm"] = {
+      --    function()
+      --       vim.lsp.buf.formatting()
+      --    end,
+      --    "   lsp formatting",
+      -- },
+      --
+      -- ["<leader>wa"] = {
+      --    function()
+      --       vim.lsp.buf.add_workspace_folder()
+      --    end,
+      --    "   add workspace folder",
+      -- },
+      --
+      -- ["<leader>wr"] = {
+      --    function()
+      --       vim.lsp.buf.remove_workspace_folder()
+      --    end,
+      --    "   remove workspace folder",
+      -- },
+      --
+      -- ["<leader>wl"] = {
+      --    function()
+      --       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      --    end,
+      --    "   list workspace folders",
+      -- },
    },
 }
 
@@ -206,30 +206,30 @@ M.nvimtree = {
 
    n = {
       -- toggle
-      ["<C-e>"] = { "<cmd> NvimTreeToggle <CR>", "   toggle nvimtree" },
+      -- ["<C-e>"] = { "<cmd> NvimTreeToggle <CR>", "   toggle nvimtree" },
    },
 }
 
 M.telescope = {
    n = {
       -- find
-      ["<C-f>"] = { "<cmd> Telescope find_files hidden=true<CR>", "  find files" },
-      ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "  find all" },
-      ["<leader>fw"] = { "<cmd> Telescope live_grep<CR>", "   live grep" },
-      ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "  find buffers" },
-      ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "  help page" },
-      ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "   find oldfiles" },
-      ["<leader>tk"] = { "<cmd> Telescope keymaps <CR>", "   show keys" },
-
-      -- git
-      ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "   git commits" },
-      ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "  git status" },
-
-      -- pick a hidden term
-      ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "   pick hidden term" },
-
-      -- theme switcher
-      ["<leader>th"] = { "<cmd> Telescope themes <CR>", "   nvchad themes" },
+      -- ["<C-f>"] = { "<cmd> Telescope find_files hidden=true<CR>", "  find files" },
+      -- ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "  find all" },
+      -- ["<leader>fw"] = { "<cmd> Telescope live_grep<CR>", "   live grep" },
+      -- ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "  find buffers" },
+      -- ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "  help page" },
+      -- ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "   find oldfiles" },
+      -- ["<leader>tk"] = { "<cmd> Telescope keymaps <CR>", "   show keys" },
+      --
+      -- -- git
+      -- ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "   git commits" },
+      -- ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "  git status" },
+      --
+      -- -- pick a hidden term
+      -- ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "   pick hidden term" },
+      --
+      -- -- theme switcher
+      -- ["<leader>th"] = { "<cmd> Telescope themes <CR>", "   nvchad themes" },
    },
 }
 

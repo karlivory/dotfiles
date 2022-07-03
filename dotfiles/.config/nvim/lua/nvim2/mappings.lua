@@ -1,108 +1,60 @@
-local map = vim.api.nvim_set_keymap
+local kmap = require("nvim2.temp.utils").kmap
 
-local telescope = require('telescope.builtin')
-local utils_core = require('nvim2.utils.core')
-local format = require('nvim2.format')
--- local dap = require('dap')
--- local utils_dap = require('nvim2.utils.dap')
--- local sidebar = require('nvim2.sidebar')
-
-local options = { noremap = true }
-local cmd_options = { noremap = true, silent = true }
-
-local function cmd_option(callback)
-    return { noremap = true, silent = true, callback = callback }
-end
+-- local options = { noremap = true }
+-- local cmd_options = { noremap = true, silent = true }
 
 vim.g.mapleader = ' '
 
-map('n', '<Leader>rr', '', cmd_option(_G.ReloadConfig))
--- map('n', "<C-e>", "<cmd> NvimTreeToggle <CR>", cmd_options)
--- map('n', '<Enter>', 'o<Esc>', options)
--- map('n', 'gh', '<C-w>h', options)
--- map('n', 'gl', '<C-w>l', options)
--- map('n', 'gj', '<C-w>j', options)
--- map('n', 'gk', '<C-w>k', options)
--- map('n', 'p', 'p=`]', options)
--- map('i', 'jk', '<Esc>', options)
--- map('t', '<Esc>', '<C-\\><C-n>', options)
--- map('v', '<Tab>', '>gV', options)
--- map('v', '<S-Tab>', '<gV', options)
---
--- map('n', '<Leader>q', [[<Cmd>let @/=""<CR>]], cmd_options)
--- map('n', '<Leader>s', [[:silent write<CR>]], cmd_options)
--- map('n', '<Leader>w', '', cmd_option(utils_core.bufdelete))
---
--- map('n', '<Leader>m', '', cmd_option(format.format))
--- map('n', '<Leader>c', '', cmd_option(format.range_format))
+-- INSERT-MODE
+kmap("i", ",",              ",<C-g>u", "undo breakpoints")
+kmap("i", ".",              ".<C-g>u", "undo breakpoints")
+kmap("i", "!",              "!<C-g>u", "undo breakpoints")
+kmap("i", "?",              "?<C-g>u", "undo breakpoints")
+kmap("i", "<C-s>",          "<cmd>w<CR>", "save file")
 
--- map(
---     'n',
---     '<Leader>f',
---     '',
---     cmd_option(function()
---         telescope.current_buffer_fuzzy_find({ skip_empty_lines = true })
---     end)
--- )
--- map('n', '<Leader>o', '', cmd_option(telescope.buffers))
--- map('n', '<Leader>p', '', cmd_option(utils_core.project_files))
--- map('n', '<Leader>a', '', cmd_option(telescope.lsp_code_actions))
--- map('n', '<Leader>u', '', cmd_option(telescope.live_grep))
--- map(
---     'n',
---     '<Leader>e',
---     '',
---     cmd_option(function()
---         telescope.symbols({ sources = { 'gitmoji' } })
---     end)
--- )
---
--- map('n', '<Leader>g', '', cmd_option(utils_core.git_hover))
+-- NORMAL-MODE
+kmap("n", "<C-s>",          "<cmd> w <CR>", "﬚  save file")
+kmap("n", "<ESC>",          "<cmd> noh <CR>", "  no highlight")
+kmap("n", "<C-h>",          "C-w>h", " window left")
+kmap("n", "<C-l>",          "C-w>l", " window right")
+kmap("n", "<C-j>",          "C-w>j", " window down")
+kmap("n", "<C-k>",          "C-w>k", " window up")
+kmap("n", "<C-c>",          "<cmd> %y+ <CR>", "  copy whole file to clipboard")
+kmap("n", "<C-q>",          "<cmd>lua require('nvim2.plugins.custom.tmux_sessionizer').find()<cr>", "tmux-sessionizer")
+kmap("n", "<C-TAB>",        "<cmd> BufferLineCycleNext <CR>", "  cycle next buffer")
+kmap("n", "<C-S-Tab>",      "<cmd> BufferLineCyclePrev <CR>", "  cycle prev buffer")
+kmap("n", "<C-e>",          "<cmd> NvimTreeToggle <CR>", "   toggle nvimtree")
+kmap("n", "gD",             "<cmd>lua vim.lsp.buf.declaration()<cr>")
+kmap("n", "gd",             "<cmd>lua vim.lsp.buf.definition()<cr>")
 
--- Dap
--- map('n', '<Leader>0', '', cmd_option(utils_dap.toggle_breakpoint))
--- map('n', '<Leader>1', '', cmd_option(utils_dap.toggle_debug))
--- map('n', '<Leader>2', '', cmd_option(dap.step_over))
--- map('n', '<Leader>3', '', cmd_option(dap.step_into))
--- map('n', '<Leader>4', '', cmd_option(dap.step_out))
--- map(
---     'n',
---     '<Leader>9',
---     '',
---     cmd_option(function()
---         require('dapui').float_element('scopes')
---     end)
--- )
+-- TELESCOPE
+kmap("n", "<C-f>",          "<cmd> Telescope find_files hidden=true<CR>", "  find files")
+kmap("n", "<leader>cm",     "<cmd> Telescope git_commits <CR>", "   git commits")
+kmap("n", "<leader>fa",     "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "  find all")
+kmap("n", "<leader>fb",     "<cmd> Telescope buffers <CR>", "  find buffers")
+kmap("n", "<leader>fh",     "<cmd> Telescope help_tags <CR>", "  help page")
+kmap("n", "<leader>fo",     "<cmd> Telescope oldfiles <CR>", "   find oldfiles")
+kmap("n", "<leader>fw",     "<cmd> Telescope live_grep<CR>", "   live grep")
+kmap("n", "<leader>gt",     "<cmd> Telescope git_status <CR>", "  git status")
+kmap("n", "<leader>pt",     "<cmd> Telescope terms <CR>", "   pick hidden term")
+kmap("n", "<leader>tk",     "<cmd> Telescope keymaps <CR>", "   show keys")
 
--- map('n', '<Leader>t', '', cmd_option(utils_core.toggle_test))
--- map('n', ']t', '<Plug>(ultest-next-fail)', { noremap = false, silent = true })
--- map('n', '[t', '<Plug>(ultest-prev-fail)', { noremap = false, silent = true })
---
--- -- Sidebar
--- map(
---     'n',
---     '<M-b>',
---     '',
---     cmd_option(function()
---         sidebar.toggle('explorer')
---     end)
--- )
--- map(
---     'n',
---     '<M-d>',
---     '',
---     cmd_option(function()
---         sidebar.toggle('debug')
---     end)
--- )
---
--- map('n', '<Leader>/', [[<Cmd>CommentToggle<CR>]], cmd_options)
--- map('v', '<Leader>/', [[:CommentToggle<CR>]], cmd_options)
---
---
--- map('n', ']b', '<Cmd>BufferLineCycleNext<CR>', cmd_options)
--- map('n', '[b', '<Cmd>BufferLineCyclePrev<CR>', cmd_options)
---
--- map('n', ']q', '<Cmd>tabn<CR>', cmd_options)
--- map('n', '[q', '<Cmd>tabp<CR>', cmd_options)
-
+-- LSP
+kmap("n", "<leader>D",      "<cmd>lua vim.lsp.buf.type_definition()<cr>")
+kmap("n", "<leader>ca",     "<cmd>lua vim.lsp.buf.code_action()<cr>")
+kmap("n", "<leader>f",      "<cmd>lua vim.diagnostic.open_float()<cr>")
+kmap("n", "<leader>fm",     "<cmd>lua vim.lsp.buf.formatting()<cr>")
+kmap("n", "<leader>ls",     "<cmd>lua vim.lsp.buf.signature_help()<cr>")
+kmap("n", "<leader>q",      "<cmd>lua vim.diagnostic.setloclist()<cr>")
+kmap("n", "<leader>rn",     "<cmd>lua require('ui.renamer').open()<cr>")
+kmap("n", "<leader>wa",     "<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>")
+kmap("n", "<leader>wl",     "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>")
+kmap("n", "<leader>wr",     "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>")
+kmap("n", "K",              "<cmd>lua vim.lsp.buf.hover()<cr>")
+kmap("n", "[d",             "<cmd>lua vim.diagnostic.goto_prev()<cr>")
+kmap("n", "d]",             "<cmd>lua vim.diagnostic.goto_next()<cr>")
+kmap("n", "gi",             "<cmd>lua vim.lsp.buf.implementation()<cr>")
+kmap("n", "gr",             "<cmd>lua vim.lsp.buf.references()<cr>")
+kmap('n', '<Leader>R',      '<cmd>lua require("nvim2.utils").reload_config()<cr>', "Reload nvim config")
+kmap('n', '<Leader>T',      "<cmd><cr>", "Change colorscheme")
+kmap("n", "<leader>T",      "<cmd>lua require('nvim2.plugins.custom.colorscheme_picker').find()<cr>", "Pick colorscheme")

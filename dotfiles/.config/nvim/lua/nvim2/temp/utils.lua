@@ -2,6 +2,20 @@ local M = {}
 
 -- local merge_tb = vim.tbl_deep_extend
 
+M.kmap = function (mode, lhs, rhs, mapping_name, mapping_opts)
+  local opts = mapping_opts or {}
+  local name = mapping_name or rhs
+  local whichkey_exists, wk = pcall(require, "which-key")
+
+  if whichkey_exists then
+    opts.mode = mode
+    wk.register({ [lhs] = { rhs, name } }, opts)
+  else
+    opts.mode = nil
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+end
+
 M.load_mappings = function(mappings, mapping_opt)
     -- set mapping function with/without whichkey
     local map_func
