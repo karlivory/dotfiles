@@ -32,7 +32,6 @@ require("nvim2.plugins.packer")
 
 require('nvim2.options')
 require('nvim2.lsp.icon')
--- these are slower than load_mappings(); "<cmd> lua require(...)" is better for mappings
 require('nvim2.mappings')
 require('nvim2.autocommands')
 require('nvim2.ui.statusline')
@@ -57,6 +56,4 @@ autocmd("BufUnload", {
    end,
 })
 
-
-require("nvim2.temp.utils").load_mappings()
 require("nvim2.utils.").change_colorscheme("gruvbox")

@@ -145,11 +145,11 @@ M.codeaction = {
 }
 
 M.signs = {
-  DiagnosticSignError = ' ',
-  DiagnosticSignWarning = ' ',
-  DiagnosticSignHint = ' ',
-  DiagnosticSignInfo = ' ',
-  CodeActionSign = ' ',
+  -- DiagnosticSignError = ' ',
+  -- DiagnosticSignWarning = ' ',
+  -- DiagnosticSignHint = ' ',
+  -- DiagnosticSignInfo = ' ',
+  -- CodeActionSign = ' ',
 }
 
 M.kinds = {

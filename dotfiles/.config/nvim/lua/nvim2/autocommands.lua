@@ -9,6 +9,15 @@ utils.autocommand_by_filetypes(
     [[lua require('format').format()]]
 )
 
+-- Briefly highlight text post yank
+local group = vim.api.nvim_create_augroup('YankHighlight', {}) -- not needed?
+vim.api.nvim_create_autocmd('TextYankPost', {
+    callback = function()
+        vim.highlight.on_yank({ timeout = 60 })
+    end,
+    group = group
+})
+
 local autocmd = vim.api.nvim_create_autocmd
 -- Don't auto commenting new lines
 autocmd('BufEnter', {
@@ -23,19 +32,19 @@ utils.autocommand_by_filetypes(
     [[lua require('utils.lightbulb').code_action()]]
 )
 
-augroup(
-    [[
-augroup Config
-    autocmd!
-    autocmd InsertEnter * set nocursorline
-    autocmd InsertLeave * set cursorline
-    autocmd! BufEnter * if &ft ==# 'help' | wincmd L | endif
-    autocmd bufenter * if (winnr("$") == 2 && &filetype == "Yanil") | q | endif
-    autocmd BufNewFile,BufRead *.sol set filetype=solidity
-augroup END
-]],
-    true
-)
+-- augroup(
+--     [[
+-- augroup Config
+--     autocmd!
+--     autocmd InsertEnter * set nocursorline
+--     autocmd InsertLeave * set cursorline
+--     autocmd! BufEnter * if &ft ==# 'help' | wincmd L | endif
+--     autocmd bufenter * if (winnr("$") == 2 && &filetype == "Yanil") | q | endif
+--     autocmd BufNewFile,BufRead *.sol set filetype=solidity
+-- augroup END
+-- ]],
+--     true
+-- )
 
 -- augroup(
 --     [[

@@ -1,14 +1,13 @@
+-- Utils module
+-- M.file and M.ensure_file_exists are copied from 
+-- https://github.com/NvChad/extensions/tree/785eaa25a9bbdf47a6808dc5b6da1747abe10b2b
+
 local M = {}
 local fn = vim.fn
 
 M.change_colorscheme = require("nvim2.utils.change_colorscheme")
 M.reload_config = require("nvim2.utils.reload_config")
-
-M.extend = function(t, ...)
-  for k, v in pairs({...}) do
-    t[k] = v
-  end
-end
+M.dap = require("nvim2.utils.dap")
 
 M.kmap = function (mode, lhs, rhs, mapping_name, mapping_opts)
   local opts = mapping_opts or {}
@@ -24,8 +23,6 @@ M.kmap = function (mode, lhs, rhs, mapping_name, mapping_opts)
   end
 end
 
--- M.file and M.ensure_file_exists are copied from 
--- https://github.com/NvChad/extensions/tree/785eaa25a9bbdf47a6808dc5b6da1747abe10b2b
 
 -- 1st arg - r or w
 -- 2nd arg - file path
@@ -72,12 +69,7 @@ M.ensure_file_exists = function(file_path, default_content)
 
    -- if the file was still not created, then something went wrong
    if not data then
-      print(
-         "Error: Could not create: "
-         .. file_path
-         .. ". Please create it manually to set a default "
-         .. "theme. Look at the documentation for more info."
-      )
+      print("Error: Could not create: " .. file_path)
       return false
    end
 

@@ -1,4 +1,4 @@
-local kmap = require("nvim2.temp.utils").kmap
+local kmap = require("nvim2.utils").kmap
 
 -- local options = { noremap = true }
 -- local cmd_options = { noremap = true, silent = true }

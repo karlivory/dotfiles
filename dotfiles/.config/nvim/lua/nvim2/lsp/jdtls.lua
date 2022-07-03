@@ -7,7 +7,6 @@ local action_state = require('telescope.actions.state')
 local jdtls = require('jdtls')
 
 local java = require('nvim2.languages.java')
-print("asdf")
 
 local M = {}
 

@@ -33,6 +33,10 @@ copyline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
 bind -m "vi-command" -x '"\C-Y": copyline'
 bind -m "vi-insert" -x '"\C-Y": copyline'
 
+# WOOOOOOOOOOOOOOOOOOOOW SO EFFECTIVE
+bind -m "vi-command" -x '"\C-g": git status'
+bind -m "vi-insert" -x '"\C-g": git status'
+
 # BEST FUNCTION EVER!!!
 _common_dirs () {
     cd $( $HOME/.config/vars/common_dirs | fzf)
