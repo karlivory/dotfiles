@@ -1,6 +1,7 @@
 local present, lsp_installer = pcall(require, "nvim-lsp-installer")
 
 if not present then
+  print("fail")
   return
 end
 
@@ -38,5 +39,4 @@ local options = {
 }
 
 lsp_installer.setup(options)
-
 

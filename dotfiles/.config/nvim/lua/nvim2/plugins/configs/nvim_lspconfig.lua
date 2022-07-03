@@ -45,7 +45,9 @@ capabilities.textDocument.completion.completionItem = {
 -- lspconfig.bashls.setup{}
 --
 -- lspconfig.ansiblels.setup{}
-require('nvim2.lsp.lspconfig')
+-- require('nvim2.lsp.lspconfig')
+
+require("nvim2.languages").init()
 
 -- lspconfig.sumneko_lua.setup {
 --    on_attach = M.on_attach,

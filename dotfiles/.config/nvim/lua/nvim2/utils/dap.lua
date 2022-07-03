@@ -1,4 +1,4 @@
-local dap = require('dap')
+-- local dap = require('dap')
 
 local M = {}
 
@@ -20,10 +20,10 @@ M.debug = false
 function M.toggle_debug()
     if not M.debug then
         M.debug = true
-        dap.continue()
+        require("dap").continue()
     else
         M.debug = false
-        dap.disconnect()
+        require("dap").disconnect()
         require('nvim-dap-virtual-text').refresh()
     end
 end

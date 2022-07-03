@@ -11,6 +11,7 @@ local java = require('nvim2.languages.java')
 local M = {}
 
 function M.setup()
+  print("HEY THERE")
     local extendedClientCapabilities = jdtls.extendedClientCapabilities
     extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 

@@ -68,6 +68,7 @@ M.lspconfigs = {
     -- 'html',
     -- 'javascript',
     -- 'json',
+    'java',
     'lua',
     -- 'php',
     -- 'python',

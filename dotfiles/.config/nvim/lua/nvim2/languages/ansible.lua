@@ -1,52 +1,39 @@
-local lsp = require('nvim2.languages.lsp')
 local M = {}
 
--- M.efm = {
---     {
---         formatCommand = 'shfmt',
---         formatStdin = true,
---     },
---     {
---         lintCommand = 'shellcheck -f gcc -x',
---         lintSource = 'shellcheck',
---         lintFormats = {
---             '%f:%l:%c: %trror: %m',
---             '%f:%l:%c: %tarning: %m',
---             '%f:%l:%c: %tote: %m',
---         },
---     },
--- }
---
--- M.all_format = {
---     efm = 'Shfmt   shellcheck',
--- }
---
--- M.default_format = 'efm'
+M.filetype_autocmd = function()
+end
 
-M.lsp_server = 'ansiblels'
+M.lsp = {}
 
-M.lsp = {
-  capabilities = lsp.capabilities,
-  on_attach = lsp.on_attach,
-  settings = {
+M.lsp.lspconfig_lspserver = "ansiblels"
+
+M.lsp.on_attach = function()
+  require("cmp").setup.buffer({
+    sources = {
+      { name = 'nvim_lsp' },
+      -- { name = 'luasnip' },
+      { name = 'nvim_lsp_signature_help' },
+    },
+  })
+end
+
+M.lsp.settings = {
+  ansible = {
     ansible = {
-      ansible = {
-        path = "ansible"
-      },
-      ansibleLint = {
-        enabled = true,
-        path = "ansible-lint"
-      },
-      executionEnvironment = {
-        enabled = false
-      },
-      python = {
-        interpreterPath = "python"
-      }
+      path = "ansible"
+    },
+    ansibleLint = {
+      enabled = true,
+      path = "ansible-lint"
+    },
+    executionEnvironment = {
+      enabled = false
+    },
+    python = {
+      interpreterPath = "python"
     }
   }
 }
 
 return M
-
 

@@ -1,0 +1,43 @@
+local M = {}
+
+-- M.lspconfig_setup = function()
+--   local lspconfig = require('lspconfig')
+--   -- local settings = require('nvim2.settings')
+--   local languages = require('nvim2.languages')
+--   -- local setting_lsps = require('nvim2.lsp.lsp')
+--   -- local setting_lspconfig = settings.lspconfigs
+--
+--   -- local filetypes = setting_lspconfig.filetypes
+--   -- local features = setting_lspconfig.features
+--   --
+--   for _, language in pairs(languages) do
+--     local language_lspconfig = language.lspconfig
+--     if(language_lspconfig) then
+--       language_lspconfig.on_attach = language_lspconfig.on_attach or M.get_default_on_attach()
+--       language_lspconfig.capabilities = language_lspconfig.capabilities or M.get_default_capabilities()
+--       lspconfig[language.lsp_server].setup(language_lspconfig)
+--     end
+--   end
+--
+-- -- for _, feature in pairs(features) do
+-- --     local lsp = setting_lsps[feature]
+-- --     lspconfig[lsp.lsp_server].setup(lsp.lsp)
+-- -- end
+--
+-- end
+--
+-- M.get_default_capabilities = function()
+--   local capabilities = vim.lsp.protocol.make_client_capabilities()
+--   capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+--   return capabilities
+-- end
+--
+-- local on_attach = function ()
+-- end
+--
+-- M.get_default_on_attach = function()
+--   return on_attach
+-- end
+--
+
+return M

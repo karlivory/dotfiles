@@ -6,5 +6,6 @@ return function()
   end
 
   dofile(vim.env.MYVIMRC)
+  vim.cmd[[LspRestart]]
   print("Config reloaded!")
 end

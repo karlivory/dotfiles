@@ -4,6 +4,8 @@
     repo: ppa:neovim-ppa/unstable
     state: present
 
+- file:
+
 - name: Install neovim
   apt:
     name: neovim
@@ -30,7 +32,7 @@
 - name: Upgrade npm to latest version
   npm:
     name: npm
-    global: yes
+    global: true
     state: latest
 
 - import_tasks: ./packer.yml

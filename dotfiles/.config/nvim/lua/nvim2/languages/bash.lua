@@ -1,4 +1,3 @@
-local lsp = require('nvim2.languages.lsp')
 local M = {}
 
 -- M.efm = {
@@ -23,12 +22,22 @@ local M = {}
 --
 -- M.default_format = 'efm'
 
-M.lsp_server = 'bashls'
+M.filetype_autocmd = function()
+end
 
-M.lsp = {
-    capabilities = lsp.capabilities,
-    on_attach = lsp.on_attach,
-}
+M.lsp = {}
+
+M.lsp.lspconfig_lspserver = "bashls"
+
+M.lsp.on_attach = function()
+  require("cmp").setup.buffer({
+    sources = {
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' },
+      { name = 'nvim_lsp_signature_help' },
+    },
+  })
+end
 
 return M
 

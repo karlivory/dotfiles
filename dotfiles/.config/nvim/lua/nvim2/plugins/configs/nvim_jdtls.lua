@@ -1,14 +1,13 @@
---[[
- ╔══════════════════════════════════════╗
- ║ Settings for mfussenegger/nvim-jdtls ║
- ╚══════════════════════════════════════╝
---]]
 local M = {}
 
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local finders = require('telescope.finders')
+local sorters = require('telescope.sorters')
+local actions = require('telescope.actions')
+local pickers = require('telescope.pickers')
+local action_state = require('telescope.actions.state')
+local jdtls = require('jdtls')
 
-local home = os.getenv "HOME"
-local workspace_folder = home .. "/.local/share/jdtls_workspaces/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+local home = vim.env.HOME
 
 local lsp_installer = require "nvim-lsp-installer"
 local ok, jdtls = lsp_installer.get_server "jdtls"
@@ -28,36 +27,58 @@ local function get_capabilities()
   return capabilities
 end
 
+local function progress_report_handler(_, result, ctx)
+  -- needed for fidget.nvim
+  -- see: https://github.com/j-hui/fidget.nvim/issues/57
+   local lsp = vim.lsp
+   local info = {
+      client_id = ctx.client_id,
+   }
+
+   local kind = "report"
+   if result.complete then
+      kind = "end"
+   elseif result.workDone == 0 then
+      kind = "begin"
+   elseif result.workDone > 0 and result.workDone < result.totalWork then
+      kind = "report"
+   else
+      kind = "end"
+   end
+
+   local percentage = 0
+   if result.totalWork > 0 and result.workDone >= 0 then
+      percentage = result.workDone / result.totalWork * 100
+   end
+
+   local msg = {
+      token = result.id,
+      value = {
+         kind = kind,
+         percentage = percentage,
+         title = result.task,
+         message = result.subTask,
+      },
+   }
+
+   pcall(lsp.handlers["$/progress"], nil, msg, info)
+end
+
 local function on_attach(client, bufnr)
-  print("attach")
   require("jdtls.dap")
   require("jdtls").setup_dap({ hotcodereplace = "auto" })
   require("jdtls.setup").add_commands()
   require("jdtls.dap").setup_dap_main_class_configs()
-  require'jdtls'.setup_dap()
+  require("jdtls").setup_dap()
   require'lsp-status'.register_progress()
   -- lsp_utils.on_attach(client, bufnr)
-
-  -- TEMPORARY PLACE FOR THESE --------------------------------------------------
-  -- array of mappings to setup; {<capability_name>, <mode>, <lhs>, <rhs>}
-  local key_mappings = {
-    {"document_range_formatting", "v", "<Space>f", "<Esc><Cmd>lua vim.lsp.buf.range_formatting()<CR>"},
-    {"signature_help", "i", "<c-space>",  "<Cmd>lua vim.lsp.buf.signature_help()<CR>"},
-  }
-
-  local api = vim.api
-  local opts = { silent = true; noremap = true; }
-
-  for _, mappings in pairs(key_mappings) do
-    local capability, mode, lhs, rhs = unpack(mappings)
-    if client.resolved_capabilities[capability] then
-      api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
-    end
-  end
-  --------------------------------------------------------------------------------
 end
 
 local config = {
+  handlers = {
+    ["language/progressReport"] = progress_report_handler,
+    ['language/status'] = function() end,
+  },
   cmd = {
     '/usr/lib/jvm/java-11-openjdk-amd64/bin/java',
     '-javaagent:/home/karl/.local/ls/java/lombok.jar',
@@ -101,7 +122,9 @@ local config = {
   on_attach = on_attach,
   root_dir = jdtls:get_default_options().root_dir
 }
-function M.setup()
+
+
+M.setup = function()
   local ok, dap = pcall(require, "nvim.plugins.configs.nvim_dap")
   local ok, dapui = pcall(require, "nvim.plugins.configs.nvim_dap_ui")
   local ok, jdtls = pcall(require, "jdtls")
@@ -141,6 +164,9 @@ function M.setup()
   jdtls.start_or_attach(config)
 end
 
+
+return M
+
 -- Organize import on save
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --   pattern = "*.java",
@@ -162,5 +188,3 @@ end
 --     end
 --   end,
 -- })
-
-return M

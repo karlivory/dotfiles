@@ -10,7 +10,7 @@ utils.autocommand_by_filetypes(
 )
 
 -- Briefly highlight text post yank
-local group = vim.api.nvim_create_augroup('YankHighlight', {}) -- not needed?
+local group = vim.api.nvim_create_augroup('YankHighlight', {})
 vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function()
         vim.highlight.on_yank({ timeout = 60 })
@@ -18,19 +18,29 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     group = group
 })
 
-local autocmd = vim.api.nvim_create_autocmd
--- Don't auto commenting new lines
-autocmd('BufEnter', {
+-- Don't auto comment new lines
+vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*',
-  command = 'set fo-=c fo-=r fo-=o'
+  command = 'set fo-=c fo-=r fo-=o',
+  group = vim.api.nvim_create_augroup('DontAutoComment', {})
 })
 
+-- Test
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = 'java',
+--   callback = function()
+--     require("nvim2.plugins.configs.nvim_jdtls").setup()
+--   end,
+--   group = vim.api.nvim_create_augroup('javaFileType', {})
+-- })
+
 -- Code action
-utils.autocommand_by_filetypes(
-    require('nvim2.settings').codeaction.filetypes,
-    'CursorHold,CursorHoldI',
-    [[lua require('utils.lightbulb').code_action()]]
-)
+-- utils.autocommand_by_filetypes(
+--     require('nvim2.settings').codeaction.filetypes,
+--     'CursorHold,CursorHoldI',
+--     [[lua require('utils.lightbulb').code_action()]]
+-- )
+
 
 -- augroup(
 --     [[
