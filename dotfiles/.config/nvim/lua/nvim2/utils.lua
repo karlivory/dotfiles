@@ -108,5 +108,48 @@ M.ensure_file_exists = function(file_path, default_content)
    return true
 end
 
+M.lsp_get_capabilities = function()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+  return capabilities
+end
+
+M.lsp_progress_report_handler = function(_, result, ctx)
+  -- needed for fidget.nvim
+  -- see: https://github.com/j-hui/fidget.nvim/issues/57
+   local lsp = vim.lsp
+   local info = {
+      client_id = ctx.client_id,
+   }
+
+   local kind = "report" -- this is dumb, kind is never "report"
+   if result.complete then
+      kind = "end"
+   elseif result.workDone == 0 then
+      kind = "begin"
+   elseif result.workDone > 0 and result.workDone < result.totalWork then
+      kind = "report"
+   else
+      kind = "end"
+   end
+
+   local percentage = 0
+   if result.totalWork > 0 and result.workDone >= 0 then
+      percentage = result.workDone / result.totalWork * 100
+   end
+
+   local msg = {
+      token = result.id,
+      value = {
+         kind = kind,
+         percentage = percentage,
+         title = result.task,
+         message = result.subTask,
+      },
+   }
+
+   pcall(lsp.handlers["$/progress"], nil, msg, info)
+end
+
 return M
 

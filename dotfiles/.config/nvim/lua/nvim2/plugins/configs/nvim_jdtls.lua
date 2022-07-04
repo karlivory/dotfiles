@@ -6,82 +6,24 @@ local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
 local action_state = require('telescope.actions.state')
 local jdtls = require('jdtls')
-
 local home = vim.env.HOME
-
-local lsp_installer = require "nvim-lsp-installer"
-local ok, jdtls = lsp_installer.get_server "jdtls"
-
-if ok == false then
-  vim.notify("lsp_installer: jdtls not found, please install it first", vim.log.levels.ERROR)
-  return
-end
-
-local function get_capabilities()
-  -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
-  -- Add additional capabilities supported by nvim-cmp
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-  -- turn on `window/workDoneProgress` capability
-  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-  return capabilities
-end
-
-local function progress_report_handler(_, result, ctx)
-  -- needed for fidget.nvim
-  -- see: https://github.com/j-hui/fidget.nvim/issues/57
-   local lsp = vim.lsp
-   local info = {
-      client_id = ctx.client_id,
-   }
-
-   local kind = "report"
-   if result.complete then
-      kind = "end"
-   elseif result.workDone == 0 then
-      kind = "begin"
-   elseif result.workDone > 0 and result.workDone < result.totalWork then
-      kind = "report"
-   else
-      kind = "end"
-   end
-
-   local percentage = 0
-   if result.totalWork > 0 and result.workDone >= 0 then
-      percentage = result.workDone / result.totalWork * 100
-   end
-
-   local msg = {
-      token = result.id,
-      value = {
-         kind = kind,
-         percentage = percentage,
-         title = result.task,
-         message = result.subTask,
-      },
-   }
-
-   pcall(lsp.handlers["$/progress"], nil, msg, info)
-end
+local root_dir = require('jdtls.setup').find_root({ 'gradlew', 'mvnw' })
 
 local function on_attach(client, bufnr)
-  require("jdtls.dap")
-  require("jdtls").setup_dap({ hotcodereplace = "auto" })
   require("jdtls.setup").add_commands()
   require("jdtls.dap").setup_dap_main_class_configs()
-  require("jdtls").setup_dap()
+  jdtls.setup_dap({ hotcodereplace = "auto" })
   require'lsp-status'.register_progress()
-  -- lsp_utils.on_attach(client, bufnr)
 end
 
 local config = {
   handlers = {
-    ["language/progressReport"] = progress_report_handler,
+    ["language/progressReport"] = require("nvim2.utils").lsp_progress_report_handler,
     ['language/status'] = function() end,
   },
   cmd = {
     '/usr/lib/jvm/java-11-openjdk-amd64/bin/java',
-    '-javaagent:/home/karl/.local/ls/java/lombok.jar',
+    '-javaagent:' .. home .. '/.local/ls/java/lombok.jar',
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -92,47 +34,81 @@ local config = {
     '--add-modules=ALL-SYSTEM',
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-    '-jar', '/home/karl/.local/ls/java/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
-    '-configuration', '/home/karl/.local/ls/java/jdtls/config_linux',
-    '-data', home .. "/.local/share/jdtls_workspaces/" .. vim.fn.fnamemodify(jdtls:get_default_options().root_dir, ":p:h:t")
+    '-jar', home .. '/.local/ls/java/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+    '-configuration', home .. '/.local/ls/java/jdtls/config_linux',
+    '-data', home .. "/.local/share/jdtls_workspaces/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
   },
-  init_options = {
-    bundles = {
-      vim.fn.expand(home .. "/.local/ls/java/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar")
+  capabilities = {
+    workspace = {
+      configuration = true
     },
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true
+        }
+      }
+    }
   },
-  settings = {
-    java = {
-      format = {
-        comments = {
-          enabled = false,
-        },
-        settings = {
-          url = "https://gist.githubusercontent.com/ikws4/7880fdcb4e3bf4a38999a628d287b1ab/raw/9005c451ed1ff629679d6100e22d63acc805e170/jdtls-formatter-style.xml",
-        },
-      },
-    },
-  },
-  capabilities = get_capabilities(),
   flags = {
     allow_incremental_sync = true,
     debounce_text_changes = 150,
     server_side_fuzzy_completion = true
   },
   on_attach = on_attach,
-  root_dir = jdtls:get_default_options().root_dir
+  root_dir = root_dir
 }
 
+config.settings = {
+  java = {
+    signatureHelp = { enabled = true };
+    completion = {
+      favoriteStaticMembers = {
+        "org.hamcrest.MatcherAssert.assertThat",
+        "org.hamcrest.Matchers.*",
+        "org.hamcrest.CoreMatchers.*",
+        "org.junit.jupiter.api.Assertions.*",
+        "java.util.Objects.requireNonNull",
+        "java.util.Objects.requireNonNullElse",
+        "org.mockito.Mockito.*"
+      }
+    };
+    sources = {
+      organizeImports = {
+        starThreshold = 9999;
+        staticStarThreshold = 9999;
+      };
+    };
+    codeGeneration = {
+      toString = {
+        template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
+      }
+    };
+    configuration = {
+      runtimes = {
+        {
+          name = "JavaSE-11",
+          path = "/usr/lib/jvm/java-1.11.0-openjdk-amd64/"
+        },
+        {
+          name = "JavaSE-17",
+          path = "/usr/lib/jvm/java-1.17.0-openjdk-amd64/"
+        },
+      }
+    }
+  }
+}
+
+local extendedClientCapabilities = require'jdtls'.extendedClientCapabilities
+extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+config.init_options = {
+    bundles = {
+      vim.fn.expand(home .. "/.local/ls/java/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar")
+    },
+    extendedClientCapabilities = extendedClientCapabilities
+}
 
 M.setup = function()
-  local ok, dap = pcall(require, "nvim.plugins.configs.nvim_dap")
-  local ok, dapui = pcall(require, "nvim.plugins.configs.nvim_dap_ui")
-  local ok, jdtls = pcall(require, "jdtls")
-
-  local finders = require'telescope.finders'
-  local sorters = require'telescope.sorters'
-  local actions = require'telescope.actions'
-  local pickers = require'telescope.pickers'
   require('jdtls.ui').pick_one_async = function(items, prompt, label_fn, cb)
     local opts = {}
     pickers.new(opts, {
@@ -148,11 +124,14 @@ M.setup = function()
         end,
       },
       sorter = sorters.get_generic_fuzzy_sorter(),
-      attach_mappings = function(prompt_bufnr)
-        actions.goto_file_selection_edit:replace(function()
-          local selection = actions.get_selected_entry(prompt_bufnr)
+      attach_mappings = function(prompt_bufnr, map)
+        map('i', '<esc>', function()
           actions.close(prompt_bufnr)
-
+        end)
+        actions.select_default:replace(function()
+          local selection = action_state.get_selected_entry()
+          print(vim.inspect(selection.value.name))
+          actions.close(prompt_bufnr)
           cb(selection.value)
         end)
 
@@ -164,27 +143,5 @@ M.setup = function()
   jdtls.start_or_attach(config)
 end
 
-
 return M
 
--- Organize import on save
--- vim.api.nvim_create_autocmd("BufWritePre", {
---   pattern = "*.java",
---   callback = function()
---     local params = vim.lsp.util.make_range_params()
---     local bufnr = vim.api.nvim_get_current_buf()
---     params.context = {
---       diagnostics = vim.lsp.diagnostic.get_line_diagnostics(bufnr),
---     }
---     local result, err = vim.lsp.buf_request_sync(0, "java/organizeImports", params)
---
---     if err then
---       print("Error on organize imports: " .. err)
---       return
---     end
---
---     if result and result[1].result then
---       vim.lsp.util.apply_workspace_edit(result[1].result, "utf-16")
---     end
---   end,
--- })

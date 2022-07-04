@@ -4,29 +4,17 @@
     repo: ppa:neovim-ppa/unstable
     state: present
 
-- file:
-
-- name: Install neovim
+- name: Install neovim and related packages
   apt:
-    name: neovim
-    state: present
-
-- name: Install some neovim plugin dependencies
-  apt:
-    pkg: 
-    - ripgrep
-    - fzf
-    state: present
-
-- name: Install some packages needed for linting
-  apt:
-    pkg: 
-    - shellcheck
-    state: present
-
-- name: Install pynvim
-  apt:
-    pkg: python3-pynvim
+    name:
+      - neovim
+      - lua5.1
+      - luarocks
+      - python-is-python3
+      - ripgrep
+      - fzf
+      - shellcheck
+      - python3-pynvim
     state: present
 
 - name: Upgrade npm to latest version

@@ -13,7 +13,7 @@ local options = {
   },
   automatic_installation = {
     exclude = {
-      'ansiblels'
+      'ansiblels',
     }
   },
   -- automatic_installation = true,

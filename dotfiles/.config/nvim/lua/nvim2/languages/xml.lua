@@ -1,38 +1,16 @@
 local M = {}
 
-M.lsp = {}
+local M = require("nvim2.classes.language"):new("xml", "xml")
 
-M.lsp.lspconfig_lspserver = "lemminx"
+M:set_lspserver("lemminx")
 
-M.lsp.on_attach = function()
-  -- require("cmp").setup.buffer({
-  --   sources = {
-  --     { name = 'nvim_lsp' },
-  --     { name = 'luasnip' },
-  --     { name = 'nvim_lsp_signature_help' },
-  --   },
-  -- })
-end
-
-M.lsp.settings = {
-  -- Lua = {
-  --   runtime = {
-  --     -- tell the language server which version of lua you're using (most likely luajit in the case of neovim)
-  --     version = 'luajit',
-  --   },
-  --   diagnostics = {
-  --     -- get the language server to recognize the `vim` global
-  --     globals = {'vim'},
-  --   },
-  --   workspace = {
-  --     library = vim.api.nvim_get_runtime_file("", true),
-  --   },
-  --   -- do not send telemetry data containing a randomized but unique identifier
-  --   telemetry = {
-  --     enable = false,
-  --   },
-  -- },
+local cmp_sources = {
+  { name = 'luasnip' },
+  { name = 'nvim_lsp' },
+  -- { name = 'nvim_lsp_signature_help' },
+  { name = "buffer" },
+  { name = "path" },
 }
+M:set_cmp_sources(cmp_sources)
 
 return M
-
