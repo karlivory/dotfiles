@@ -12,7 +12,7 @@ local common = {
   ["indent_blankline_nvim"] = { "lukas-reineke/indent-blankline.nvim", event = "BufRead" },
   ["lsp_signature_nvim"] = { "ray-x/lsp_signature.nvim", event = "BufRead" },
   ["luasnip"] = { "L3MON4D3/LuaSnip" },
-  ["nvim_autopairs"] = { "windwp/nvim-autopairs", event = "BufRead" },
+  -- ["nvim_autopairs"] = { "windwp/nvim-autopairs", event = "BufRead" },
   ["nvim_colorizer_lua"] = { "norcalli/nvim-colorizer.lua", event = "BufRead" },
   ["nvim_comment"] = {'terrortylor/nvim-comment', event = "BufRead" },
   ["nvim_dap"] = { "mfussenegger/nvim-dap", ft = "java" },
@@ -20,7 +20,7 @@ local common = {
   ["nvim_dap_virtual_text"] = { "theHamsta/nvim-dap-virtual-text", ft = "java" },
   ["nvim_jdtls"] = { "mfussenegger/nvim-jdtls", ft = "java" },
   ["nvim_lsp_installer"] = { "williamboman/nvim-lsp-installer" },
-  ["nvim_lspconfig"] = { "neovim/nvim-lspconfig", after =  "nvim-lsp-installer" }, -- has to be loaded after nvim-lsp-installer
+  ["nvim_lspconfig"] = { "neovim/nvim-lspconfig", after =  { "nvim-lsp-installer" } }, -- has to be loaded after nvim-lsp-installer
   ["lspsaga_nvim"] = { "glepnir/lspsaga.nvim" },
   ["neo_tree_nvim"] = { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x", requires = { "MunifTanjim/nui.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim" } },
   ["nvim_ts_autotag"] = { "windwp/nvim-ts-autotag", event = "BufRead" },
@@ -100,7 +100,7 @@ for key, plugin in pairs(plugins) do
 end
 
 packer.startup(function(use, use_rocks)
-  use_rocks({ 'penlight' })
+  -- use_rocks({ 'penlight' })
   for _, plugin in pairs(plugins) do
     use(plugin)
   end

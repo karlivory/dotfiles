@@ -47,6 +47,17 @@ capabilities.textDocument.completion.completionItem = {
 -- lspconfig.ansiblels.setup{}
 -- require('nvim2.lsp.lspconfig')
 
+-- local luadev = require("lua-dev").setup({
+--   -- add any options here, or leave empty to use the default settings
+--   -- lspconfig = {
+--   --   cmd = {"lua-language-server"}
+--   -- },
+-- })
+--
+-- local lspconfig = require('lspconfig')
+-- lspconfig.sumneko_lua.setup(luadev)
+-- print(vim.inspect(luadev))
+
 require("nvim2.languages").init()
 
 -- lspconfig.sumneko_lua.setup {

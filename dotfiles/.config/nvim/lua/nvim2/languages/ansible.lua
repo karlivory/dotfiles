@@ -1,39 +1,31 @@
-local M = {}
+local M = require("nvim2.classes.language"):new("ansible", "yaml.ansible")
 
-M.filetype_autocmd = function()
-end
-
-M.lsp = {}
-
-M.lsp.lspconfig_lspserver = "ansiblels"
-
-M.lsp.on_attach = function()
-  require("cmp").setup.buffer({
-    sources = {
-      { name = 'nvim_lsp' },
-      -- { name = 'luasnip' },
-      { name = 'nvim_lsp_signature_help' },
-    },
-  })
-end
-
-M.lsp.settings = {
-  ansible = {
+M:set_lspserver("ansiblels")
+local lsp = {
+  settings = {
     ansible = {
-      path = "ansible"
-    },
-    ansibleLint = {
-      enabled = true,
-      path = "ansible-lint"
-    },
-    executionEnvironment = {
-      enabled = false
-    },
-    python = {
-      interpreterPath = "python"
+      ansible = {
+        path = "ansible"
+      },
+      ansibleLint = {
+        enabled = true,
+        path = "ansible-lint"
+      },
+      executionEnvironment = {
+        enabled = false
+      },
+      python = {
+        interpreterPath = "python"
+      }
     }
   }
 }
+M:set_lsp(lsp)
+local cmp_sources = {
+  { name = 'nvim_lsp' },
+  { name = "buffer" },
+  { name = "path" },
+}
+M:set_cmp_sources(cmp_sources)
 
 return M
-

@@ -31,6 +31,18 @@ M.kmap = function (mode, lhs, rhs, mapping_name, mapping_opts)
   end
 end
 
+M.Class = function(members)
+  members = members or {}
+  local mt = {
+    __metatable = members;
+    __index     = members;
+  }
+  local function new(_, init)
+    return setmetatable(init or {}, mt)
+  end
+  members.new  = members.new  or new
+  return mt
+end
 
 -- 1st arg - r or w
 -- 2nd arg - file path

@@ -12,10 +12,3 @@ require("nvim2.utils").change_colorscheme("gruvbox")
 require('nvim2.mappings')
 require('nvim2.autocommands')
 
-vim.defer_fn(
-function()
-  local class = require("pl.class")
-  local a = class()
--- require('nvim2.lsp.icon')
-end
-,0)

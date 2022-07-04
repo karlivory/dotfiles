@@ -19,6 +19,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Don't auto comment new lines
+-- todo: don't set this w/ yml!
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*',
   command = 'set fo-=c fo-=r fo-=o',
