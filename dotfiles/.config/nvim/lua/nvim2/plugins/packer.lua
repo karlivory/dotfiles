@@ -22,7 +22,7 @@ local common = {
   ["nvim_lsp_installer"] = { "williamboman/nvim-lsp-installer" },
   ["nvim_lspconfig"] = { "neovim/nvim-lspconfig", after =  "nvim-lsp-installer" }, -- has to be loaded after nvim-lsp-installer
   ["lspsaga_nvim"] = { "glepnir/lspsaga.nvim" },
-  ["nvim_tree_lua"] = { "kyazdani42/nvim-tree.lua", cmd = { "NvimTreeToggle", "NvimTreeFocus" } },
+  ["neo_tree_nvim"] = { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x", requires = { "MunifTanjim/nui.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim" } },
   ["nvim_ts_autotag"] = { "windwp/nvim-ts-autotag", event = "BufRead" },
   ["nvim_ts_context_commentstring"] = { "JoosepAlviste/nvim-ts-context-commentstring" },
   ["nvim_web_devicons"]= { "kyazdani42/nvim-web-devicons" },
@@ -91,7 +91,7 @@ end
 local function create_config_function(config)
   local fnstr = string.format('function() require("%s") end', config)
   -- MAGIC!
-  return loadstring("return " .. fnstr)
+  return load("return " .. fnstr)
 end
 
 for key, plugin in pairs(plugins) do
@@ -100,7 +100,7 @@ for key, plugin in pairs(plugins) do
 end
 
 packer.startup(function(use, use_rocks)
-  -- use_rocks({ 'penlight' })
+  use_rocks({ 'penlight' })
   for _, plugin in pairs(plugins) do
     use(plugin)
   end

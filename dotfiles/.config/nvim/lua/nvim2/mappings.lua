@@ -7,6 +7,7 @@ local default_opts = { silent = true, noremap = true }
 vim.g.mapleader = ' '
 
 -- INSERT-MODE
+kmap("i", "<c-h>",          "<c-w>", "Delete previous word")
 kmap("i", ",",              ",<C-g>u", "undo breakpoints")
 kmap("i", ".",              ".<c-g>u", "undo breakpoints")
 kmap("i", "!",              "!<c-g>u", "undo breakpoints")
@@ -21,11 +22,11 @@ kmap("n", "<c-h>",          "C-w>h", " window left")
 kmap("n", "<c-l>",          "C-w>l", " window right")
 kmap("n", "<c-j>",          "C-w>j", " window down")
 kmap("n", "<c-k>",          "C-w>k", " window up")
--- kmap("n", "<c-c>",          "<cmd> %y+ <CR>", "  copy whole file to clipboard")
+kmap("n", "<leader>y",      "<cmd> %y+ <CR>", "  copy whole file to clipboard")
 kmap("n", "<c-q>",          "<cmd>lua require('nvim2.plugins.custom.tmux_sessionizer').find()<cr>", "tmux-sessionizer")
 kmap("n", "<c-TAB>",        "<cmd> BufferLineCycleNext <CR>", "  cycle next buffer")
 kmap("n", "<c-S-Tab>",      "<cmd> BufferLineCyclePrev <CR>", "  cycle prev buffer")
-kmap("n", "<c-e>",          "<cmd> NvimTreeToggle <CR>", "   toggle nvimtree")
+kmap("n", "<c-e>",          "<cmd> NeoTreeRevealToggle <CR>", "   toggle neotree")
 kmap("n", "gD",             "<cmd>lua vim.lsp.buf.declaration()<cr>")
 kmap("n", "gd",             "<cmd>lua vim.lsp.buf.definition()<cr>")
 

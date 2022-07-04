@@ -73,7 +73,7 @@ M.find = function(opts)
   opts = opts or default_theme
   pickers.new(opts, {
     prompt_title = "tmux-sessionizer",
-    finder = finders.new_oneshot_job(input),
+    finder = finders.new_oneshot_job(input, {}),
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
       map('i', '<c-q>', function()

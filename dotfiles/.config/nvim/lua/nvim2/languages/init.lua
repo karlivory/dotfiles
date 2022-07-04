@@ -18,7 +18,8 @@ local languages = {
   ["yaml.ansible"] = require("nvim2.languages.ansible"),
   ["sh"] = require('nvim2.languages.bash'),
   ["lua"] = require('nvim2.languages.lua'),
-  ["java"] = require('nvim2.languages.java')
+  ["java"] = require('nvim2.languages.java'),
+  ["xml"] = require('nvim2.languages.xml')
 }
 setmetatable(languages, languages_metatable)
 for key, language in pairs(languages) do

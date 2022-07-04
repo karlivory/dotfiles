@@ -39,7 +39,8 @@ bind -m "vi-insert" -x '"\C-g": git status'
 
 # BEST FUNCTION EVER!!!
 _common_dirs () {
-    cd $( $HOME/.config/vars/common_dirs | fzf)
+    dir=$( "$HOME/.config/vars/common_dirs" | fzf)
+    [[ -n "$dir" ]] && cd "$dir" || return
 }
 bind -m "vi-command" '"\C-f": "ddi_common_dirs\C-m"'
 bind -m "vi-insert" '"\C-f": "\eddi_common_dirs\C-m"'
@@ -51,7 +52,7 @@ lfcd () {
     lf -last-dir-path="$tmp" "$@"
     if [ -f "$tmp" ]; then
         dir="$(cat "$tmp")"
-        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return
     fi
 }
 bind -m "vi-command" '"\C-o": "ddilfcd\C-m"'
