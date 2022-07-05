@@ -4,6 +4,7 @@ local filesystem = {
     visible = false, -- when true, they will just be displayed differently than normal items
     hide_gitignored = true,
     hide_dotfiles = false,
+    show_hidden_count = false
   },
 }
 
