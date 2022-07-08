@@ -11,4 +11,5 @@ require('nvim2.ui.statusline')
 require("nvim2.utils").change_colorscheme("gruvbox")
 require('nvim2.mappings')
 require('nvim2.autocommands')
+require("nvim2.globals")
 

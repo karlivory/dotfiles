@@ -9,7 +9,11 @@ local languages = {
   ["cpp"] = require('nvim2.languages.cpp'),
   ["java"] = require('nvim2.languages.java'),
   ["xml"] = require('nvim2.languages.xml'),
-  ["yaml"] = require('nvim2.languages.yaml')
+  ["yaml"] = require('nvim2.languages.yaml'),
+  ["gradle"] = require('nvim2.languages.gradle'),
+  -- ["groovy"] = require('nvim2.languages.groovy'),
+  ["kotlin"] = require('nvim2.languages.kotlin'),
+  ["python"] = require('nvim2.languages.python')
 }
 
 M.init = function()

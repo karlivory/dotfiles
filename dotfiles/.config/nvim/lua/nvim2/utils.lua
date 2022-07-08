@@ -6,6 +6,7 @@ local M = {}
 local fn = vim.fn
 
 M.change_colorscheme = require("nvim2.utils.change_colorscheme")
+M.toggle_boolean = require("nvim2.utils.toggle_boolean")
 M.reload_config = require("nvim2.utils.reload_config")
 M.dap = require("nvim2.utils.dap")
 M.core = require("nvim2.utils.core")
