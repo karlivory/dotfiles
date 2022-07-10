@@ -48,7 +48,7 @@ local window = {
     end,
     ["S"] = "",
     ["s"] = "",
-    ["<space>"] = "toggle_node",
+    ["<space>"] = "",
     ["<2-LeftMouse>"] = "open",
     -- ["<cr>"] = "open",
     ["<cr>"] = function(_)
@@ -82,7 +82,8 @@ local window = {
     ["H"] = "",
     ["/"] = "",
     ["f"] = "filter_on_submit",
-    ["<c-x>"] = "clear_filter",
+    -- ["<c-x>"] = "clear_filter",
+    ["<c-x>"] = "",
     ["[g"] = "",
     ["]g"] = "",
   }

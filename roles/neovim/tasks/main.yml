@@ -35,8 +35,10 @@
   npm:
     name: npm
     global: true
-    state: latest
+    version: 8.1
+    state: present
 
+- import_tasks: ./formatters.yml
 - import_tasks: ./packer.yml
 - import_tasks: ./java/main.yml
 

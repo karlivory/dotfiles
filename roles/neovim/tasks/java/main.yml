@@ -12,6 +12,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
 
+- import_tasks: ./gradle.yml
 - import_tasks: ./lombok.yml
 - import_tasks: ./jdtls.yml
 - import_tasks: ./microsoft-java-debug.yml

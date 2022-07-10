@@ -4,12 +4,14 @@ local colors = require('nvim2.ui.colors')
 
 local cmd = vim.cmd
 
--- src: https://github.com/NvChad/base46/blob/master/lua/base46/themes/onenord.lua
 
 local highlights = {
-  DapBreakpoint = { guifg = colors.red },
-  DapStopped = { guifg = colors.green },
-
+  DapBreakpoint = { 
+    fg = colors.default.tomato,
+  },
+  DapStopped = { 
+    fg = colors.default.orange,
+  },
   St_gitIcons = {
     fg = colors.StatusLineColors.light_grey,
     bg = colors.StatusLineColors.statusline_bg,

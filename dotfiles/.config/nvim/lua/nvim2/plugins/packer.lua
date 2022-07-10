@@ -31,6 +31,7 @@ local common = {
   ["toggleterm_nvim"] = {"akinsho/toggleterm.nvim"},
   ["which_key_nvim"] = { "folke/which-key.nvim" },
   ["zen_mode_nvim"] = { "folke/zen-mode.nvim", event = "BufRead" },
+  ["formatter_nvim"] = { "mhartington/formatter.nvim", after = { "nvim-lsp-installer" } }
 }
 
 local treesitter = {

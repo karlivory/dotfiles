@@ -1,20 +1,21 @@
 local M = {}
 
-local lspconfig = require('lspconfig')
+-- local lspconfig = require('lspconfig')
+-- local formatter = require("formatter")
 
-local languages = {
-  ["yaml.ansible"] = require("nvim2.languages.ansible"),
-  ["sh"] = require('nvim2.languages.bash'),
-  ["lua"] = require('nvim2.languages.lua'),
-  ["cpp"] = require('nvim2.languages.cpp'),
-  ["java"] = require('nvim2.languages.java'),
-  ["xml"] = require('nvim2.languages.xml'),
-  ["yaml"] = require('nvim2.languages.yaml'),
-  ["gradle"] = require('nvim2.languages.gradle'),
-  -- ["groovy"] = require('nvim2.languages.groovy'),
-  ["kotlin"] = require('nvim2.languages.kotlin'),
-  ["python"] = require('nvim2.languages.python')
-}
+local languages = {}
+
+languages["yaml.ansible"] = require("nvim2.languages.ansible")
+languages["sh"] = require('nvim2.languages.bash')
+languages["lua"] = require('nvim2.languages.lua')
+languages["cpp"] = require('nvim2.languages.cpp')
+languages["java"] = require('nvim2.languages.java')
+languages["xml"] = require('nvim2.languages.xml')
+languages["yaml"] = require('nvim2.languages.yaml')
+languages["gradle"] = require('nvim2.languages.gradle')
+-- languages ["groovy"] = require('nvim2.languages.groovy')
+languages["kotlin"] = require('nvim2.languages.kotlin')
+languages["python"] = require('nvim2.languages.python')
 
 M.init = function()
   for _, language in pairs(languages) do

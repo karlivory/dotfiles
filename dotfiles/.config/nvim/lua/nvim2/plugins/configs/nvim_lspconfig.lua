@@ -1,4 +1,4 @@
-lspconfig = require("lspconfig")
+require("lspconfig")
 
 local M = {}
 
@@ -12,7 +12,7 @@ win.default_opts = function(options)
    return opts
 end
 
-M.on_attach = function(client, bufnr)
+M.on_attach = function(client, _)
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false
 end
@@ -36,52 +36,7 @@ capabilities.textDocument.completion.completionItem = {
       },
    },
 }
--- lspconfig.eslint.setup{}
--- lspconfig.tsserver.setup{}
---
--- lspconfig.pyright.setup{}
--- -- lspconfig.jedi_language_server.setup{}
---
--- lspconfig.bashls.setup{}
---
--- lspconfig.ansiblels.setup{}
--- require('nvim2.lsp.lspconfig')
-
--- local luadev = require("lua-dev").setup({
---   -- add any options here, or leave empty to use the default settings
---   -- lspconfig = {
---   --   cmd = {"lua-language-server"}
---   -- },
--- })
---
--- local lspconfig = require('lspconfig')
--- lspconfig.sumneko_lua.setup(luadev)
--- print(vim.inspect(luadev))
 
 require("nvim2.languages").init()
 
--- lspconfig.sumneko_lua.setup {
---    on_attach = M.on_attach,
---    capabilities = capabilities,
---
---    settings = {
---       Lua = {
---          diagnostics = {
---             globals = { "vim" },
---          },
---          workspace = {
---             library = {
---                 vim.api.nvim_get_runtime_file("", true),
---                [vim.fn.expand "$VIMRUNTIME/lua"] = true,
---                [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
---             },
---             maxPreload = 100000,
---             preloadFileSize = 10000,
---          },
---       },
---    },
--- }
-
 return M
-
-

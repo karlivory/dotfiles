@@ -2,13 +2,13 @@ local augroup = vim.api.nvim_exec
 local cmd = vim.api.nvim_command
 local utils = require('nvim2.utils.core')
 
--- Auto format
-utils.autocommand_by_filetypes(
-    require('nvim2.settings').autoformat.filetypes,
-    'BufWritePre',
-    [[lua require('format').format()]]
-)
-
+-- -- Auto format
+-- utils.autocommand_by_filetypes(
+--     require('nvim2.settings').autoformat.filetypes,
+--     'BufWritePre',
+--     [[lua require('format').format()]]
+-- )
+--
 -- Briefly highlight text post yank
 local group = vim.api.nvim_create_augroup('YankHighlight', {})
 vim.api.nvim_create_autocmd('TextYankPost', {

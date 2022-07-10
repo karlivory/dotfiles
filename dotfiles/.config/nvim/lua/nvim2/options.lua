@@ -1,10 +1,7 @@
 local option = vim.opt
 local g = vim.g
-local settings = require("nvim2.settings")
 
 vim.opt.background = "dark" -- or "light" for light mode
-g.nvchad_theme = settings.ui.theme
-g.transparency = settings.ui.transparency
 -- g.theme_switcher_loaded = false
 
 -- NOTE: Global

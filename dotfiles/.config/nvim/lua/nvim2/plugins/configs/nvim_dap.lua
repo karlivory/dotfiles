@@ -1,4 +1,8 @@
 local dap = require "dap"
+
+vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "", numhl = "" })
+
 dap.configurations.java = {
   {
     type = "java";
@@ -27,20 +31,4 @@ dap.configurations.scala = {
     },
   },
 }
-
-local function map(mode, lhs, rhs, opts) -- noremap
-  local options = {noremap = true, silent = true}
-  if opts then options = vim.tbl_extend("force", options, opts) end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
-map("n", "<F2>", ":lua require'dap'.repl.toggle()<CR>")
-map("n", "<F5>", ":lua require'dap'.continue()<CR>")
-map("n", "<F10>", ":lua require'dap'.step_over()<CR>")
-map("n", "<F11>", ":lua require'dap'.step_into()<CR>")
-map("n", "<F12>", ":lua require'dap'.step_out()<CR>")
-map("n", "<Leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
-map("n", "<F8>", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-map("n", "<Leader>lp", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
-map("n", "<Leader>dl", ":lua require'dap'.run_last()<CR>")
 

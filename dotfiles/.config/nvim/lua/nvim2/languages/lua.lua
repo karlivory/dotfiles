@@ -29,6 +29,10 @@ local lua_lsp = {
   },
 }
 M:set_lsp(lua_lsp)
+M:set_filetype_autocmd(function()
+  vim.bo.tabstop = 2
+  vim.bo.shiftwidth = 2
+end)
 
 local cmp_sources = {
   { name = 'luasnip' },

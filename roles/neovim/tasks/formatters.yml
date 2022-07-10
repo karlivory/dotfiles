@@ -1,0 +1,15 @@
+---
+- name: Download stylua
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: "https://github.com/JohnnyMorganz/StyLua/releases/download/v0.14.0/stylua-linux.zip"
+    dl_filename: "stylua-linux.zip"
+    dl_unarchive: yes
+    dl_unarchive_dir: "{{ confdir }}/formatters/"
+
+- name: Download google-java-format
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: "https://github.com/google/google-java-format/releases/download/v1.15.0/google-java-format-1.15.0-all-deps.jar"
+    dl_filename: "google-java-format.jar"
+    dl_dest_dir: "{{ confdir}}/formatters"

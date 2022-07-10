@@ -4,19 +4,18 @@
 last_session_file=$HOME/.cache/.tmux_last_session
 
 if [[ $# -eq 1 ]]; then
-    selected=$1
+	selected=$1
 else
-    selected=$( $HOME/.config/vars/repos | fzf --bind "ctrl-x:execute(tmux-last-session)+abort")
+	selected=$($HOME/.config/vars/repos | fzf --bind "ctrl-x:execute(tmux-last-session)+abort")
 fi
 
 if [[ -z $selected ]]; then
-    exit 0
+	exit 0
 fi
 
-
 if echo $selected | grep -q "ERROR!"; then
-    echo $selected
-    exit 1
+	echo $selected
+	exit 1
 fi
 
 session_name=$(basename "$selected" | tr . _)
@@ -25,24 +24,24 @@ inside_tmux=$TMUX
 
 # is tmux running?
 if [[ -z $inside_tmux ]] && [[ -z $tmux_running ]]; then
-    tmux start-server
-    # tmux new-session -s $session_name -c $selected
+	tmux start-server
+	# tmux new-session -s $session_name -c $selected
 fi
 
 # tmux is running... does the session need to be created?
-if ! tmux has-session -t=$session_name 2> /dev/null; then
-    tmux new-session -ds $session_name -c $selected
-    # initialize windows
-    # sleep 0.1
-    # tmux send-keys -t $session_name.0 "nvim" ENTER
-    # tmux new-window -t $session_name 'bash'
-    # tmux previous-window -t $session_name
+if ! tmux has-session -t=$session_name 2>/dev/null; then
+	tmux new-session -ds $session_name -c $selected
+	# initialize windows
+	# sleep 0.1
+	# tmux send-keys -t $session_name.0 "nvim" ENTER
+	# tmux new-window -t $session_name 'bash'
+	# tmux previous-window -t $session_name
 fi
 
 # tmux is running and the session already exists.
 if [[ ! -z $inside_tmux ]]; then
-    tmux display -p "#S" > $last_session_file
-    tmux switch-client -t $session_name
+	tmux display -p "#S" >$last_session_file
+	tmux switch-client -t $session_name
 else
-    tmux attach-session -d -t $session_name
+	tmux attach-session -d -t $session_name
 fi

@@ -19,6 +19,25 @@ M.better_escape = function()
   require('cmp').close()
 end
 
+M.save = function()
+  local ft = vim.bo.filetype
+  if(G.languages[ft]) then
+    if(G.languages[ft].autoformat) then
+      vim.cmd[[write]]
+      vim.cmd[[FormatWrite]]
+      return
+    end
+  end
+  vim.cmd[[write]]
+end
+
+M.toggle_autoformat = function ()
+  local ft = vim.bo.filetype
+  if(G.languages[ft]) then
+    G.languages[ft].autoformat = not G.languages[ft].autoformat
+  end
+end
+
 M.kmap = function (mode, lhs, rhs, mapping_name, mapping_opts)
   local opts = mapping_opts or {}
   local name = mapping_name or rhs

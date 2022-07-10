@@ -27,6 +27,7 @@ local init = function(name, filetype)
     on_attach = function() end,
     settings = {}
   }
+  o.autoformat = true
   o.cmp_sources = default_cmp_sources
   o.filetype_autocmd = function() end
   ------------------------------------------------------------------------------
@@ -68,6 +69,7 @@ local init = function(name, filetype)
         group = vim.api.nvim_create_augroup('filetype_autocmd_' .. self.filetype, {})
       })
     end
+    G.languages[self.filetype] = self
   end
   ------------------------------------------------------------------------------
 

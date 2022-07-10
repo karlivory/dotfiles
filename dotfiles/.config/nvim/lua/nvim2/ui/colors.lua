@@ -33,7 +33,7 @@ M.StatusLineColors = {
    folder_bg = "#7797b7",
 }
 
-M.colors = {
+M.default = {
   red = '#F9867B',
   orange = '#CD9731',
   yellow = '#FDCE68',
