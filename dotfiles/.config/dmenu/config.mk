@@ -5,8 +5,8 @@ VERSION = 5.1
 PREFIX = /usr/local
 MANPREFIX = $(PREFIX)/share/man
 
-X11INC = /placeholder/libs/libxft/include
-X11LIB = /placeholder/libs/libxft/src/.libs
+X11INC = ${CONFDIR}/libs/libxft/include
+X11LIB = ${CONFDIR}/libs/libxft/src/.libs
 
 # Xinerama, comment if you don't want it
 XINERAMALIBS  = -lXinerama

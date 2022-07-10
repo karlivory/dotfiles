@@ -25,8 +25,8 @@ bind -m vi-command -x '"\C-r": __fzf_history__'
 bind -m vi-insert -x '"\C-r": __fzf_history__'
 #############################################################################
 
-bind -m "vi-command" '"\C-q": "dditmux-sessionizer\C-m"'
-bind -m "vi-insert" '"\C-q": "\edditmux-sessionizer\C-m"'
+bind -m "vi-command" '"\C-x": "dditmux-sessionizer\C-m"'
+bind -m "vi-insert" '"\C-x": "\edditmux-sessionizer\C-m"'
 
 # ctrl-y copies current bash readline to clipboard
 copyline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
@@ -153,8 +153,6 @@ export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CACHE_HOME=$HOME/.cache
 
 export ANDROID_HOME="$XDG_DATA_HOME"/android
-export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
-export GOPATH="$XDG_DATA_HOME"/go
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
 export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
@@ -198,6 +196,10 @@ alias cdg='cd $(git rev-parse --show-toplevel)'
 alias fcd='cd $(find -type d 2>/dev/null | fzf)'
 alias lf='lfub'
 alias cx='chmod +x'
+alias gc="git commit -m"
+alias gd="git diff"
+alias gr="git restore --staged"
+alias ga="git add"
 #############################################################################
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1

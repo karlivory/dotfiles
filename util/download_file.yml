@@ -11,6 +11,7 @@
 # dl_link_file_dest (default /usr/local/bin/{{ dl_filename }})
 
 - set_fact:
+    download_file_changed: false
     dl_url: "{{ dl_url | default(\"\") }}"
     dl_dest: "{{ dl_dest | default(\"\") }}"
     dl_dest_dir: "{{ dl_dest_dir | default(\"\") }}"
@@ -105,6 +106,9 @@
     state: link
 
 # Cleanup
+- set_fact:
+    download_file_changed: "{{ dl_changed }}"
+  
 - set_fact:
     dl_url: ""
     dl_dest: ""

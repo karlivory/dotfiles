@@ -9,6 +9,7 @@ super + Return
 super + Tab
     dmenu_run
 
+
 #=============================== dwm ===========================================
 super + shift + n
     xsetroot -name "fsignal:3" # dwm:togglebar
@@ -54,8 +55,10 @@ XF86AudioMute
 super + F4
 	st -e pulsemixer
 
+
+super + F10
+    powermenu
 super + F11
 	autorandr -c && set_default_wallpaper && remaps
-
 super + F12
 	pkill -1 dwm

@@ -9,6 +9,7 @@
   make:
     chdir: dotfiles/.config/st
     target: install
+    params: "CONFDIR={{ confdir }}"
   become: true
   register: st
   changed_when: st.stdout is search("c99 -o") or st.stdout is search("cc -o")

@@ -9,8 +9,8 @@ MANPREFIX = $(PREFIX)/share/man
 
 #X11INC = /usr/X11R6/include
 #X11LIB = /usr/X11R6/lib
-X11INC = /placeholder/libs/libxft/include
-X11LIB = /placeholder/libs/libxft/src/.libs
+X11INC = $(CONFDIR)/libs/libxft/include
+X11LIB = $(CONFDIR)/libs/libxft/src/.libs
 
 PKG_CONFIG = pkg-config
 
