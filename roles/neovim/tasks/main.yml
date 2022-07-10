@@ -1,8 +1,22 @@
 ---
-- name: Add neovim nightly ppa
-  ansible.builtin.apt_repository:
-    repo: ppa:neovim-ppa/unstable
-    state: present
+# - name: Add neovim nightly ppa
+#   ansible.builtin.apt_repository:
+#     repo: ppa:neovim-ppa/unstable
+#     state: present
+- name: Download, unarchive and link ytdlp
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: "{{ nvim_deb }}"
+    dl_filename: "nvim-linux64.deb"
+    dl_dest_dir: "{{ confdir }}/nvim-releases"
+
+- debug:
+    var: download_file_changed
+
+- name: Install neovim deb package
+  when: download_file_changed
+  apt:
+    deb: "{{ confdir }}/nvim-releases/nvim-linux64.deb"
 
 - name: Install neovim and related packages
   apt:

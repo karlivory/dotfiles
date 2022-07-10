@@ -4,7 +4,7 @@ home: "/home/{{ username }}"
 remove_gnome: true
 vm: false
 
-confdir: "/placeholder"
+confdir: "/data"
 
 # fonts
 fonts_ubuntu_mono: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/UbuntuMono.zip"
@@ -16,6 +16,7 @@ software_ytdlp: "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dl
 software_tt: "https://github.com/lemnos/tt/releases/download/v0.4.2/tt-linux"
 
 # neovim vars
+nvim_deb: "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb"
 nvim_jdtls_server: "https://download.eclipse.org/jdtls/milestones/1.9.0/jdt-language-server-1.9.0-202203031534.tar.gz"
 nvim_jdtls_server_checksum: "sha256:b8af1925cb3b817fd1061e00a45ffbc6aca76819d8b2f5939626009ebf432fc7"
 
