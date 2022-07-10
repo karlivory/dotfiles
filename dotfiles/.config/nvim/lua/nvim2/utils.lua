@@ -16,6 +16,7 @@ M.better_escape = function()
   vim.cmd[[nohls]]
   vim.cmd[[ccl]]
   M.close_all_floating_windows()
+  require('cmp').close()
 end
 
 M.kmap = function (mode, lhs, rhs, mapping_name, mapping_opts)

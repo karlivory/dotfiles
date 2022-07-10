@@ -12,14 +12,22 @@ local lsp = {
     "java",
     "-jar",
     "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005",
-    "/home/karl/temp/vscode-gradle/gradle-language-server/build/distributions/gradle-language-server/lib/gradle-language-server.jar"
+    "/home/karl/git/src/vscode-gradle/gradle-language-server/build/install/gradle-language-server/lib/gradle-language-server.jar"
   },
   root_dir = function(fname)
     return require("lspconfig.util").root_pattern(unpack { "settings.gradle", "settings.gradle.kts" })(fname)
     or require("lspconfig.util").root_pattern(unpack { "build.gradle" })(fname)
   end,
   filetypes = { "groovy", "kotlin" },
-  capabilities = capabilities
+  capabilities = capabilities,
+  -- initializationOptions = {
+  --     gradleWrapperEnabled = true,
+  -- },
+  init_options = {
+    settings = {
+      -- gradleWrapperEnabled = true,
+    }
+  },
 }
 M:set_lsp(lsp)
 

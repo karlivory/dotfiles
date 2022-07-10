@@ -76,7 +76,8 @@ M.find = function(opts)
     finder = finders.new_oneshot_job(input, {}),
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
-      map('i', '<c-q>', function()
+      map('i', 'c-q', false)
+      map('i', '<c-x>', function()
         actions.close(prompt_bufnr)
         shell_command("tmux-last-session")
       end)

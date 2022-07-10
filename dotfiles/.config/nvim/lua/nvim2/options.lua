@@ -19,7 +19,7 @@ option.showtabline = 2
 option.scrolloff = 18
 option.termguicolors = true
 option.shortmess = 'atOIc'
-option.timeoutlen = 400
+option.timeoutlen = 700
 -- option.completeopt = 'menuone,noselect'
 -- option.shortmess:append({ c = true, F = true, T = true })
 option.clipboard:append({ 'unnamedplus' })
