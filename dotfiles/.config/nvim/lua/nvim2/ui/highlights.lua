@@ -1,15 +1,14 @@
 local M = {}
 
-local colors = require('nvim2.ui.colors')
+local colors = require("nvim2.ui.colors")
 
 local cmd = vim.cmd
 
-
 local highlights = {
-  DapBreakpoint = { 
+  DapBreakpoint = {
     fg = colors.default.tomato,
   },
-  DapStopped = { 
+  DapStopped = {
     fg = colors.default.orange,
   },
   St_gitIcons = {
@@ -210,14 +209,14 @@ local highlights = {
 
 local function highlight(all_highlights)
   for group, ui in pairs(all_highlights) do
-    local guifg = ui.guifg or ui.fg or 'NONE'
-    local guibg = ui.guibg or ui.bg or 'NONE'
+    local guifg = ui.guifg or ui.fg or "NONE"
+    local guibg = ui.guibg or ui.bg or "NONE"
     local bold = ui.bold
     local gui = ""
-    if(bold) then
+    if bold then
       gui = "bold"
     end
-    if(gui == "") then
+    if gui == "" then
       gui = "NONE"
     end
     cmd(string.format("hi %s guifg=%s guibg=%s gui=%s", group, guifg, guibg, gui))

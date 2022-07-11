@@ -22,7 +22,7 @@ require("dapui").setup({
   layouts = {
     {
       elements = {
-      -- Elements can be strings or table with id and size keys.
+        -- Elements can be strings or table with id and size keys.
         { id = "scopes", size = 0.25 },
         -- "breakpoints",
         -- "stacks",
@@ -51,5 +51,5 @@ require("dapui").setup({
   windows = { indent = 1 },
   render = {
     max_type_length = nil, -- Can be integer or nil.
-  }
+  },
 })

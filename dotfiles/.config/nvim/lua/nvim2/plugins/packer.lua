@@ -14,29 +14,33 @@ local common = {
   ["luasnip"] = { "L3MON4D3/LuaSnip" },
   -- ["nvim_autopairs"] = { "windwp/nvim-autopairs", event = "BufRead" },
   ["nvim_colorizer_lua"] = { "norcalli/nvim-colorizer.lua", event = "BufRead" },
-  ["nvim_comment"] = {'terrortylor/nvim-comment', event = "BufRead" },
+  ["nvim_comment"] = { "terrortylor/nvim-comment", event = "BufRead" },
   ["nvim_dap"] = { "mfussenegger/nvim-dap", ft = "java" },
   ["nvim_dap_ui"] = { "rcarriga/nvim-dap-ui", ft = "java" },
   ["nvim_dap_virtual_text"] = { "theHamsta/nvim-dap-virtual-text", ft = "java" },
   ["nvim_jdtls"] = { "mfussenegger/nvim-jdtls", ft = "java" },
   ["nvim_lsp_installer"] = { "williamboman/nvim-lsp-installer" },
-  ["nvim_lspconfig"] = { "neovim/nvim-lspconfig", after =  { "nvim-lsp-installer" } }, -- has to be loaded after nvim-lsp-installer
+  ["nvim_lspconfig"] = { "neovim/nvim-lspconfig", after = { "nvim-lsp-installer" } }, -- has to be loaded after nvim-lsp-installer
   ["lspsaga_nvim"] = { "glepnir/lspsaga.nvim" },
-  ["neo_tree_nvim"] = { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x", requires = { "MunifTanjim/nui.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim" } },
+  ["neo_tree_nvim"] = {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    requires = { "MunifTanjim/nui.nvim", "kyazdani42/nvim-web-devicons", "MunifTanjim/nui.nvim" },
+  },
   ["nvim_ts_autotag"] = { "windwp/nvim-ts-autotag", event = "BufRead" },
   ["nvim_ts_context_commentstring"] = { "JoosepAlviste/nvim-ts-context-commentstring" },
-  ["nvim_web_devicons"]= { "kyazdani42/nvim-web-devicons" },
-  ["telescope_fzf_native_nvim"] = {"nvim-telescope/telescope-fzf-native.nvim", run = 'make' },
+  ["nvim_web_devicons"] = { "kyazdani42/nvim-web-devicons" },
+  ["telescope_fzf_native_nvim"] = { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
   ["telescope_nvim"] = { "nvim-telescope/telescope.nvim" },
-  ["toggleterm_nvim"] = {"akinsho/toggleterm.nvim"},
+  ["toggleterm_nvim"] = { "akinsho/toggleterm.nvim" },
   ["which_key_nvim"] = { "folke/which-key.nvim" },
   ["zen_mode_nvim"] = { "folke/zen-mode.nvim", event = "BufRead" },
-  ["formatter_nvim"] = { "mhartington/formatter.nvim", after = { "nvim-lsp-installer" } }
+  ["formatter_nvim"] = { "mhartington/formatter.nvim" },
 }
 
 local treesitter = {
   ["nvim_treesitter"] = { "nvim-treesitter/nvim-treesitter" },
-  ["nvim_treesitter_textobjects"] = { "nvim-treesitter/nvim-treesitter-textobjects" }
+  ["nvim_treesitter_textobjects"] = { "nvim-treesitter/nvim-treesitter-textobjects" },
 }
 
 local nvim_cmp = {
@@ -53,7 +57,7 @@ local themes = {
   ["catppuccin_nvim"] = { "catppuccin/nvim" },
   ["gruvbox"] = { "gruvbox-community/gruvbox" },
   ["onenord_nvim"] = { "rmehri01/onenord.nvim" },
-  ["sonokai"] = { "sainnhe/sonokai" }
+  ["sonokai"] = { "sainnhe/sonokai" },
 }
 
 local plugins = vim.tbl_deep_extend("error", base, common, treesitter, nvim_cmp, themes)
@@ -76,7 +80,7 @@ local options = {
     removed_sym = " ",
     moved_sym = "",
     open_fn = function()
-      return require("packer.util").float { border = "single" }
+      return require("packer.util").float({ border = "single" })
     end,
   },
 }
@@ -106,4 +110,3 @@ packer.startup(function(use, use_rocks)
     use(plugin)
   end
 end)
-

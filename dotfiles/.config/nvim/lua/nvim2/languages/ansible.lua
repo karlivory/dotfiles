@@ -5,24 +5,24 @@ local lsp = {
   settings = {
     ansible = {
       ansible = {
-        path = "ansible"
+        path = "ansible",
       },
       ansibleLint = {
         enabled = true,
-        path = "ansible-lint"
+        path = "ansible-lint",
       },
       executionEnvironment = {
-        enabled = false
+        enabled = false,
       },
       python = {
-        interpreterPath = "python"
-      }
-    }
-  }
+        interpreterPath = "python",
+      },
+    },
+  },
 }
 M:set_lsp(lsp)
 local cmp_sources = {
-  { name = 'nvim_lsp' },
+  { name = "nvim_lsp" },
   { name = "buffer" },
   { name = "path" },
 }

@@ -1,6 +1,6 @@
 local augroup = vim.api.nvim_exec
 local cmd = vim.api.nvim_command
-local utils = require('nvim2.utils.core')
+local utils = require("nvim2.utils.core")
 
 -- -- Auto format
 -- utils.autocommand_by_filetypes(
@@ -10,20 +10,20 @@ local utils = require('nvim2.utils.core')
 -- )
 --
 -- Briefly highlight text post yank
-local group = vim.api.nvim_create_augroup('YankHighlight', {})
-vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-        vim.highlight.on_yank({ timeout = 60 })
-    end,
-    group = group
+local group = vim.api.nvim_create_augroup("YankHighlight", {})
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank({ timeout = 60 })
+  end,
+  group = group,
 })
 
 -- Don't auto comment new lines
 -- todo: don't set this w/ yml!
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = '*',
-  command = 'set fo-=c fo-=r fo-=o',
-  group = vim.api.nvim_create_augroup('DontAutoComment', {})
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  command = "set fo-=c fo-=r fo-=o",
+  group = vim.api.nvim_create_augroup("DontAutoComment", {}),
 })
 
 -- Test
@@ -41,7 +41,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
 --     'CursorHold,CursorHoldI',
 --     [[lua require('utils.lightbulb').code_action()]]
 -- )
-
 
 -- augroup(
 --     [[

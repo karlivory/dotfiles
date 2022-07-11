@@ -1,4 +1,4 @@
-local treesitter_config = require('nvim-treesitter.configs')
+local treesitter_config = require("nvim-treesitter.configs")
 
 treesitter_config.setup({
   ensure_installed = "all",
@@ -41,4 +41,3 @@ treesitter_config.setup({
 
   autopairs = { enable = true },
 })
-

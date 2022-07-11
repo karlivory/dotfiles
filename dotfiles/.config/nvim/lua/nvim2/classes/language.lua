@@ -3,13 +3,12 @@ local lspconfig = require("lspconfig")
 local cmp = require("cmp")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local default_cmp_sources = {
   { name = "luasnip" },
   { name = "nvim_lsp" },
-  { name = 'nvim_lsp_signature_help' },
+  { name = "nvim_lsp_signature_help" },
   { name = "buffer" },
   { name = "path" },
 }
@@ -25,7 +24,7 @@ local init = function(name, filetype)
   o.lsp = {
     capabilities = capabilities,
     on_attach = function() end,
-    settings = {}
+    settings = {},
   }
   o.autoformat = true
   o.cmp_sources = default_cmp_sources
@@ -56,17 +55,17 @@ local init = function(name, filetype)
       callback = function()
         cmp.setup.buffer({ sources = self.cmp_sources })
       end,
-      group = vim.api.nvim_create_augroup("set_cmp_sources_" .. self.filetype, {})
+      group = vim.api.nvim_create_augroup("set_cmp_sources_" .. self.filetype, {}),
     })
-    if(self.use_lspconfig) then
+    if self.use_lspconfig then
       self.lsp.capabilities = self.lsp.capabilities or capabilities
       lspconfig[self.lspserver].setup(self.lsp)
     end
-    if(self.filetype_autocmd) then
-      vim.api.nvim_create_autocmd('FileType', {
+    if self.filetype_autocmd then
+      vim.api.nvim_create_autocmd("FileType", {
         pattern = self.filetype,
         callback = self.filetype_autocmd,
-        group = vim.api.nvim_create_augroup('filetype_autocmd_' .. self.filetype, {})
+        group = vim.api.nvim_create_augroup("filetype_autocmd_" .. self.filetype, {}),
       })
     end
     G.languages[self.filetype] = self

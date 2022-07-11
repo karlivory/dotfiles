@@ -12,5 +12,3 @@ local cmp_sources = {
 M:set_cmp_sources(cmp_sources)
 
 return M
-
-

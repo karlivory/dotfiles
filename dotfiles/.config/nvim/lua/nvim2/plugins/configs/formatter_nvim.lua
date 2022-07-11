@@ -3,12 +3,12 @@ local formatter = require("formatter")
 
 local config = {
   logging = true,
-  log_level = vim.log.levels.WARN,
+  log_level = vim.log.levels.ERROR,
   filetype = {
     ["*"] = {
-      require("formatter.filetypes.any").remove_trailing_whitespace
-    }
-  }
+      require("formatter.filetypes.any").remove_trailing_whitespace,
+    },
+  },
 }
 
 config.filetype["lua"] = {
@@ -24,17 +24,17 @@ config.filetype["lua"] = {
       },
       stdin = true,
     }
-  end
+  end,
 }
 
 config.filetype["java"] = {
   function()
     return {
-      exe = 'java',
-      args = { '-jar', '$CONFDIR/formatters/google-java-format.jar', vim.api.nvim_buf_get_name(0) },
-      stdin = true
+      exe = "java",
+      args = { "-jar", "$CONFDIR/formatters/google-java-format.jar", vim.api.nvim_buf_get_name(0) },
+      stdin = true,
     }
-  end
+  end,
 }
 
 config.filetype["sh"] = {
@@ -43,7 +43,7 @@ config.filetype["sh"] = {
       exe = "shfmt",
       stdin = true,
     }
-  end
+  end,
 }
 
 formatter.setup(config)

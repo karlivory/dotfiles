@@ -1,3 +1,4 @@
+-- stylua: ignore start
 local kmap = require("nvim2.utils").kmap
 
 -- local options = { noremap = true }
@@ -62,8 +63,8 @@ kmap("n", "<leader>fD",     "<cmd> Telescope diagnostics <CR>", "diagnostics (hi
 -- kmap("n", "<leader>wa",     "<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>")
 kmap("n", "gD",             "<cmd>lua vim.lsp.buf.declaration()<cr>")
 kmap("n", "gd",             "<cmd>lua vim.lsp.buf.definition()<cr>")
-kmap("n", "<leader>lwl",     "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>")
-kmap("n", "<leader>lwr",     "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>")
+kmap("n", "<leader>lwl",    "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>")
+kmap("n", "<leader>lwr",    "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>")
 kmap("n", "[d",             "<cmd>lua vim.diagnostic.goto_prev()<cr>")
 kmap("n", "]d",             "<cmd>lua vim.diagnostic.goto_next()<cr>")
 -- kmap("n", "gi",             "<cmd>lua vim.lsp.buf.implementation()<cr>")
@@ -71,24 +72,24 @@ kmap("n", "gr",             "<cmd>lua vim.lsp.buf.references()<cr>")
 
 -- DAP
 kmap("n", "<leader>dt",     "<cmd>lua require('dapui').toggle()<cr>", "Toggle dapui")
-kmap("n", "<leader>dr", ":lua require'dap'.repl.toggle()<CR>")
-kmap("n", "<F4>", ":lua require'dap'.run_last()<CR>")
-kmap("n", "<F5>", ":lua require'dap'.continue()<CR>")
-kmap("n", "<leader>dc", ":lua require'dap'.continue()<CR>")
-kmap("n", "<F8>", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-kmap("n", "<F9>", ":lua require'dap'.toggle_breakpoint()<CR>")
-kmap("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>")
-kmap("n", "<F10>", ":lua require'dap'.step_over()<CR>")
-kmap("n", "<F11>", ":lua require'dap'.step_into()<CR>")
-kmap("n", "<F12>", ":lua require'dap'.step_out()<CR>")
-kmap("n", "<Leader>dl", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
+kmap("n", "<leader>dr",     ":lua require'dap'.repl.toggle()<CR>")
+kmap("n", "<F4>",           ":lua require'dap'.run_last()<CR>")
+kmap("n", "<F5>",           ":lua require'dap'.continue()<CR>")
+kmap("n", "<leader>dc",     ":lua require'dap'.continue()<CR>")
+kmap("n", "<F8>",           ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+kmap("n", "<F9>",           ":lua require'dap'.toggle_breakpoint()<CR>")
+kmap("n", "<leader>db",     ":lua require'dap'.toggle_breakpoint()<CR>")
+kmap("n", "<F10>",          ":lua require'dap'.step_over()<CR>")
+kmap("n", "<F11>",          ":lua require'dap'.step_into()<CR>")
+kmap("n", "<F12>",          ":lua require'dap'.step_out()<CR>")
+kmap("n", "<Leader>dl",     ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
 
 
-kmap('n', '<Leader>R',      '<cmd>lua require("nvim2.utils").reload_config()<cr>', "Reload nvim config")
+kmap("n", "<Leader>R",      "<cmd>lua require('nvim2.utils').reload_config()<cr>", "Reload nvim config")
 kmap("n", "<leader>T",      "<cmd>lua require('nvim2.plugins.custom.colorscheme_picker').find()<cr>", "Pick colorscheme")
 
 -- formatter
--- kmap("n", "<leader>cf",     "<cmd>FormatWrite<cr>", "content format")
+kmap("n", "<leader>cf",     "<cmd>Format<cr>", "content format")
 kmap("n", "<leader>ct",     "<cmd>lua require('nvim2.utils').toggle_autoformat()<cr>", "Toggle autoformat for ft")
 
 -- LSPSAGA

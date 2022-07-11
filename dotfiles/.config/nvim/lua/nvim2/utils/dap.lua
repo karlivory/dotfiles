@@ -18,14 +18,14 @@ M.debug = false
 -- end
 
 function M.toggle_debug()
-    if not M.debug then
-        M.debug = true
-        require("dap").continue()
-    else
-        M.debug = false
-        require("dap").disconnect()
-        require('nvim-dap-virtual-text').refresh()
-    end
+  if not M.debug then
+    M.debug = true
+    require("dap").continue()
+  else
+    M.debug = false
+    require("dap").disconnect()
+    require("nvim-dap-virtual-text").refresh()
+  end
 end
 
 return M

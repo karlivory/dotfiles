@@ -4,31 +4,31 @@ local filesystem = {
     visible = false, -- when true, they will just be displayed differently than normal items
     hide_gitignored = true,
     hide_dotfiles = false,
-    show_hidden_count = false
+    show_hidden_count = false,
   },
 }
 
 local default_component_configs = {
   modified = {
-    symbol = '',
-    highlight = 'NeoTreeModified',
+    symbol = "",
+    highlight = "NeoTreeModified",
   },
   name = {
     trailing_slash = false,
     use_git_status_colors = false,
-    highlight = 'NeoTreeFileName',
+    highlight = "NeoTreeFileName",
   },
   git_status = {
     symbols = {
       -- Change type
-      added = '', -- or "✚", but this is redundant info if you use git_status_colors on the name
-      modified = '', -- or "", but this is redundant info if you use git_status_colors on the name
+      added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+      modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
       -- Status type
-      untracked = '',
-      ignored = '',
-      unstaged = '',
-      staged = '',
-      conflict = '',
+      untracked = "",
+      ignored = "",
+      unstaged = "",
+      staged = "",
+      conflict = "",
     },
   },
 }
@@ -63,8 +63,8 @@ local window = {
     ["a"] = {
       "add",
       config = {
-        show_path = "relative" -- "none", "relative", "absolute"
-      }
+        show_path = "relative", -- "none", "relative", "absolute"
+      },
     },
     ["r"] = "rename",
     ["A"] = "",
@@ -86,23 +86,22 @@ local window = {
     ["<c-x>"] = "",
     ["[g"] = "",
     ["]g"] = "",
-  }
+  },
 }
 
 local event_handlers = {
   {
     event = "file_opened",
     handler = function(_)
-      vim.cmd[[NeoTreeClose]]
+      vim.cmd([[NeoTreeClose]])
     end,
-    id = "id_file_opened"
-  }
+    id = "id_file_opened",
+  },
 }
 
-require('neo-tree').setup({
+require("neo-tree").setup({
   filesystem = filesystem,
   window = window,
   event_handlers = event_handlers,
-  default_component_configs = default_component_configs
+  default_component_configs = default_component_configs,
 })
-

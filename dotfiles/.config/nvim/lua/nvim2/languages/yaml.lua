@@ -6,7 +6,7 @@ M:set_lspserver("yamlls")
 
 local cmp_sources = {
   -- { name = 'luasnip' },
-  { name = 'nvim_lsp' },
+  { name = "nvim_lsp" },
   -- { name = 'nvim_lsp_signature_help' },
   { name = "buffer", max_item_count = 7 },
   { name = "path" },
@@ -21,7 +21,7 @@ local lsp = {
         -- ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*"
       },
     },
-  }
+  },
 }
 
 return M

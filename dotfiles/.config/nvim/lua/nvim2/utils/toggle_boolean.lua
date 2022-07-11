@@ -10,7 +10,12 @@ local boolean_values = {
 }
 
 local search_by_order = {
-  "true", "True", "yes", "1", "TRUE", "YES"
+  "true",
+  "True",
+  "yes",
+  "1",
+  "TRUE",
+  "YES",
 }
 
 vim.tbl_add_reverse_lookup(boolean_values)
@@ -64,10 +69,12 @@ return function()
   end
 
   if swap_index then
-      local offset = #swapped_from - #swap_to
-      local res = string.sub(line_text, 0, swap_index - 1) .. swap_to .. string.sub(line_text, swap_index + #swapped_from, -1)
-      -- print(res)
-      vim.api.nvim_buf_set_text(0, row, start_index, row, start_index + #line_text, {res})
+    local offset = #swapped_from - #swap_to
+    local res = string.sub(line_text, 0, swap_index - 1)
+      .. swap_to
+      .. string.sub(line_text, swap_index + #swapped_from, -1)
+    -- print(res)
+    vim.api.nvim_buf_set_text(0, row, start_index, row, start_index + #line_text, { res })
   else
     -- print("Nothing to toggle.")
   end

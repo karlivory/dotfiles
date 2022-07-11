@@ -9,4 +9,3 @@ M.filetype_autocmd = function()
 end
 
 return M
-

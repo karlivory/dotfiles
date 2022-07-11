@@ -1,1 +1,1 @@
-require('nvim2')
+require("nvim2")

@@ -1,8 +1,7 @@
-require('colorizer').setup({
-    'css',
-    'javascript',
-    'lua',
-    'json',
-    'svelte',
+require("colorizer").setup({
+  "css",
+  "javascript",
+  "lua",
+  "json",
+  "svelte",
 })
-

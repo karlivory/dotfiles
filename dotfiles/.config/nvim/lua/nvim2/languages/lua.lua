@@ -6,15 +6,15 @@ local lua_lsp = {
   settings = {
     Lua = {
       completion = {
-        callSnippet = "Replace"
+        callSnippet = "Replace",
       },
       runtime = {
         -- tell the language server which version of lua you're using (most likely luajit in the case of neovim)
-        version = 'luaJIT',
+        version = "luaJIT",
       },
       diagnostics = {
         -- get the language server to recognize the `vim` global
-        globals = {'vim'},
+        globals = { "vim" },
       },
       workspace = {
         library = vim.api.nvim_get_runtime_file("", true),
@@ -35,9 +35,9 @@ M:set_filetype_autocmd(function()
 end)
 
 local cmp_sources = {
-  { name = 'luasnip' },
-  { name = 'nvim_lsp' },
-  { name = 'nvim_lsp_signature_help' },
+  { name = "luasnip" },
+  { name = "nvim_lsp" },
+  { name = "nvim_lsp_signature_help" },
   { name = "nvim_lua" },
   { name = "buffer" },
   { name = "path" },
