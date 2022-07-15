@@ -95,17 +95,34 @@ M.LSP_progress = function()
 end
 
 M.LSP_Diagnostics = function()
-  local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-  local warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-  local hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-  local info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+  local error_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+  local warning_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+  local hint_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+  local info_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 
-  errors = (errors and errors > 0) and ("%#St_lspError#" .. " " .. errors .. " ") or ""
-  warnings = (warnings and warnings > 0) and ("%#St_lspWarning#" .. "  " .. warnings .. " ") or ""
-  hints = (hints and hints > 0) and ("%#St_lspHints#" .. "ﯧ " .. hints .. " ") or ""
-  info = (info and info > 0) and ("%#St_lspInfo#" .. " " .. info .. " ") or ""
+  local error_str = (error_count and error_count > 0) and ("%#St_lspError#" .. " " .. error_count .. " ") or ""
+  local warning_str = (warning_count and warning_count > 0) and ("%#St_lspWarning#" .. "  " .. warning_count .. " ") or ""
+  local hint_str = (hint_count and hint_count > 0) and ("%#St_lspHints#" .. "ﯧ " .. hint_count .. " ") or ""
+  local info_str = (info_count and info_count > 0) and ("%#St_lspInfo#" .. " " .. info_count .. " ") or ""
 
-  return errors .. warnings .. hints .. info
+  return error_str .. warning_str .. hint_str .. info_str
+end
+
+M.options = function()
+  -- local left_sep = "%#St_pos_sep#" .. sep_l .. "%#St_pos_icon#" .. "הּ"
+  local left_sep = ""
+  local text = ""
+  if G.languages[vim.bo.filetype] then
+    local autoformat = "OFF"
+    if G.languages[vim.bo.filetype].autoformat then
+      autoformat = "ON"
+    end
+    text = "[AF=" .. autoformat .. "]"
+  end
+  if text ~= "" then
+    return left_sep .. "%#St_gitIcons#" .. text .. " "
+  end
+  return ""
 end
 
 M.LSP_status = function()
@@ -141,9 +158,8 @@ M.run = function()
     M.fileInfo(),
     M.git(),
 
-    -- fidget does this already
-    -- "%=",
-    -- M.LSP_progress(),
+    "%=",
+    M.options(),
 
     "%=",
     M.LSP_Diagnostics(),

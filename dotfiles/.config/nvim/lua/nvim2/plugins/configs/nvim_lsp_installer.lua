@@ -9,7 +9,7 @@ local options = {
 
   ensure_installed = {
     -- issue: https://github.com/ansible/ansible-language-server/issues/391
-    "ansiblels@9211f4abd46988b6539d0357c4f2f3809450bb39",
+    "ansiblels@b85edfaebba919afd8496679e022118f25827b15",
   },
   automatic_installation = {
     exclude = {

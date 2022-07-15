@@ -43,6 +43,11 @@ local init = function(name, filetype)
 
   function o:set_filetype_autocmd(fn)
     self.filetype_autocmd = fn
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = self.filetype,
+      callback = self.filetype_autocmd,
+      group = vim.api.nvim_create_augroup("filetype_autocmd_" .. self.filetype, {}),
+    })
   end
 
   function o:set_cmp_sources(cmp_sources)
@@ -61,13 +66,9 @@ local init = function(name, filetype)
       self.lsp.capabilities = self.lsp.capabilities or capabilities
       lspconfig[self.lspserver].setup(self.lsp)
     end
-    if self.filetype_autocmd then
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = self.filetype,
-        callback = self.filetype_autocmd,
-        group = vim.api.nvim_create_augroup("filetype_autocmd_" .. self.filetype, {}),
-      })
-    end
+    -- if self.filetype_autocmd then
+    --   print("called2")
+    -- end
     G.languages[self.filetype] = self
   end
   ------------------------------------------------------------------------------

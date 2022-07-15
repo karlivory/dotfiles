@@ -35,7 +35,7 @@
       tags:
         - system
       vars:
-        nodejs_version: "14.x"
+        nodejs_version: "16.x"
         nodejs_install_npm_user: "{{ username }}"
 
   tasks:
@@ -55,7 +55,7 @@
         name: desktop
       tags:
         - desktop
-    - import_role: 
+    - import_role:
         name: neovim
       tags:
         - neovim

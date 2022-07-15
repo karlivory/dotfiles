@@ -1,7 +1,7 @@
 ---
 - name: Install a bunch of software from apt (this might take a while)
   apt:
-    pkg: 
+    pkg:
       - software-properties-common
       - curl
       - lxrandr
@@ -32,4 +32,3 @@
       - dunst
       - flameshot
       - network-manager-gnome
-

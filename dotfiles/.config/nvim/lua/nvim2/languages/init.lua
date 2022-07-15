@@ -16,6 +16,9 @@ languages["gradle"] = require("nvim2.languages.gradle")
 -- languages ["groovy"] = require('nvim2.languages.groovy')
 languages["kotlin"] = require("nvim2.languages.kotlin")
 languages["python"] = require("nvim2.languages.python")
+languages["svelte"] = require("nvim2.languages.svelte")
+languages["typescript"] = require("nvim2.languages.typescript")
+languages["html"] = require("nvim2.languages.html")
 
 M.init = function()
   for _, language in pairs(languages) do

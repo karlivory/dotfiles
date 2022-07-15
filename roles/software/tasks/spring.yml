@@ -1,0 +1,10 @@
+---
+- name: Download, unarchive and link spring
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: "https://repo.spring.io/ui/api/v1/download?repoKey=release&path=org%252Fspringframework%252Fboot%252Fspring-boot-cli%252F2.7.1%252Fspring-boot-cli-2.7.1-bin.zip&isNativeBrowsing=true"
+    dl_filename: "spring.zip"
+    dl_unarchive: yes
+    dl_unarchive_dir: "{{ confdir }}/spring"
+    dl_link_file_path: "{{ dl_unarchive_dir }}/spring-2.7.1/bin/spring"
+    dl_link_file_dest: "/usr/local/bin/spring"

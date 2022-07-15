@@ -1,5 +1,4 @@
 local option = vim.opt
-local g = vim.g
 
 vim.opt.background = "dark" -- or "light" for light mode
 -- g.theme_switcher_loaded = false
