@@ -19,6 +19,7 @@ languages["python"] = require("nvim2.languages.python")
 languages["svelte"] = require("nvim2.languages.svelte")
 languages["typescript"] = require("nvim2.languages.typescript")
 languages["html"] = require("nvim2.languages.html")
+languages["tailwindcss"] = require("nvim2.languages.tailwindcss")
 
 M.init = function()
   for _, language in pairs(languages) do

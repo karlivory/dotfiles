@@ -116,38 +116,38 @@ config.init_options = {
 }
 
 M.setup = function()
-  require("jdtls.ui").pick_one_async = function(items, prompt, label_fn, cb)
-    local opts = {}
-    pickers
-      .new(opts, {
-        prompt_title = prompt,
-        finder = finders.new_table({
-          results = items,
-          entry_maker = function(entry)
-            return {
-              value = entry,
-              display = label_fn(entry),
-              ordinal = label_fn(entry),
-            }
-          end,
-        }),
-        sorter = sorters.get_generic_fuzzy_sorter(),
-        attach_mappings = function(prompt_bufnr, map)
-          map("i", "<esc>", function()
-            actions.close(prompt_bufnr)
-          end)
-          actions.select_default:replace(function()
-            local selection = action_state.get_selected_entry()
-            print(vim.inspect(selection.value.name))
-            actions.close(prompt_bufnr)
-            cb(selection.value)
-          end)
-
-          return true
-        end,
-      })
-      :find()
-  end
+  -- require("jdtls.ui").pick_one_async = function(items, prompt, label_fn, cb)
+  --   local opts = {}
+  --   pickers
+  --     .new(opts, {
+  --       prompt_title = prompt,
+  --       finder = finders.new_table({
+  --         results = items,
+  --         entry_maker = function(entry)
+  --           return {
+  --             value = entry,
+  --             display = label_fn(entry),
+  --             ordinal = label_fn(entry),
+  --           }
+  --         end,
+  --       }),
+  --       sorter = sorters.get_generic_fuzzy_sorter(),
+  --       attach_mappings = function(prompt_bufnr, map)
+  --         map("i", "<esc>", function()
+  --           actions.close(prompt_bufnr)
+  --         end)
+  --         actions.select_default:replace(function()
+  --           local selection = action_state.get_selected_entry()
+  --           print(vim.inspect(selection.value.name))
+  --           actions.close(prompt_bufnr)
+  --           cb(selection.value)
+  --         end)
+  --
+  --         return true
+  --       end,
+  --     })
+  --     :find()
+  -- end
 
   jdtls.start_or_attach(config)
 end
