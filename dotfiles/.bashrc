@@ -93,7 +93,7 @@ fi
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
-HISTIGNORE="&:ls:l:clear:pwd:cd .."
+HISTIGNORE="&:ls:l:clear:pwd:cd ..:_cdup # <==:_cddown # ==>"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
