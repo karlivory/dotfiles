@@ -19,11 +19,23 @@
         state: directory
         mode: 0755
 
-  roles:
-    - role: geerlingguy.docker
+  tasks:
+    - import_role:
+        name: system
+      tags: [init, system]
+    - import_role:
+        name: fonts
+      tags: [init, fonts]
+    - import_role:
+        name: dotfiles
+      tags: [init, dotfiles]
+    - import_role:
+        name: desktop
+      tags: [init, desktop]
+    - import_role:
+        name: geerlingguy.docker
       when: not vm
-      tags:
-        - system
+      tags: [software]
       vars:
         docker_daemon_options:
           data-root: "/home/docker"
@@ -31,39 +43,18 @@
           default-address-pools:
             - base: 172.20.0.0/16
               size: 24
-    - role: geerlingguy.nodejs
-      tags:
-        - system
+    - include_role:
+        name: geerlingguy.nodejs
+      tags: [software]
       vars:
         nodejs_version: "16.x"
         nodejs_install_npm_user: "{{ username }}"
-
-  tasks:
-    - import_role:
-        name: system
-      tags:
-        - system
-    - import_role:
-        name: fonts
-      tags:
-        - fonts
-    - import_role:
-        name: dotfiles
-      tags:
-        - dotfiles
-    - import_role:
-        name: desktop
-      tags:
-        - desktop
     - import_role:
         name: neovim
-      tags:
-        - neovim
+      tags: [neovim]
     - import_role:
         name: software
-      tags:
-        - software
+      tags: [software]
     - import_role:
         name: virt
-      tags:
-        - virt
+      tags: [virt]

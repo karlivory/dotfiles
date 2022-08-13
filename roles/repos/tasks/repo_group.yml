@@ -4,10 +4,11 @@
     path: "{{ repo_group.dest }}"
     state: directory
 
-- set_fact: 
+- set_fact:
     repo_group_dest: "{{ repo_group.dest }}"
-- set_fact: 
+- set_fact:
     repo_group_force: "{{ repo_group.force }}"
+
 - name: "Clone repos"
   include_tasks: ./clone_repo.yml
   loop: "{{ repo_group.repos }}"

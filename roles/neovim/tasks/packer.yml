@@ -8,6 +8,8 @@
     mode: 0754
 
 - name: Clone packer.nvim to ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+  become: true
+  become_user: "{{ username }}"
   git:
     repo: https://github.com/wbthomason/packer.nvim
     dest: "/home/{{ username}}/.local/share/nvim/site/pack/packer/start/packer.nvim"

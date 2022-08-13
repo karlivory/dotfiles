@@ -7,11 +7,6 @@
     dest: "/home/{{ username }}/.local/ls/java/java-debug"
   register: clone_java_debug
 
-- name: Install java-17-openjdk
-  apt:
-    pkg: openjdk-17-jdk
-    state: present
-
 - name: Build java-debug
   when: clone_java_debug.changed
   become: yes

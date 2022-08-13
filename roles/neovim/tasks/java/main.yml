@@ -1,8 +1,9 @@
 ---
-- name: Install openjdk-11
+- name: Install openjdk-11, openjdk-11-jdk
   apt:
     pkg:
       - openjdk-11-jdk
+      - openjdk-17-jdk
 
 - name: Create ~/.local/ls/java
   file:

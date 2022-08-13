@@ -46,7 +46,7 @@ all=0
 if [ ! $# -eq 0 ]
 then
     case $1 in
-        system|fonts|dotfiles|desktop|neovim|software|virt)
+        init|system|fonts|dotfiles|desktop|neovim|software|virt)
             sudo_tags_arg="-t $1" ;;
         repos)
             user_tags_arg="-t $1" ;;
