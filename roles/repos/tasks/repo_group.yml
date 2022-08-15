@@ -1,18 +1,15 @@
 ---
-- name: "Ensure {{ repo_group.dest }} exists"
-  file:
-    path: "{{ repo_group.dest }}"
-    state: directory
+- set_fact:
+    repo_group_dest: "{{ repo_group.dir }}"
 
-- set_fact:
-    repo_group_dest: "{{ repo_group.dest }}"
-- set_fact:
-    repo_group_force: "{{ repo_group.force }}"
+- name: "Ensure {{ repo_group_dest }} exists"
+  file:
+    path: "{{ repo_group_dest }}"
+    state: directory
 
 - name: "Clone repos"
   include_tasks: ./clone_repo.yml
   loop: "{{ repo_group.repos }}"
   vars:
     repo: "{{ item }}"
-
 
