@@ -5,6 +5,7 @@
       - python3-pip
 
 - import_tasks: ./packages.yml
+- import_tasks: ./anki.yml
 - import_tasks: ./spring.yml
 - import_tasks: ./ytdlp.yml
 - import_tasks: ./jetbrains.yml

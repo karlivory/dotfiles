@@ -28,6 +28,7 @@
       - ripgrep
       - fzf
       - shellcheck
+      - shfmt
       - python3-pynvim
     state: present
 

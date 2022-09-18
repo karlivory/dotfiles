@@ -21,6 +21,7 @@ rm_if_not_link ~/.config/picom
 rm_if_not_link ~/.config/ranger
 rm_if_not_link ~/.config/nvim
 rm_if_not_link ~/.config/user-dirs.dirs
+rm_if_not_link ~/.config/mimeapps.list
 
 mkdir -p ~/.config/systemd/user
 

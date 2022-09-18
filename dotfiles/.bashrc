@@ -1,24 +1,25 @@
+#!/bin/bash
 #############################################################################
 # For ctrl-r fzf history search
 # copied from: /usr/share/doc/fzf/examples/key-bindings.bash
 # (because I don't want the other keybindings)
 __fzfcmd() {
-  [[ -n "$TMUX_PANE" ]] && { [[ "${FZF_TMUX:-0}" != 0 ]] || [[ -n "$FZF_TMUX_OPTS" ]]; } &&
-    echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
+    [[ -n "$TMUX_PANE" ]] && { [[ "${FZF_TMUX:-0}" != 0 ]] || [[ -n "$FZF_TMUX_OPTS" ]]; } &&
+        echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
 }
 __fzf_history__() {
-  local output
-  output=$(
-    builtin fc -lnr -2147483648 |
-      last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
-      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS +m --read0" $(__fzfcmd) --query "$READLINE_LINE"
-  ) || return
-  READLINE_LINE=${output#*$'\t'}
-  if [[ -z "$READLINE_POINT" ]]; then
-    echo "$READLINE_LINE"
-  else
-    READLINE_POINT=0x7fffffff
-  fi
+    local output
+    output=$(
+        builtin fc -lnr -2147483648 |
+            last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
+            FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS +m --read0" $(__fzfcmd) --query "$READLINE_LINE"
+    ) || return
+    READLINE_LINE=${output#*$'\t'}
+    if [[ -z "$READLINE_POINT" ]]; then
+        echo "$READLINE_LINE"
+    else
+        READLINE_POINT=0x7fffffff
+    fi
 }
 bind -m emacs-standard -x '"\C-r": __fzf_history__'
 bind -m vi-command -x '"\C-r": __fzf_history__'
@@ -38,15 +39,15 @@ bind -m "vi-command" -x '"\C-g": git status'
 bind -m "vi-insert" -x '"\C-g": git status'
 
 # BEST FUNCTION EVER!!!
-_common_dirs () {
-    dir=$( "$HOME/.config/vars/common_dirs" | fzf)
+_common_dirs() {
+    dir=$("$HOME/.config/vars/common_dirs" | fzf)
     [[ -n "$dir" ]] && cd "$dir" || return
 }
 bind -m "vi-command" '"\C-f": "ddi_common_dirs\C-m"'
 bind -m "vi-insert" '"\C-f": "\eddi_common_dirs\C-m"'
 
 # Mildly useful
-lfcd () {
+lfcd() {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1' HUP INT QUIT TERM PWR EXIT
     lf -last-dir-path="$tmp" "$@"
@@ -59,17 +60,17 @@ bind -m "vi-command" '"\C-o": "ddilfcd\C-m"'
 bind -m "vi-insert" '"\C-o": "\eddilfcd\C-m"'
 
 # Kinda nice. ctrl-j/k to go up directories fast. Using cd clears the stack
-_cdup () {
-    [[ "$PWD" != "/" ]] && pushd .. > /dev/null
+_cdup() {
+    [[ "$PWD" != "/" ]] && pushd .. >/dev/null
 }
 bind -m "vi-command" '"\C-k": "ddi_cdup # <==\C-m"'
 bind -m "vi-insert" '"\C-k": "\eddi_cdup # <==\C-m"'
-_cddown () {
-    popd > /dev/null
+_cddown() {
+    popd >/dev/null
 }
 bind -m "vi-command" '"\C-j": "ddi_cddown # ==>\C-m"'
 bind -m "vi-insert" '"\C-j": "\eddi_cddown # ==>\C-m"'
-_clearcd () {
+_clearcd() {
     if [ $# -eq 0 ]; then
         DIR="${HOME}"
     else
@@ -81,19 +82,18 @@ alias cd='_clearcd'
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
-if [[ -t 0 && $- = *i* ]]
-then
+if [[ -t 0 && $- = *i* ]]; then
     stty -ixon
 fi
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
-HISTIGNORE="&:ls:l:clear:pwd:cd ..:_cdup # <==:_cddown # ==>"
+HISTIGNORE="&:ls:l:clear:pwd:cd ..:_cdup # <==:_cddown # ==>:tmux-sessionizer"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -120,10 +120,10 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
-_set_prompt () {
+_set_prompt() {
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 }
 
@@ -138,11 +138,11 @@ unset color_prompt force_color_prompt
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
 
 # EXPORTS
@@ -202,6 +202,6 @@ alias gr="git restore --staged"
 alias ga="git add"
 #############################################################################
 
-echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1
+echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 # needed for st
 tput smkx

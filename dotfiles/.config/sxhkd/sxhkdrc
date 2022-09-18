@@ -25,6 +25,12 @@ super + b
     xsetroot -name "fsignal:103" # dwm:togglebar
 #===============================================================================
 
+super + Print
+	flameshot gui # take screenshot
+
+super + shift + Print
+	flameshot gui -p /st/docs/private/wiki/static/$(date -I)-$(openssl rand -hex 2) # take screenshot
+
 super + shift + t
 	theme_changer
 
@@ -32,7 +38,7 @@ super + Escape
 	slock
 
 super + shift + F1
-	sxhkd_reload
+	sxhkd_reload # reload sxhkd configuration
 
 super + F1
     pulsemixer --change-volume -10 && touch $HOME/.config/luastatus/fifo/.volume

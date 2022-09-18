@@ -1,6 +1,9 @@
 require("bufferline").setup({
   options = {
-    indicator_icon = "▌",
+    indicator = {
+      style = "icon",
+      icon = "▌",
+    },
     diagnostics = "nvim_lsp",
     diagnostics_indicator = function(count, _)
       return "(" .. count .. ")"
