@@ -1,0 +1,12 @@
+---
+- name: Download, unarchive and link Jetbrains Toolbox
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: "https://downloads.gradle-dn.com/distributions/gradle-7.5.1-bin.zip"
+    dl_filename: "gradle.zip"
+    dl_unarchive: yes
+    dl_unarchive_dir: "{{ confdir }}/gradle"
+    dl_link_file_path: "{{ dl_unarchive_dir }}/gradle-7.5.1/bin/gradle"
+    dl_link_file_dest: "/usr/local/bin/gradle"
+
+

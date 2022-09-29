@@ -59,9 +59,10 @@ XF86AudioMute
 	pulsemixer --toggle-mute && touch $HOME/.config/luastatus/fifo/.volume
 
 super + F4
-	st -e pulsemixer
+	st -e pulsemixer # TODO: make this floating terminal (like bluetoothctl)
 
-
+super + F9
+    kill -9 $(pgrep xkill) || xkill # toggle xkill
 super + F10
     powermenu
 super + F11

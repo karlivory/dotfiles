@@ -4,5 +4,5 @@
 # $2: bin/*.sh launcher script name
 
 # try to grab latest version; dunno if this actually works
-idea_dir=$(ls -d ~/.local/share/JetBrains/Toolbox/apps/$1/ch-0/*/ | grep -v plugins | sort -r)
-_JAVA_AWT_WM_NONREPARENTING=1 nohup "$idea_dir/bin/$2" > /dev/null 2>&1 &
+idea_dir=$(ls -d ~/.local/share/JetBrains/Toolbox/apps/$1/ch-0/*/ | grep -v plugins | sort -r | head)
+_JAVA_AWT_WM_NONREPARENTING=1 nohup "$idea_dir/bin/$2" >/dev/null 2>&1 &

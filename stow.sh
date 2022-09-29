@@ -5,8 +5,8 @@ if [ "$0" != "./stow.sh" ]; then
     cd "$(dirname "$0")"
 fi
 
-rm_if_link(){ [ ! -L "$1" ] || rm -v "$1"; }
-rm_if_not_link(){ [ -L "$1" ] || rm -rfv "$1"; }
+rm_if_link() { [ ! -L "$1" ] || rm -v "$1"; }
+rm_if_not_link() { [ -L "$1" ] || rm -rfv "$1"; }
 
 # remove existing files/dirs
 rm_if_not_link ~/.bin
@@ -26,8 +26,7 @@ rm_if_not_link ~/.config/mimeapps.list
 mkdir -p ~/.config/systemd/user
 
 stow dotfiles -t ~
-if [ ! $(find config_personal -maxdepth 0 -empty) ]
-then
+if [ ! $(find config_personal -maxdepth 0 -empty) ]; then
     echo "stowing personal dotfiles"
     cd config_personal
     stow dotfiles_personal -t ~

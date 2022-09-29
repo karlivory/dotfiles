@@ -5,12 +5,11 @@ if [ "$0" != "./unstow.sh" ]; then
     cd "$(dirname "$0")"
 fi
 
-rm_if_link(){ [ ! -L "$1" ] || rm -v "$1"; }
-rm_if_not_link(){ [ -L "$1" ] || rm -rfv "$1"; }
+rm_if_link() { [ ! -L "$1" ] || rm -v "$1"; }
+rm_if_not_link() { [ -L "$1" ] || rm -rfv "$1"; }
 
 stow -D dotfiles -t ~
-if [ ! $(find config_personal -maxdepth 0 -empty) ]
-then
+if [ ! "$(find config_personal -maxdepth 0 -empty)" ]; then
     echo "stowing personal dotfiles"
     cd config_personal
     stow -D dotfiles_personal -t ~

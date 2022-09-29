@@ -30,3 +30,8 @@
 - import_tasks: ./nosnap.yml
 - import_tasks: ./yubikey.yml
 
+- name: "disable any action on close lid"
+  lineinfile:
+    path: "/etc/systemd/logind.conf"
+    regexp: "^HandleLidSwitch.*"
+    line: "HandleLidSwitch=ignore"

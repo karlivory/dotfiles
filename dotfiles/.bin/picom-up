@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo $CONFIG_DOTFILES_DIR
+
+systemctl --user start picom.service
+systemctl --user enable picom.service
