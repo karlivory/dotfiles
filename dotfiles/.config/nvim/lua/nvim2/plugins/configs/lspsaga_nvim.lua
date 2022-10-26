@@ -23,5 +23,5 @@ saga.init_lsp_saga({
     exec = "<CR>",
   },
   rename_action_quit = "<C-c>",
-  definition_preview_icon = "  ",
+  -- definition_preview_icon = "  ",
 })

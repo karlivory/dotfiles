@@ -27,6 +27,12 @@ config.filetype["lua"] = {
   end,
 }
 
+config.filetype["svelte"] = {
+  function()
+    vim.lsp.buf.formatting()
+  end,
+}
+
 config.filetype["java"] = {
   function()
     return {

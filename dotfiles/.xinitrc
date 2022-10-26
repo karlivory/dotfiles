@@ -11,5 +11,6 @@ set_default_wallpaper
 unclutter -noevents &
 wrap "$HOME/.config/luastatus/statusbar.sh" &
 sxhkd &
+xrdb -merge -I$HOME $HOME/.config/X11/.Xresources
 
 exec dwm

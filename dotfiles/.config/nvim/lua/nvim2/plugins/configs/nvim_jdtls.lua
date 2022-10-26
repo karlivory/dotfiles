@@ -149,6 +149,22 @@ M.setup = function()
   --     :find()
   -- end
 
+  -- For Gradle only lets remove the .settings folder
+  if root_dir ~= nil then
+    local f = io.open(root_dir .. "/build.gradle", "r")
+    if f ~= nil then
+      io.close(f)
+      -- vim.g['test#java#runner'] = 'gradletest'
+      vim.api.nvim_exec(
+        [[
+         let test#java#runner = 'gradletest'
+         ]],
+        true
+      )
+      os.execute("rm -rf " .. root_dir .. "/.settings")
+    end
+  end
+
   jdtls.start_or_attach(config)
 end
 

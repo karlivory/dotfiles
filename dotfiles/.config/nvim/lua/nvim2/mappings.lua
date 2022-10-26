@@ -47,6 +47,7 @@ kmap("n", "<leader>fo",     "<cmd> Telescope buffers <CR>", " find open buffe
 kmap("n", "<leader>fj",     "<cmd> Telescope jumplist <CR>")
 kmap("n", "<leader>ft",     "<cmd> Telescope treesitter <CR>")
 kmap("n", "<leader>fw",     "<cmd> Telescope live_grep<CR>", "   live grep")
+-- kmap("n", "<leader>w",     "<cmd> Telescope live_grep<CR>", "   live grep")
 kmap("n", "<leader>fg",     "<cmd> Telescope git_status <CR>", "  git status")
 kmap("n", "<leader>fk",     "<cmd> Telescope keymaps <CR>", " find in keymaps")
 kmap("n", "<leader>fq",     "<cmd> Telescope quickfix <CR>")

@@ -1,6 +1,7 @@
+" TODO: sethandler (https://github.com/JetBrains/ideavim/wiki/sethandler)
+" action names: https://github.com/centic9/IntelliJ-Action-IDs/blob/master/docs/_data/actions.csv
 " some useful intellij keybinds:
 " shift+Q (remapped)
-" ...
 
 set idearefactormode=keep
 set ideajoin
@@ -12,32 +13,61 @@ set multiple-cursors
 set highlightedyank
 let g:highlightedyank_highlight_duration = "300"
 let g:highlightedyank_highlight_color = "rgba(240, 230, 140, 80)"
+
+" ============================== NERDTree ====================================
+" ============================================================================
+" settings copied from https://github.com/JetBrains/ideavim/wiki/NERDTree-support
 set NERDTree
-let g:NERDTreeMapActivateNode='l'
-let g:NERDTreeMapJumpParent='h'
+let g:NERDTreeMapActivateNode='o'
+let g:NERDTreeMapPreview=''
+let g:NERDTreeMapOpenInTab=''
+let g:NERDTreeMapOpenInTabSilent=''
+let g:NERDTreeMapOpenSplit=''
+let g:NERDTreeMapPreviewSplit=''
+let g:NERDTreeMapOpenVSplit=''
+let g:NERDTreeMapPreviewVSplit=''
+let g:NERDTreeMapOpenRecursively=''
+let g:NERDTreeMapCloseDir='w'
+let g:NERDTreeMapCloseChildren=''
+let g:NERDTreeMapJumpRoot=''
+let g:NERDTreeMapJumpParent=''
+let g:NERDTreeMapJumpFirstChild=''
+let g:NERDTreeMapJumpLastChild=''
+let g:NERDTreeMapJumpNextSibling=''
+let g:NERDTreeMapJumpPrevSibling=''
+let g:NERDTreeMapRefresh=''
+let g:NERDTreeMapRefreshRoot=''
+let g:NERDTreeMapMenu=''
+let g:NERDTreeMapQuit=''
+let g:NERDTreeMapToggleZoom=''
+nmap <C-e> :NERDTreeToggle<CR>
+" ============================================================================
 
 set ignorecase
 set smartcase
 set number relativenumber
-set scrolloff=8
+set scrolloff=18
 set sidescrolloff=4
+set clipboard+=unnamed
+set incsearch
+set hlsearch
 
 let mapleader = " "
-
-nnoremap <C-j> :m +1<CR>
-nnoremap <C-k> :m -2<CR>
-inoremap <C-j> <Esc>:m +1<CR>gi
-inoremap <C-k> <Esc>:m -2<CR>gi
 
 " yanks to system clipboard
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>Y mzgg"+yG`z
 
+kmap("n", "<ESC>",          "<cmd>noh<CR>", "  no highlight")
+
+nmap <ESC> :noh<cr>
+
 " multiple-cursors
 nmap <C-m> <Plug>NextWholeOccurrence
 xmap <C-m> <Plug>NextWholeOccurrence
 nmap <C-s> :action PreviousProjectWindow<CR>
+nmap <C-q> :action CloseEditor<CR>
 " bugged...
 nmap <C-c> <Plug>RemoveOccurrence
 xmap <C-c> <Plug>RemoveOccurrence
@@ -51,19 +81,17 @@ nmap <C-i> :action Forward<cr>
 nmap <C-6> <C-S-6>
 vmap <C-6> <C-S-6>
 nmap <leader>wf :action HideAllWindows<cr>
-nmap <leader>u :action FindUsages<cr>
-nmap <leader>f :action GotoFile<cr>
-nmap <leader>c :action GotoClass<cr>
-nmap <leader>m :action ToggleBookmark<cr>
-nmap <leader>b :action ShowBookmarks<cr>
-nmap <leader>d :action ShowErrorDescription<cr>
-nmap <leader>i :action GotoImplementation<cr>
-nmap <leader>I :action SelectIn<cr>
-nmap <leader>t :action GotoTest<cr>
+" nmap <leader>u :action FindUsages<cr>
+nmap <leader>fw :action FindInPath<cr>
+" nmap <leader>c :action GotoClass<cr>
+" nmap <leader>m :action ToggleBookmark<cr>
+nmap gi :action GotoImplementation<cr>
+" nmap <leader>I :action SelectIn<cr>
+" nmap <leader>t :action GotoTest<cr>
 
 " Errors
-nmap <leader>j :action GotoNextError<cr>
-nmap <leader>k :action GotoPreviousError<cr>
+nmap ]d :action GotoNextError<cr>
+nmap [d :action GotoPreviousError<cr>
 
 " Refactorings/generate
 nmap <leader>rq :action Refactorings.QuickListPopupAction<cr>
@@ -80,14 +108,40 @@ vmap <leader>g :action Generate<cr>
 nmap <leader>a :action ShowIntentionActions<cr>
 
 " Building, Running and Debugging
-nmap ,c :action CompileDirty<cr>
-nmap ,r :action Run<cr>
-nmap ,R :action RunAnything<cr>
-nmap ,b :action Debug<cr>
-nmap ,c :action RunClass<cr>
-nmap ,d :action DebugClass<cr>
-nmap ,t :action RerunTests<cr>
-nmap ,T :action RerunFailedTests<cr>
-nmap ,p :action ToggleLineBreakpoint<cr>
-nmap ,i :action ParameterInfo<cr>
+" nmap ,c :action CompileDirty<cr>
+" nmap ,r :action Run<cr>
+" nmap ,R :action RunAnything<cr>
+" nmap ,b :action Debug<cr>
+" nmap ,c :action RunClass<cr>
+" nmap ,d :action DebugClass<cr>
+" nmap ,t :action RerunTests<cr>
+" nmap ,T :action RerunFailedTests<cr>
+" nmap ,p :action ToggleLineBreakpoint<cr>
+" nmap ,i :action ParameterInfo<cr>
 
+" ============================== VIM-IDE handlers ============================
+" ============================================================================
+
+sethandler <C-2> a:vim
+sethandler <C-6> a:vim
+sethandler <C-A> a:vim
+sethandler <C-B> a:vim
+sethandler <C-C> a:vim
+sethandler <C-D> a:vim
+sethandler <C-E> a:vim
+sethandler <C-F> a:ide
+sethandler <C-G> a:vim
+sethandler <C-I> a:vim
+sethandler <C-J> a:vim
+sethandler <C-L> a:vim
+sethandler <C-M> a:vim
+sethandler <C-N> a:vim
+sethandler <C-O> a:vim
+sethandler <C-P> a:vim
+sethandler <C-Q> a:vim
+sethandler <C-R> a:vim
+sethandler <C-S> a:ide
+sethandler <C-U> a:vim
+sethandler <C-V> a:vim
+sethandler <C-W> a:vim
+" ============================================================================
