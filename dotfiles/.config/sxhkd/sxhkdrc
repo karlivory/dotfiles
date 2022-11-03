@@ -25,6 +25,9 @@ super + b
     xsetroot -name "fsignal:103" # dwm:togglebar
 #===============================================================================
 
+super + n
+	networkmanager_dmenu
+    
 super + Print
 	flameshot gui # take screenshot
 
