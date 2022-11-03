@@ -5,4 +5,7 @@
 
 # try to grab latest version; dunno if this actually works
 idea_dir=$(ls -d ~/.local/share/JetBrains/Toolbox/apps/$1/ch-0/*/ | grep -v plugins | sort -r | head)
+if [ ! -d "$idea_dir" ]; then
+    dunstify "$1 does not exist. Pls install via jetbrains-toolbox"
+fi
 _JAVA_AWT_WM_NONREPARENTING=1 nohup "$idea_dir/bin/$2" >/dev/null 2>&1 &
