@@ -164,6 +164,7 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export _JAVA_AWT_WM_NONREPARENTING=1 # needed for jetbrains software
 export PATH=${PATH}:~/.local/share/coursier/bin
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # for colored man-pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
@@ -201,6 +202,11 @@ alias gd="git diff"
 alias gr="git restore --staged"
 alias ga="git add"
 #############################################################################
+
+# kubectl completion
+alias k=kubectl
+complete -o default -F __start_kubectl k
+source <(kubectl completion bash)
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 # needed for st
