@@ -8,7 +8,7 @@ local lsp = {
         path = "ansible",
       },
       ansibleLint = {
-        enabled = true,
+        enabled = false,
         path = "ansible-lint",
       },
       executionEnvironment = {
@@ -16,6 +16,10 @@ local lsp = {
       },
       python = {
         interpreterPath = "python",
+      },
+      completion = {
+        provideRedirectModules = true,
+        provideModuleOptionAliases = true,
       },
     },
   },
