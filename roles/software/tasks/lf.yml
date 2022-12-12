@@ -27,7 +27,8 @@
       - mediainfo
       - lynx
 
-- name: Install ueberzug (pip)
-  pip:
-    name:
-      - ueberzug
+# TODO: ueberzug not maintained, find alternative
+# - name: Install ueberzug (pip)
+#   pip:
+#     name:
+#       - ueberzug
