@@ -211,3 +211,4 @@ source <(kubectl completion bash)
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 # needed for st
 tput smkx
+. "$HOME/.cargo/env"
