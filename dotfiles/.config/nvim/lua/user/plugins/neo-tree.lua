@@ -10,7 +10,42 @@ return {
     },
     window = {
       mappings = {
-        h = false
+        ["."] = "toggle_hidden",
+        ["S"] = false,
+        ["s"] = false,
+        ["<space>"] = false,
+        ["<cr>"] = false,
+        ["o"] = "open",
+        ["<c-w>s"] = "open_split",
+        ["<c-w>v"] = "open_vsplit",
+        ["t"] = false,
+        ["C"] = false,
+        ["w"] = "close_node",
+        ["a"] = {
+          "add",
+          config = {
+            show_path = "relative", -- "none", "relative", "absolute"
+          },
+        },
+        ["r"] = "rename",
+        ["A"] = false,
+        ["d"] = "delete",
+        ["y"] = "copy_to_clipboard",
+        ["x"] = "cut_to_clipboard",
+        ["p"] = "paste_from_clipboard",
+        ["c"] = false, -- takes text input for destination, also accepts the optional config.show_path option like "add":
+        ["m"] = false, -- takes text input for destination, also accepts the optional config.show_path option like "add".
+        ["q"] = "close_window",
+        ["R"] = "refresh",
+        ["?"] = "show_help", -- This shows the customized keymaps
+        ["<bs>"] = false,
+        ["h"] = false,
+        ["H"] = false,
+        ["/"] = false,
+        ["f"] = false,
+        ["<c-x>"] = false,
+        ["[g"] = false,
+        ["]g"] = false,
       }
     },
   },
@@ -23,43 +58,19 @@ return {
     },
     mappings = {
       -- unmap some defaults
-      ["S"] = false,
-      ["s"] = false,
-      ["<space>"] = false,
-      ["<cr>"] = false,
-      ["o"] = "open",
-      ["<c-w>s"] = "open_split",
-      ["<c-w>v"] = "open_vsplit",
-      ["t"] = false,
-      ["C"] = false,
-      ["w"] = "close_node",
-      ["a"] = {
-        "add",
-        config = {
-          show_path = "relative", -- "none", "relative", "absolute"
-        },
-      },
-      ["r"] = "rename",
-      ["A"] = false,
-      ["d"] = "delete",
-      ["y"] = "copy_to_clipboard",
-      ["x"] = "cut_to_clipboard",
-      ["p"] = "paste_from_clipboard",
-      ["c"] = false, -- takes text input for destination, also accepts the optional config.show_path option like "add":
-      ["m"] = false, -- takes text input for destination, also accepts the optional config.show_path option like "add".
-      ["q"] = "close_window",
-      ["R"] = "refresh",
-      ["?"] = "show_help", -- This shows the customized keymaps
-      ["<bs>"] = false,
-      ["."] = "toggle_hidden",
-      ["h"] = "close_node",
-      ["H"] = false,
-      ["/"] = false,
-      ["f"] = "filter_on_submit",
-      -- ["<c-x>"] = "clear_filter",
-      ["<c-x>"] = false,
-      ["[g"] = false,
-      ["]g"] = false,
+      ["<"] = false,
+      [">"] = false,
+      ["<c-S-TAB>"] = "prev_source",
+      ["<c-Tab>"] = "next_source",
     },
   },
+  event_handlers = {
+    {
+      event = "file_opened",
+      handler = function(_)
+        vim.cmd([[Neotree close]])
+      end,
+      id = "id_file_opened",
+    },
+  }
 }
