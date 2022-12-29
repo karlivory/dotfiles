@@ -201,6 +201,7 @@ alias gc="git commit -m"
 alias gd="git diff"
 alias gr="git restore --staged"
 alias ga="git add"
+alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 #############################################################################
 
 # kubectl completion
