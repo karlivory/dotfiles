@@ -10,13 +10,18 @@
     dl_filename: "nvim-linux64.deb"
     dl_dest_dir: "{{ confdir }}/nvim-releases"
 
-- debug:
-    var: download_file_changed
-
 - name: Install neovim deb package
   when: download_file_changed
   apt:
     deb: "{{ confdir }}/nvim-releases/nvim-linux64.deb"
+
+- name: Git clone astronvim
+  become: yes
+  become_user: "{{ username }}"
+  ansible.builtin.git:
+    repo: https://github.com/AstroNvim/AstroNvim
+    dest: "/home/{{ username }}/.config/nvim"
+    update: no
 
 - name: Install neovim and related packages
   apt:
