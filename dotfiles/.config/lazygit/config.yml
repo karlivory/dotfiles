@@ -1,0 +1,7 @@
+# gui:
+#   theme:
+#     activeBorderColor:
+#       - yellow
+#       - bold
+#     inactiveBorderColor:
+#       - red

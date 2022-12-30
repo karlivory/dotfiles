@@ -16,6 +16,7 @@ rm_if_not_link ~/.bash_logout
 rm_if_not_link ~/.bash_profile
 rm_if_not_link ~/.xinitrc
 rm_if_not_link ~/.inputrc
+rm_if_not_link ~/.config/lazygit
 mkdir -p ~/.config
 rm_if_not_link ~/.config/picom
 rm_if_not_link ~/.config/ranger
