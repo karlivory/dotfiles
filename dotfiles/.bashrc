@@ -156,7 +156,7 @@ export ANDROID_HOME="$XDG_DATA_HOME"/android
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
 export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
 export EDITOR='nvim'
 export VISUAL='nvim'
