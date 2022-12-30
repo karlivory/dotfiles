@@ -10,7 +10,7 @@ return {
     ["<C-f>"]      = { "<cmd> Telescope find_files hidden=false<CR>", desc = "  find files" },
     ["<C-q>"]      = { "<cmd>bd<cr>", desc = "close buffer" },
     ["<C-x>"]      = { "<cmd>lua require('user.plugins.custom.tmux_sessionizer').find()<cr>", desc = "tmux-sessionizer" },
-    ["<C-c>"]      = { "<cmd> %y+ <CR>", desc = "  copy whole file to clipboard" }, -- why does this print to messages?
+    ["<C-c>"]      = { "mZggVGy`Z", desc = "  yank whole file" }, -- why does this print to messages?
     -- telescope mappings
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", desc = " find in keymaps" },
     ["<leader>fq"] = { "<cmd> Telescope quickfix <CR>", desc = "quickfix" },
@@ -33,10 +33,8 @@ return {
     ["<leader>dh"] = { function() require("dap.ui.widgets").hover() end, desc = "Debugger Hover" },
     ["<leader>R"]  = { "<cmd> AstroReload <cr>", desc = "Reload nvim config" },
 
-
-
-
-    -- unbind useless junk (unused binds are visual clutter)
+    -- unbind default AstroNvim keybinds
+    -------------------- DISABLED PLUGINS ----------------------
     ["<leader>w"] = false,
     ["<leader>c"] = false,
     ["<leader>C"] = false,
@@ -59,45 +57,11 @@ return {
     ["<leader>Du"] = false,
     ["<leader>Dh"] = false,
 
-    -- kmap("n", "<c-x>",          "<cmd>lua require('nvim2.plugins.custom.tmux_sessionizer').find()<cr>", "tmux-sessionizer")
-    -- kmap("n", "<c-f>",          "<cmd> Telescope find_files hidden=true<CR>", "  find files")
-    -- kmap("n", "<leader>cm",     "<cmd> Telescope git_commits <CR>", "   git commits")
-    -- kmap("n", "<leader>fh",     "<cmd> Telescope help_tags <CR>", "  help page")
-    -- kmap("n", "<leader>fo",     "<cmd> Telescope buffers <CR>", " find open buffers")
-    -- kmap("n", "<leader>fj",     "<cmd> Telescope jumplist <CR>")
-    -- kmap("n", "<leader>ft",     "<cmd> Telescope treesitter <CR>")
-    -- kmap("n", "<leader>fw",     "<cmd> Telescope live_grep<CR>", "   live grep")
-    -- ["<M-S-CR>"]  = { "<cmd>BufferLineCyclePrev<cr>" },
-    -- ["<M-S-Tab>"] = { "<cmd>BufferLineCycleNext<cr>" },
-    --
-    -- -- Movement across windows
-    -- ["<C-m>"] = { "<C-w>W", desc = "Move focus to the previous window" },
-    -- ["<C-i>"] = { "<C-w>w", desc = "Move focus to the next window" },
-    --
-    -- -- Smooth PageUp/Down
-    -- -- ["<PageUp>"]   = { "<C-b>" },
-    -- -- ["<PageDown>"] = { "<C-f>" },
-    -- ["<PageUp>"]   = { "<C-u>" },
-    -- ["<PageDown>"] = { "<C-d>" },
-    --
-    -- -- Move across wrapped lines
-    -- ["j"]      = { "gj" },
-    -- ["k"]      = { "gk" },
-    -- ["<Up>"]   = { "g<Up>" },
-    -- ["<Down>"] = { "g<Down>" },
-    --
-    -- -- Easy-Align
-    -- ["ga"] = { "<Plug>(EasyAlign)", desc = "Easy Align" },
-    --
-    -- -- Better increment/decrement
-    -- ["-"] = { "<c-x>", desc = "Descrement number" },
-    -- ["+"] = { "<c-a>", desc = "Increment number" },
-    --
     -- -- Suppress yanking on operations
+    ["c"] = { "\"_c" },
+    ["C"] = { "\"_C" },
     -- ["d"] = { "\"_d" },
     -- ["x"] = { "\"_x" },
-    -- ["c"] = { "\"_c" },
-
   },
 
   -- INSERT MODE
@@ -119,9 +83,10 @@ return {
     ["<c-f>"]     = { "<cmd> Telescope find_files hidden=false<CR>", desc = "  find files" },
 
     -- Suppress yanking on operations
+    ["p"] = { "\"_dp" },
+    ["P"] = { "\"_dP" },
+    ["c"] = { "\"_c" },
     -- ["d"] = { "\"_d" },
-    -- ["p"] = { "\"_dP" },
-    -- ["c"] = { "\"_c" },
   },
 
   -- COMMAND MODE
