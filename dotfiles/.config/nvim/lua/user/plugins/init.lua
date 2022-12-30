@@ -1,5 +1,6 @@
 -- install new plugins (packer syntax)
 return {
+  ["rcarriga/nvim-notify"] = { disable = true },
   {
     "kylechui/nvim-surround",
     config =
@@ -8,7 +9,6 @@ return {
     end,
     tag = "*"
   },
-  ["mfussenegger/nvim-jdtls"] = { module = "jdtls" }, -- load jdtls on module
   ["simrat39/rust-tools.nvim"] = {
     after = { "mason-lspconfig.nvim" },
     ft = { "rust" },
