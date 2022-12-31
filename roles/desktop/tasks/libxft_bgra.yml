@@ -1,7 +1,4 @@
 ---
-# src: https://www.maximilian-schillinger.de/articles/st-libxft-bgra-patch.html
-# TODO: untested (gitlab.freedesktop.com is down)
-
 - name: "Create {{ confdir }}/libs"
   file:
     path: "{{ confdir }}/libs"

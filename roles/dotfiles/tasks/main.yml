@@ -11,4 +11,4 @@
   become: true
   become_user: "{{ username }}"
   ignore_errors: true
-  changed_when: false # TODO: report accurately
+  changed_when: false # ignore changes, who cares

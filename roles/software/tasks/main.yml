@@ -1,11 +1,8 @@
 ---
-- name: Ensure pip is installed
-  apt:
-    pkg:
-      - python3-pip
+# TODO: install kubectl, yq
 
-- import_tasks: ./lazygit.yml
 - import_tasks: ./packages.yml
+- import_tasks: ./lazygit.yml
 - import_tasks: ./gradle.yml
 - import_tasks: ./anki.yml
 - import_tasks: ./spring.yml

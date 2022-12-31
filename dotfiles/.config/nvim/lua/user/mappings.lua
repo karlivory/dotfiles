@@ -1,22 +1,24 @@
 return {
   -- NORMAL MODE
   n = {
-    -- Buffers
-    ["<C-e>"]      = { "<cmd> Neotree reveal toggle <CR>", desc = "   toggle neotree" },
-    ["<C-TAB>"]    = { "<cmd> BufferLineCycleNext <CR>", desc = "  cycle next buffer" },
-    ["<C-S-Tab>"]  = { "<cmd> BufferLineCyclePrev <CR>", desc = "  cycle prev buffer" },
-    ["ga"]         = { "<c-a>", desc = "increment" },
-    ["gx"]         = { "<c-x>", desc = "decrement" },
-    ["<C-f>"]      = { "<cmd> Telescope find_files hidden=false<CR>", desc = "  find files" },
-    ["<C-q>"]      = { "<cmd>bd<cr>", desc = "close buffer" },
-    ["<C-x>"]      = { "<cmd>lua require('user.plugins.custom.tmux_sessionizer').find()<cr>", desc = "tmux-sessionizer" },
-    ["<C-c>"]      = { "mZggVGy`Z", desc = "  yank whole file" }, -- why does this print to messages?
-    -- telescope mappings
+    ["<C-e>"]     = { "<cmd> Neotree reveal toggle <CR>", desc = "   toggle neotree" },
+    ["<C-TAB>"]   = { "<cmd> BufferLineCycleNext <CR>", desc = "  cycle next buffer" },
+    ["<C-S-Tab>"] = { "<cmd> BufferLineCyclePrev <CR>", desc = "  cycle prev buffer" },
+    ["ga"]        = { "<c-a>", desc = "increment" },
+    ["gx"]        = { "<c-x>", desc = "decrement" },
+    ["<C-f>"]     = { "<cmd> Telescope find_files hidden=false<CR>", desc = "  find files" },
+    ["<C-q>"]     = { "<cmd>bd<cr>", desc = "close buffer" },
+    ["<C-x>"]     = { "<cmd>lua require('user.plugins.custom.tmux_sessionizer').find()<cr>", desc = "tmux-sessionizer" },
+    ["<C-c>"]     = { "mZggVGy`Z", desc = "  yank whole file" }, -- why does this print to messages?
+    ["<leader>R"] = { "<cmd> AstroReload <cr>", desc = "Reload nvim config" },
+
+    -- TELESCOPE
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", desc = " find in keymaps" },
     ["<leader>fq"] = { "<cmd> Telescope quickfix <CR>", desc = "quickfix" },
     ["<leader>fQ"] = { "<cmd> Telescope quickfixhistory <CR>", desc = "quickfixhistory" },
     ["<leader>fd"] = { "<cmd> Telescope diagnostics <CR>", desc = "diagnostics (hint: press <c-l>)" },
     ["<leader>fD"] = { "<cmd> Telescope diagnostics bufnr=0 <CR>", desc = "diagnostics in current buffer" },
+
     -- DEBUGGING - copied from lua/core/mappings.lua
     ["<leader>db"] = { function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint (F9)" },
     ["<leader>dB"] = { function() require("dap").clear_breakpoints() end, desc = "Clear Breakpoints" },
@@ -31,10 +33,9 @@ return {
     ["<leader>dR"] = { function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
     ["<leader>du"] = { function() require("dapui").toggle() end, desc = "Toggle Debugger UI" },
     ["<leader>dh"] = { function() require("dap.ui.widgets").hover() end, desc = "Debugger Hover" },
-    ["<leader>R"]  = { "<cmd> AstroReload <cr>", desc = "Reload nvim config" },
 
     -- unbind default AstroNvim keybinds
-    -------------------- DISABLED PLUGINS ----------------------
+    ["<TAB>"] = false,
     ["<leader>w"] = false,
     ["<leader>c"] = false,
     ["<leader>C"] = false,

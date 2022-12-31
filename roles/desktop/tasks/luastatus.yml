@@ -1,6 +1,4 @@
 ---
-# TODO: run/debug these tasks on a VM
-
 - name: "Create {{ confdir }}"
   file:
     path: "{{ confdir }}"

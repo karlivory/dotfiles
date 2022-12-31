@@ -1,6 +1,10 @@
 local config = {
   lsp = {
-    skip_setup = { "rust_analyzer" }, -- skip lsp setup because rust-tools will do it itself
+    skip_setup =
+    {
+      "rust_analyzer", -- handled by rust-tools.nvim
+      "jdtls" -- handled by nvim-jdtls
+    },
   },
   -- -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   -- diagnostics = {
