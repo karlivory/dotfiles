@@ -1,0 +1,20 @@
+# TOOD: fix apt key deprecated warnings
+---
+- name: Add spotify gpg signing key
+  apt_key:
+    url: "https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg"
+    state: present
+
+- name: Adding spotify repository
+  apt_repository:
+    repo: "deb http://repository.spotify.com stable non-free"
+    state: present
+    filename: spotify
+    update_cache: yes
+
+- name: Install spotify-client
+  apt:
+    name: spotify-client
+    state: present
+    force_apt_get: yes
+    update_cache: yes

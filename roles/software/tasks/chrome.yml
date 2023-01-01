@@ -1,6 +1,6 @@
 # TOOD: fix apt key deprecated warnings
 ---
-- name: Add google chrome gpg signing key for 
+- name: Add google chrome gpg signing key
   apt_key:
     url: "https://dl.google.com/linux/linux_signing_key.pub"
     state: present

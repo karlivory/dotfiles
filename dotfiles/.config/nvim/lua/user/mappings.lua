@@ -11,6 +11,7 @@ return {
     ["<C-x>"]     = { "<cmd>lua require('user.plugins.custom.tmux_sessionizer').find()<cr>", desc = "tmux-sessionizer" },
     ["<C-c>"]     = { "mZggVGy`Z", desc = "  yank whole file" }, -- why does this print to messages?
     ["<leader>R"] = { "<cmd> AstroReload <cr>", desc = "Reload nvim config" },
+    ["<leader>z"] = { "<cmd> ZenMode <CR>", desc = "toggle Zen mode" },
 
     -- TELESCOPE
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", desc = " find in keymaps" },
