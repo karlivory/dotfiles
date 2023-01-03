@@ -6,7 +6,7 @@ return {
     ["<C-S-Tab>"] = { "<cmd> BufferLineCyclePrev <CR>", desc = "  cycle prev buffer" },
     ["ga"]        = { "<c-a>", desc = "increment" },
     ["gx"]        = { "<c-x>", desc = "decrement" },
-    ["<C-f>"]     = { "<cmd> Telescope find_files hidden=false<CR>", desc = "  find files" },
+    ["<C-f>"]     = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
     ["<C-q>"]     = { "<cmd>bd<cr>", desc = "close buffer" },
     ["<C-x>"]     = { "<cmd>lua require('user.plugins.custom.tmux_sessionizer').find()<cr>", desc = "tmux-sessionizer" },
     ["<C-c>"]     = { "mZggVGy`Z", desc = "  yank whole file" }, -- why does this print to messages?
@@ -82,7 +82,7 @@ return {
     ["<c-e>"]     = { "<cmd> Neotree reveal toggle <CR>", desc = "   toggle neotree" },
     ["<c-TAB>"]   = { "<cmd> BufferLineCycleNext <CR>", desc = "  cycle next buffer" },
     ["<c-S-Tab>"] = { "<cmd> BufferLineCyclePrev <CR>", desc = "  cycle prev buffer" },
-    ["<c-f>"]     = { "<cmd> Telescope find_files hidden=false<CR>", desc = "  find files" },
+    ["<c-f>"]     = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
 
     -- Suppress yanking on operations
     ["p"] = { "\"_dp" },
