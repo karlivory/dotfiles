@@ -7,7 +7,7 @@ return {
     ["ga"]        = { "<c-a>", desc = "increment" },
     ["gx"]        = { "<c-x>", desc = "decrement" },
     ["<C-f>"]     = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
-    ["<C-q>"]     = { "<cmd>bd<cr>", desc = "close buffer" },
+    ["<C-q>"]     = { '<cmd>lua require("bufdelete").bufdelete(0, false)<cr>', desc = "Close buffer" },
     ["<C-x>"]     = { "<cmd>lua require('user.plugins.custom.tmux_sessionizer').find()<cr>", desc = "tmux-sessionizer" },
     ["<C-c>"]     = { "mZggVGy`Z", desc = "  yank whole file" }, -- why does this print to messages?
     ["<leader>R"] = { "<cmd> AstroReload <cr>", desc = "Reload nvim config" },

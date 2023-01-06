@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
-# src: https://github.com/ThePrimeagen/.dotfiles/blob/196aa23e0e2dfc6245f69c77bd2b05c8849f9908/bin/.local/bin/tmux-sessionizer
+# starting point: https://github.com/ThePrimeagen/.dotfiles/blob/196aa23e0e2dfc6245f69c77bd2b05c8849f9908/bin/.local/bin/tmux-sessionizer
+# TODO: integrate tmuxinator
+# 					* if session does not exist, initialize it w/ tmuxinator .yml file (1. nvim +CtrlF, 2. lg, 3. bash)
 
 last_session_file=$HOME/.cache/.tmux_last_session
 
 if [[ $# -eq 1 ]]; then
 	selected=$1
 else
-	selected=$($HOME/.config/vars/repos | fzf --bind "ctrl-x:execute(tmux-last-session)+abort")
+	selected=$("$HOME/.config/vars/repos" | fzf --bind "ctrl-x:execute(tmux-last-session)+abort")
 fi
 
 if [[ -z $selected ]]; then
 	exit 0
 fi
 
-if echo $selected | grep -q "ERROR!"; then
-	echo $selected
+if echo "$selected" | grep -q "ERROR!"; then
+	echo "$selected"
 	exit 1
 fi
 
@@ -29,8 +31,8 @@ if [[ -z $inside_tmux ]] && [[ -z $tmux_running ]]; then
 fi
 
 # tmux is running... does the session need to be created?
-if ! tmux has-session -t=$session_name 2>/dev/null; then
-	tmux new-session -ds $session_name -c $selected
+if ! tmux has-session -t="$session_name" 2>/dev/null; then
+	tmux new-session -ds "$session_name" -c "$selected"
 	# initialize windows
 	# sleep 0.1
 	# tmux send-keys -t $session_name.0 "nvim" ENTER
@@ -39,9 +41,9 @@ if ! tmux has-session -t=$session_name 2>/dev/null; then
 fi
 
 # tmux is running and the session already exists.
-if [[ ! -z $inside_tmux ]]; then
-	tmux display -p "#S" >$last_session_file
-	tmux switch-client -t $session_name
+if [[ -n $inside_tmux ]]; then
+	tmux display -p "#S" > "$last_session_file"
+	tmux switch-client -t "$session_name"
 else
-	tmux attach-session -d -t $session_name
+	tmux attach-session -d -t "$session_name"
 fi
