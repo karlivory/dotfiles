@@ -68,8 +68,8 @@ bind -m "vi-insert" '"\C-k": "\eddi_cdup # <==\C-m"'
 _cddown() {
     popd >/dev/null
 }
-bind -m "vi-command" '"\C-j": "ddi_cddown # ==>\C-m"'
-bind -m "vi-insert" '"\C-j": "\eddi_cddown # ==>\C-m"'
+bind -m "vi-command" '"\C-e": "ddi_cddown # ==>\C-m"'
+bind -m "vi-insert" '"\C-e": "\eddi_cddown # ==>\C-m"'
 _clearcd() {
     if [ $# -eq 0 ]; then
         DIR="${HOME}"
@@ -198,6 +198,7 @@ alias fcd='cd $(find -type d 2>/dev/null | fzf)'
 alias lf='lfub'
 alias cx='chmod +x'
 alias gc="git commit -m"
+alias gcn="git commit --no-gpg-sign -m"
 alias gd="git diff"
 alias gr="git restore --staged"
 alias ga="git add"
@@ -206,8 +207,8 @@ alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 
 # kubectl completion
 alias k=kubectl
-complete -o default -F __start_kubectl k
-source <(kubectl completion bash)
+# complete -o default -F __start_kubectl k
+# source <(kubectl completion bash)
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 # needed for st

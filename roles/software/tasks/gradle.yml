@@ -1,5 +1,5 @@
 ---
-- name: Download, unarchive and link Jetbrains Toolbox
+- name: Download gradle
   include_tasks: util/download_file.yml
   vars:
     dl_url: "https://downloads.gradle-dn.com/distributions/gradle-7.5.1-bin.zip"
