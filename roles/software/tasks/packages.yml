@@ -34,3 +34,6 @@
       - flameshot
       - network-manager-gnome
       - gir1.2-nm-1.0
+      - openvpn-systemd-resolved
+      - openresolv
+      - virt-manager
