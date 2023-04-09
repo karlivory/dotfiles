@@ -1,25 +1,22 @@
 return {
   -- NORMAL MODE
   n = {
-    ["<C-e>"]     = { "<cmd> Neotree reveal toggle <CR>", desc = "   toggle neotree" },
-    ["<C-TAB>"]   = { "<cmd> BufferLineCycleNext <CR>", desc = "  cycle next buffer" },
-    ["<C-S-Tab>"] = { "<cmd> BufferLineCyclePrev <CR>", desc = "  cycle prev buffer" },
-    ["ga"]        = { "<c-a>", desc = "increment" },
-    ["gx"]        = { "<c-x>", desc = "decrement" },
-    ["<C-f>"]     = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
-    ["<C-q>"]     = { '<cmd>lua require("bufdelete").bufdelete(0, false)<cr>', desc = "Close buffer" },
-    ["<C-x>"]     = { "<cmd>lua require('user.plugins.custom.tmux_sessionizer').find()<cr>", desc = "tmux-sessionizer" },
-    ["<C-c>"]     = { "mZggVGy`Z", desc = "  yank whole file" }, -- why does this print to messages?
-    ["<leader>R"] = { "<cmd> AstroReload <cr>", desc = "Reload nvim config" },
-    ["<leader>z"] = { "<cmd> ZenMode <CR>", desc = "toggle Zen mode" },
-
+    ["<C-e>"]      = { "<cmd> Neotree reveal toggle <CR>", desc = "   toggle neotree" },
+    ["<C-TAB>"]    = { "<cmd> bnext <CR>", desc = "  cycle next buffer" },
+    ["<C-S-Tab>"]  = { "<cmd> bprev <CR>", desc = "  cycle prev buffer" },
+    ["ga"]         = { "<c-a>", desc = "increment" },
+    ["gx"]         = { "<c-x>", desc = "decrement" },
+    ["<C-f>"]      = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
+    ["<C-q>"]      = { '<cmd>lua require("bufdelete").bufdelete(0, false)<cr>', desc = "Close buffer" },
+    ["<C-x>"]      = { "<cmd>lua require('user.plugins.custom.tmux_sessionizer').find()<cr>", desc = "tmux-sessionizer" },
+    ["<C-c>"]      = { "mZggVGy`Z", desc = "  yank whole file" }, -- why does this print to messages?
+    ["<leader>z"]  = { "<cmd> ZenMode <CR>", desc = "toggle Zen mode" },
     -- TELESCOPE
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", desc = " find in keymaps" },
     ["<leader>fq"] = { "<cmd> Telescope quickfix <CR>", desc = "quickfix" },
     ["<leader>fQ"] = { "<cmd> Telescope quickfixhistory <CR>", desc = "quickfixhistory" },
     ["<leader>fd"] = { "<cmd> Telescope diagnostics <CR>", desc = "diagnostics (hint: press <c-l>)" },
     ["<leader>fD"] = { "<cmd> Telescope diagnostics bufnr=0 <CR>", desc = "diagnostics in current buffer" },
-
     -- DEBUGGING - copied from lua/core/mappings.lua
     ["<leader>db"] = { function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint (F9)" },
     ["<leader>dB"] = { function() require("dap").clear_breakpoints() end, desc = "Clear Breakpoints" },
@@ -34,17 +31,16 @@ return {
     ["<leader>dR"] = { function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
     ["<leader>du"] = { function() require("dapui").toggle() end, desc = "Toggle Debugger UI" },
     ["<leader>dh"] = { function() require("dap.ui.widgets").hover() end, desc = "Debugger Hover" },
-
     -- unbind default AstroNvim keybinds
-    ["<TAB>"] = false,
-    ["<leader>w"] = false,
-    ["<leader>c"] = false,
-    ["<leader>C"] = false,
-    ["<leader>q"] = false,
-    ["<leader>/"] = false,
-    ["<leader>o"] = false,
-    ["<leader>e"] = false,
-    ["<leader>h"] = false,
+    ["<TAB>"]      = false,
+    ["<leader>w"]  = false,
+    ["<leader>c"]  = false,
+    ["<leader>C"]  = false,
+    ["<leader>q"]  = false,
+    ["<leader>/"]  = false,
+    ["<leader>o"]  = false,
+    ["<leader>e"]  = false,
+    ["<leader>h"]  = false,
     ["<leader>Db"] = false,
     ["<leader>DB"] = false,
     ["<leader>Dc"] = false,
@@ -58,14 +54,12 @@ return {
     ["<leader>DR"] = false,
     ["<leader>Du"] = false,
     ["<leader>Dh"] = false,
-
     -- -- Suppress yanking on operations
-    ["c"] = { "\"_c" },
-    ["C"] = { "\"_C" },
+    ["c"]          = { "\"_c" },
+    ["C"]          = { "\"_C" },
     -- ["d"] = { "\"_d" },
     -- ["x"] = { "\"_x" },
   },
-
   -- INSERT MODE
   i = {
     ["<c-h>"] = { "<c-w>", desc = "Delete previous word" },
@@ -74,23 +68,20 @@ return {
     ["!"]     = { "!<c-g>u", desc = "undo breakpoints" },
     ["?"]     = { "?<c-g>u", desc = "undo breakpoints" },
   },
-
   -- VISUAL MODE
   v = {
     ["ga"]        = { "g<c-a>", desc = "increment (multi)" },
     ["gx"]        = { "g<c-x>", desc = "increment (multi)" },
     ["<c-e>"]     = { "<cmd> Neotree reveal toggle <CR>", desc = "   toggle neotree" },
-    ["<c-TAB>"]   = { "<cmd> BufferLineCycleNext <CR>", desc = "  cycle next buffer" },
-    ["<c-S-Tab>"] = { "<cmd> BufferLineCyclePrev <CR>", desc = "  cycle prev buffer" },
+    ["<c-TAB>"]   = { "<cmd> bnext <CR>", desc = "  cycle next buffer" },
+    ["<c-S-Tab>"] = { "<cmd> bprev <CR>", desc = "  cycle prev buffer" },
     ["<c-f>"]     = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
-
     -- Suppress yanking on operations
-    ["p"] = { "\"_dp" },
-    ["P"] = { "\"_dP" },
-    ["c"] = { "\"_c" },
+    ["p"]         = { "\"_dp" },
+    ["P"]         = { "\"_dP" },
+    ["c"]         = { "\"_c" },
     -- ["d"] = { "\"_d" },
   },
-
   -- COMMAND MODE
   c = {
   },

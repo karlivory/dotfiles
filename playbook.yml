@@ -55,6 +55,6 @@
     - import_role:
         name: software
       tags: [software]
-    - import_role:
-        name: virt
-      tags: [virt]
+    # - import_role:
+    #     name: virt
+    #   tags: [virt]
