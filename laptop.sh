@@ -14,8 +14,8 @@ if ! ls /log/personal; then
   sudo chown karl:karl -R /log/personal/
 fi
 
-if ! ls /log/st; then
-  sudo mkdir -p /log/st/
-  sudo chown karl:karl -R /log/st/
+if ! ls /log/personal/st; then
+  sudo mkdir -p /log/personal/st/
+  sudo chown karl:karl -R /log/personal/st/
 fi
 #####################################################
