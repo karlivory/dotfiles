@@ -1,10 +1,11 @@
 ---
-- name: apt update, upgrade
-  become: true
-  apt:
-    upgrade: yes
-    update_cache: yes
-    cache_valid_time: 86400 #One day
+# TODO: this is slow and crashes on first run
+# - name: apt update, upgrade
+#   become: true
+#   apt:
+#     upgrade: yes
+#     update_cache: yes
+#     cache_valid_time: 86400 #One day
 
 - name: "Create {{ confdir }}"
   file:

@@ -37,3 +37,4 @@
       - openvpn-systemd-resolved
       - openresolv
       - virt-manager
+      - sxiv

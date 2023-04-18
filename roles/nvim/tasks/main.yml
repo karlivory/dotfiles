@@ -3,20 +3,33 @@
 #   ansible.builtin.apt_repository:
 #     repo: ppa:neovim-ppa/unstable
 #     state: present
+
+# TODO: download nvim.appimage to /usr/local/bin/nvim
 - name: Download, unarchive and link ytdlp
   include_tasks: util/download_file.yml
   vars:
-    dl_url: "{{ nvim_deb }}"
-    dl_filename: "nvim-linux64.deb"
+    dl_url: "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"
+    dl_filename: "nvim.appimage"
     dl_dest_dir: "{{ confdir }}/nvim-releases"
 
-- name: Install neovim deb package
-  when: download_file_changed
-  apt:
-    deb: "{{ confdir }}/nvim-releases/nvim-linux64.deb"
+- name: Install neovim
+  copy:
+    src: "{{ confdir }}/nvim-releases/nvim.appimage"
+    dest: "/usr/local/bin/nvim"
+    owner: root
+    group: root
+    mode: '0755'
+  register: nvim_install
+
+- name: remove .config/nvim
+  when: nvim_install.changed
+  file:
+    dest: "/home/{{ username }}/.config/nvim"
+    state: absent
 
 - name: Git clone astronvim
-  become: yes
+  when: nvim_install.changed
+  become: true
   become_user: "{{ username }}"
   ansible.builtin.git:
     repo: https://github.com/AstroNvim/AstroNvim
@@ -26,7 +39,6 @@
 - name: Install neovim and related packages
   apt:
     name:
-      - neovim
       - lua5.1
       - luarocks
       - python-is-python3
@@ -44,7 +56,6 @@
     version: 8.1
     state: present
 
-- import_tasks: ./formatters.yml
-- import_tasks: ./packer.yml
+# - import_tasks: ./formatters.yml
 - import_tasks: ./java/main.yml
 

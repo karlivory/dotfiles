@@ -27,6 +27,9 @@
         name: fonts
       tags: [init, fonts]
     - import_role:
+        name: nvim
+      tags: [init, nvim]
+    - import_role:
         name: dotfiles
       tags: [init, dotfiles]
     - import_role:
@@ -49,9 +52,6 @@
       vars:
         nodejs_version: "16.x"
         nodejs_install_npm_user: "{{ username }}"
-    - import_role:
-        name: neovim
-      tags: [neovim]
     - import_role:
         name: software
       tags: [software]
