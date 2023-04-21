@@ -1,6 +1,14 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
+    source_selector = {
+      sources = {
+        "filesystem",
+        "buffers",
+        "git_status"
+      },
+    },
+    default_source = "filesystem",
     close_if_last_window = true,
     filesystem = {
       use_libuv_file_watcher = true,
@@ -12,18 +20,7 @@ return {
       },
       window = {
         mappings = {
-          ----------------- UNBINDS ------------------
-          ["/"] = false,
-          ["<bs>"] = false,
-          ["<c-x>"] = false,
-          ["A"] = false,
-          ["H"] = false,
-          ["[g"] = false,
-          ["]g"] = false,
-          ["c"] = false,
-          ["f"] = false,
-          ["h"] = false,
-          ["m"] = false,
+          ["."] = "toggle_hidden",
         }
       },
     },
@@ -35,7 +32,6 @@ return {
         nowait = true,
       },
       mappings = {
-        ["."] = "toggle_hidden",
         ["<c-S-TAB>"] = "prev_source",
         ["<c-Tab>"] = "next_source",
         ["<c-w>s"] = "open_split",
@@ -51,7 +47,7 @@ return {
         ["w"] = "close_node",
         ["x"] = "cut_to_clipboard",
         ["y"] = "copy_to_clipboard",
-        ----------------- UNBINDS ------------------
+        --------------- UNBINDS ------------------
         ["/"] = false,
         ["<"] = false,
         ["<bs>"] = false,
