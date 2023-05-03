@@ -34,7 +34,8 @@
     job: "sanoid --cron"
     user: root
 
-- name: Make zfs snapshots visible under /.zfs/snapshot/
-  shell: "zfs set snapdir=visible $(zfs list | grep rpool/USERDATA | grep /home/{{ username }} | awk '{print $1}')"
-  changed_when: false
+# TODO
+# - name: Make zfs snapshots visible under /.zfs/snapshot/
+#   shell: "zfs set snapdir=visible $(zfs list | grep rpool/USERDATA | grep /home/{{ username }} | awk '{print $1}')"
+#   changed_when: false
 

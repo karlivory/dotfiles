@@ -5,4 +5,5 @@
       - software-properties-common
       - curl
       - unzip
+      - rsync
     state: present
