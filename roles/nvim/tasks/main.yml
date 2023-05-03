@@ -47,13 +47,7 @@
       - shellcheck
       - shfmt
       - python3-pynvim
-    state: present
-
-- name: Upgrade npm to latest version
-  npm:
-    name: npm
-    global: true
-    version: 8.1
+      - npm
     state: present
 
 # - import_tasks: ./formatters.yml

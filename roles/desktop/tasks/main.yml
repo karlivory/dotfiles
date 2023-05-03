@@ -2,7 +2,8 @@
 
 - import_tasks: ./packages.yml
 - import_tasks: ./cleanup_home.yml
-- import_tasks: ./libxft_bgra.yml # needs to be done first
+  # libxft-bgra got merged in upstream! yay
+  #- import_tasks: ./libxft_bgra.yml # needs to be done first
 - import_tasks: ./dwm.yml
 - import_tasks: ./st.yml
 - import_tasks: ./dmenu.yml

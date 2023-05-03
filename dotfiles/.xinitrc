@@ -6,11 +6,13 @@ systemctl --user enable syncthing && systemctl --user start syncthing
 dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
 
 remaps
-set_default_wallpaper
 
 unclutter -noevents &
 wrap "$HOME/.config/luastatus/statusbar.sh" &
 sxhkd &
 xrdb -merge -I$HOME $HOME/.config/X11/.Xresources
+
+autorandr -c
+set_default_wallpaper
 
 exec dwm

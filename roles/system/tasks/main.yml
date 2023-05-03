@@ -28,7 +28,8 @@
   when: not vm
 - import_tasks: ./grub.yml
 - import_tasks: ./gnome_cleanup.yml
-- import_tasks: ./nosnap.yml
+  # TODO: rework this
+  #- import_tasks: ./nosnap.yml
 - import_tasks: ./yubikey.yml
 
 - name: "disable any action on close lid"

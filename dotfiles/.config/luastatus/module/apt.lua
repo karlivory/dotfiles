@@ -11,7 +11,7 @@ widget = {
     period = 900,
   },
   cb = function(t)
-    local icon = color.sep -- .. color.col1_ic_fg 
+    local icon = color.sep -- .. color.col1_ic_fg
     local content = color.col1_fg .. color.col1_bg
 
     local apt_command = "/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 1"
@@ -20,10 +20,10 @@ widget = {
     handle:close()
     apt_result = tonumber(get_first_num(vol_result))
 
-    if(apt_result == 0) then
-      icon = icon .. color.col1_ic_fg .. color.col1_ic_bg .. '  '
+    if (apt_result == 0) then
+      icon = icon .. color.col1_ic_fg .. color.col1_ic_bg .. '   '
     else
-      icon = icon .. color.warn_fg .. color.warn_bg .. '  '
+      icon = icon .. color.warn_fg .. color.warn_bg .. ' ! '
     end
 
     apt_result = string.format("%2d", vol_result)
