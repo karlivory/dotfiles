@@ -21,7 +21,7 @@ widget = {
     apt_result = tonumber(get_first_num(vol_result))
 
     if (apt_result == 0) then
-      icon = icon .. color.col1_ic_fg .. color.col1_ic_bg .. '   '
+      icon = icon .. color.col1_ic_fg .. color.col1_ic_bg .. ' p '
     else
       icon = icon .. color.warn_fg .. color.warn_bg .. ' ! '
     end

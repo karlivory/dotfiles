@@ -33,14 +33,25 @@ widget = {
     local mute_result = handle:read("*a")
     handle:close()
     mute_result = tonumber(get_first_num(mute_result))
-    if(mute_result == 1) then
-      icon = icon .. ' 婢 '
-    elseif(vol_result == 0) then
-      icon = icon .. '  '
-    elseif(vol_result <= 30) then
-      icon = icon .. '  '
+    volbars = ""
+    if (mute_result == 1) then
+      icon = icon .. color.col0_fg .. color.col0_bg .. ' m '
+    elseif (vol_result <= 1) then
+      icon = icon .. ' _ '
+    elseif (vol_result <= 10) then
+      icon = icon .. ' ▁ '
+    elseif (vol_result == 20) then
+      icon = icon .. ' ▂ '
+    elseif (vol_result <= 30) then
+      icon = icon .. ' ▃ '
+    elseif (vol_result <= 40) then
+      icon = icon .. ' ▄ '
+    elseif (vol_result <= 50) then
+      icon = icon .. ' ▅ '
+    elseif (vol_result <= 60) then
+      icon = icon .. ' ▆ '
     else
-      icon = icon .. ' 奔 '
+      icon = icon .. ' ▇ '
     end
 
     vol_result = string.format("%3d", vol_result)

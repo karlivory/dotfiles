@@ -5,9 +5,9 @@ widget = luastatus.require_plugin('battery-linux').widget {
   period = 2,
   cb = function(t)
     local symbol = ({
-      Charging    = 'C',
-      Discharging = 'D',
-    })[t.status] or 'U'
+      Charging    = 'c',
+      Discharging = 'b',
+    })[t.status] or 'b'
     local rem_seg
     local capacity = t.capacity
     if (t.capacity) then

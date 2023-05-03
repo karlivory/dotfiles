@@ -103,7 +103,7 @@ widget = {
       end
     end
     f:close()
-    local icon = ' N '
+    local icon = ' n '
     return color.sep .. color.col1_ic_fg .. color.col1_ic_bg .. icon .. color.col1_fg .. color.col1_bg .. res
   end
 }
