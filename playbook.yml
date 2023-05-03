@@ -47,7 +47,6 @@
       tags: [software]
       vars:
         docker_daemon_options:
-          data-root: "/home/docker"
           bip: "172.20.0.1/24"
           default-address-pools:
             - base: 172.20.0.0/16

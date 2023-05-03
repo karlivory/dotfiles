@@ -2,11 +2,11 @@
 
 ################### personal log ####################
 if ! zfs list | grep -q rpool/log; then
-  sudo zfs create -o canmount=noauto rpool/log
+  sudo zfs create -o canmount=noauto zroot/log
 fi
 
 if ! ls /log; then
-  sudo zfs mount rpool/log
+  sudo zfs mount zroot/log
 fi
 
 if ! ls /log/personal; then

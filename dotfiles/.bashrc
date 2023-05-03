@@ -204,8 +204,8 @@ alias gr="git restore --staged"
 alias ga="git add"
 alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 alias yt1440="yt-dlp -f 'bestvideo[height<=1440]+bestaudio'"
-alias lm="sudo zfs mount rpool/log"
-alias lu="sudo zfs umount rpool/log"
+alias lm="sudo zfs mount zroot/log"
+alias lu="sudo zfs umount zroot/log"
 #############################################################################
 
 # kubectl completion
