@@ -6,4 +6,8 @@
       - curl
       - unzip
       - rsync
+      - dbus
+      - bluez
+      - bluez-alsa-utils
+      - pulseaudio-module-bluetooth
     state: present
