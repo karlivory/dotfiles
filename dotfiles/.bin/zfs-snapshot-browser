@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -e
+
+####################### parse ARG ###############################
+case "$1" in
+  "")
+    ARG="."
+    ;;
+  *)
+    ARG="$1"
+    ;;
+esac
+
+if [[ "${ARG:0:1}" == "/" ]]; then
+  ABSOLUTE_PATH="$ARG"
+else
+  ABSOLUTE_PATH="$(pwd)/$ARG"
+fi
+
+if [ -d "$ABSOLUTE_PATH" ]; then
+  FILE="$ABSOLUTE_PATH"
+elif [ -f "$ABSOLUTE_PATH" ]; then
+  FILE="$ABSOLUTE_PATH"
+else
+  echo "Error: '$ARG' is not a file or a directory."
+  exit 1
+fi
+####################### parse ARG ###############################
+
+# extract file basename, discount any unsafe chars
+file_basename=$(basename $dir$FILE | sed "s/\///" | tr -dc 'a-zA-Z0-9_-')
+
+snapdir="/.zfs/snapshot"
+tmpdir="/tmp/snapshot-$(date +%s%N)-$file_basename"
+
+mkdir "$tmpdir"
+
+
+for dir in $snapdir/*; do
+  snapshot_basename=$(basename $dir)
+  if [ -d "$dir$FILE" ] || [ -f "$dir$FILE" ]; then
+    ln -sT "$dir$FILE" "$tmpdir/$snapshot_basename"
+  fi
+done
+
+lf "$tmpdir"
+rm -rf "$tmpdir"
