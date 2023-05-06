@@ -205,7 +205,8 @@ alias ga="git add"
 alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 alias yt1440="yt-dlp -f 'bestvideo[height<=1440]+bestaudio'"
 alias lm="sudo zfs mount zroot/log"
-alias lu="sudo zfs umount zroot/log"
+alias lu="sudo zfs umount zroot/log && sudo rmdir /log"
+alias z="zfs-snapshot-browser"
 #############################################################################
 
 # kubectl completion
