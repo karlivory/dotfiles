@@ -14,11 +14,11 @@ return {
     event = "VeryLazy",
     config = true
   },
-  {
-    "folke/zen-mode.nvim",
-    cmd = { "ZenMode" },
-    config = function() require("user.plugins.zen-mode").config() end,
-  },
+  -- {
+  --   "folke/zen-mode.nvim",
+  --   cmd = { "ZenMode" },
+  --   config = function() require("user.plugins.zen-mode").config() end,
+  -- },
   -- TODO: textobjects don't work, fix this
   -- might help: https://old.reddit.com/r/neovim/comments/113un5z/problem_with_treesitter_textobjects/
   -- {

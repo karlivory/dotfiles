@@ -64,13 +64,13 @@ kmap("n", "<ESC>",          "<cmd>noh<CR>", "  no highlight")
 nmap <ESC> :noh<cr>
 
 " multiple-cursors
-nmap <C-m> <Plug>NextWholeOccurrence
-xmap <C-m> <Plug>NextWholeOccurrence
-nmap <C-s> :action PreviousProjectWindow<CR>
-nmap <C-q> :action CloseEditor<CR>
+" nmap <C-m> <Plug>NextWholeOccurrence
+" xmap <C-m> <Plug>NextWholeOccurrence
+" nmap <C-s> :action PreviousProjectWindow<CR>
+" nmap <C-q> :action CloseEditor<CR>
 " bugged...
-nmap <C-c> <Plug>RemoveOccurrence
-xmap <C-c> <Plug>RemoveOccurrence
+" nmap <C-c> <Plug>RemoveOccurrence
+" xmap <C-c> <Plug>RemoveOccurrence
 
 " Navigation
 nmap <Leader>df :action ToggleDistractionFreeMode<CR>

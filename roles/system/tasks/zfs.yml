@@ -34,8 +34,19 @@
     job: "sanoid --cron"
     user: root
 
-# TODO
-- name: Make zfs snapshots visible under /.zfs/snapshot/
-  shell: "zfs set snapdir=visible zroot/ROOT/ubuntu/home"
+- name: Create docker dataset
+  shell: "zfs create -o mountpoint=/docker zroot/docker"
+  failed_when: false
   changed_when: false
+
+- name: Make zfs snapshots visible under /.zfs/snapshot/
+  shell: "zfs set snapdir=visible zroot/ROOT/ubuntu"
+  changed_when: false
+
+# https://github.com/openzfs/zfs/issues/9461#issuecomment-699889066
+- name: zfs snapdir issue workaround
+  lineinfile: 
+    path: /etc/fstab
+    regexp: '^zroot'
+    line: zroot/ROOT/ubuntu / zfs defaults,noatime 0 0
 

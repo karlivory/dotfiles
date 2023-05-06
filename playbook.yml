@@ -48,6 +48,7 @@
       vars:
         docker_daemon_options:
           bip: "172.20.0.1/24"
+          data-root: "/docker"
           default-address-pools:
             - base: 172.20.0.0/16
               size: 24
