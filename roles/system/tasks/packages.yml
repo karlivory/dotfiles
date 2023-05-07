@@ -10,4 +10,5 @@
       - bluez
       - bluez-alsa-utils
       - pulseaudio-module-bluetooth
+      - dnsutils
     state: present

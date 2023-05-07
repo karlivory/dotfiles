@@ -15,10 +15,12 @@ widget = {
     local content = color.col1_fg .. color.col1_bg
 
     local apt_command = "/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 1"
+    local apt_command = "echo 0"
     local handle = io.popen(apt_command)
     local vol_result = handle:read("*a")
     handle:close()
-    apt_result = tonumber(get_first_num(vol_result))
+    local apt_result = tonumber(get_first_num(vol_result))
+    local apt_result = 0
 
     if (apt_result == 0) then
       icon = icon .. color.col1_ic_fg .. color.col1_ic_bg .. ' p '
