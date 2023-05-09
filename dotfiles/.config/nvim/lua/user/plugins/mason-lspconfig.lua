@@ -11,7 +11,7 @@ return {
       "jdtls",
       "jsonls",
       "lemminx",
-      "pyright",
+      -- "pyright", -- managed by pack
       "lua_ls",
       "svelte",
       "tailwindcss",

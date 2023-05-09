@@ -13,4 +13,5 @@ return {
     },
   },
   { import = "astrocommunity.editing-support.zen-mode-nvim" },
+  { import = "astrocommunity.pack.python" },
 }
