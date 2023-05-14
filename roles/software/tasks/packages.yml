@@ -2,6 +2,8 @@
 - name: Install a bunch of software from apt (this might take a while)
   apt:
     pkg:
+      - moreutils
+      - parallel
       - python3-pip
       - software-properties-common
       - curl
