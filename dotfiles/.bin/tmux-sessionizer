@@ -32,12 +32,16 @@ if [[ $# -gt 1 ]]; then
     echo "ERROR! tmux-sessionizer accepts 0 or 1 argument, but $# args were given!" && exit 1
 fi
 
+if [[ "$selected" == "--last" ]]; then
+    TMUX_SESSIONIZER_ACTION=LAST_SESSION
+fi
+
 if [[ $# -eq 0 ]]; then
 	echo '' > /tmp/tmux-sessioniser-action
 	selected=$("$HOME/.config/vars/repos" | fzf --bind "ctrl-x:execute(echo LAST_SESSION > /tmp/tmux-sessioniser-action)+abort" --bind "ctrl-n:execute(echo NEW_SESSION_HERE > /tmp/tmux-sessioniser-action)+abort" )
+	TMUX_SESSIONIZER_ACTION=$(cat /tmp/tmux-sessioniser-action)
 fi
 
-TMUX_SESSIONIZER_ACTION=$(cat /tmp/tmux-sessioniser-action)
 echo '' > /tmp/tmux-sessioniser-action
 
 if [[ "$TMUX_SESSIONIZER_ACTION" == "LAST_SESSION" ]]; then
