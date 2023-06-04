@@ -13,5 +13,20 @@ return {
     },
   },
   { import = "astrocommunity.editing-support.zen-mode-nvim" },
+  {
+    "folke/zen-mode.nvim",
+    opts = {
+      window = {
+        backdrop = 0.95,
+        width = 120,
+        height = 1,
+        options = {
+          signcolumn = "no",
+          number = true,
+          relativenumber = true,
+        },
+      },
+    },
+  },
   { import = "astrocommunity.pack.python" },
 }
