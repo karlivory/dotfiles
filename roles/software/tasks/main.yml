@@ -6,7 +6,6 @@
 - import_tasks: ./lazygit.yml
 - import_tasks: ./gradle.yml
 - import_tasks: ./anki.yml
-- import_tasks: ./spring.yml
 - import_tasks: ./ytdlp.yml
 - import_tasks: ./jetbrains.yml
 - import_tasks: ./tt.yml
@@ -15,4 +14,4 @@
 - import_tasks: ./syncthing.yml
 - import_tasks: ./firefox.yml
 # - import_tasks: ./transmission.yml
-
+# - import_tasks: ./spring.yml
