@@ -10,6 +10,7 @@
       - lxrandr
       - autorandr
       - net-tools
+      - virtualenv
       - jq
       - neofetch
       - fzf
