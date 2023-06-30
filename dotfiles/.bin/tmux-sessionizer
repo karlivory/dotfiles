@@ -7,16 +7,17 @@ selected=$1
 
 function handle_session() {
     local session_name="$1"
+    local dir="$2"
     tmux_running=$(pgrep tmux)
     inside_tmux=$TMUX
 
     if [[ -z $inside_tmux ]] && [[ -z $tmux_running ]]; then
-        tmux new-session -s "$session_name" -c "$selected"
+        tmux new-session -s "$session_name" -c "$dir"
         exit 0
     fi
 
     if ! tmux has-session -t="$session_name" 2>/dev/null; then
-        tmux new-session -ds "$session_name" -c "$selected"
+        tmux new-session -ds "$session_name" -c "$dir"
     fi
 
     if [[ ! -z $inside_tmux ]]; then
@@ -57,15 +58,15 @@ if [[ "$TMUX_SESSIONIZER_ACTION" == "LAST_SESSION" ]]; then
         rm "$last_session_file"
         exit 1
 	fi
-    handle_session "$session_name"
+    handle_session "$session_name" "$selected"
 elif [[ $TMUX_SESSIONIZER_ACTION == "NEW_SESSION_HERE" ]]; then
     session_name=$(pwd | sed 's/.*\///')
 	session_name=$(echo "$session_name" | tr -s '\n' ' ' | tr -dc 'a-zA-Z0-9_-')
-    handle_session "$session_name"
+    handle_session "$session_name" "$(pwd)"
 else
     if [[ -z $selected ]]; then
         exit 1
     fi
     session_name=$(basename "$selected" | tr . _)
-    handle_session "$session_name"
+    handle_session "$session_name" "$selected"
 fi

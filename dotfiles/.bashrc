@@ -26,8 +26,12 @@ bind -m vi-command -x '"\C-r": __fzf_history__'
 bind -m vi-insert -x '"\C-r": __fzf_history__'
 #############################################################################
 
-bind -m "vi-command" '"\C-x": "dditmux-sessionizer\C-m"'
-bind -m "vi-insert" '"\C-x": "\edditmux-sessionizer\C-m"'
+tmux_sessionizer() {
+    tmux-sessionizer
+}
+
+bind -x '"\C-x": tmux_sessionizer'
+bind -m "vi-command" '"\C-x": "i\C-x"'
 
 # ctrl-y copies current bash readline to clipboard
 copyline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
