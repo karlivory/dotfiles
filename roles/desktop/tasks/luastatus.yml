@@ -16,23 +16,6 @@
     update: yes
   register: clone_luastatus
 
-- name: "Install prerequisites"
-  when: clone_luastatus.changed
-  apt:
-    pkg: 
-      - libyajl-dev
-      - libasound2-dev
-      - libnl-3-dev
-      - libudev-dev
-      - libxcb-xrm-dev
-      - libxcb-ewmh-dev
-      - libxcb-icccm4-dev
-      - lua5.1
-      - liblua5.1-0-dev
-      - libnl-genl-3-dev
-      - python3-docutils
-      - cmake
-
 - name: build luastatus
   when: clone_luastatus.changed
   command: "cmake ."

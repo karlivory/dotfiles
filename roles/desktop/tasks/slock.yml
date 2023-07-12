@@ -1,11 +1,4 @@
 ---
-- name: install dependencies for building slock
-  apt:
-    name: 
-      - libpam0g-dev
-      - libxrandr-dev
-    state: present
-
 - name: build slock
   make:
     chdir: dotfiles/.config/slock

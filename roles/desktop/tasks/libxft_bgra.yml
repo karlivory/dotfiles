@@ -30,18 +30,6 @@
   args:
     chdir: "{{ confdir }}/libs/libxft"
 
-- name: "Install required packages to build libxft-bgra"
-  when: libxft_clone.changed
-  apt:
-    pkg:
-      - build-essential
-      - libtool
-      - pkg-config
-      - libxrender-dev
-      - libfreetype6-dev
-      - libfontconfig1-dev
-      - xutils-dev
-
 - name: "build libxft-bgra"
   when: libxft_clone.changed
   command: "sh autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man"
@@ -55,3 +43,4 @@
   changed_when: false
   args:
     chdir: "{{ confdir }}/libs/libxft"
+

@@ -1,10 +1,4 @@
 ---
-- name: Install st build tools
-  apt:
-    name: 
-      - libharfbuzz-dev
-    state: present
-
 - name: build st
   make:
     chdir: dotfiles/.config/st

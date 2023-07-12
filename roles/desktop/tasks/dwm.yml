@@ -1,17 +1,4 @@
 ---
-- name: Install dwm build tools
-  apt:
-    name: 
-      - libx11-dev
-      - libxinerama-dev
-      - libxft-dev
-      - libxcb-res0-dev
-      - xcb
-      - xdotool
-      - autorandr
-      - libx11-xcb-dev
-    state: present
-
 - name: build  and install dwm
   make:
     chdir: dotfiles/.config/dwm
@@ -32,3 +19,4 @@
   copy:
     src: files/dwm.desktop
     dest: /usr/share/xsessions/dwm.desktop
+

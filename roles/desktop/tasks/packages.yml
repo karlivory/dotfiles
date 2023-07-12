@@ -1,20 +1,45 @@
 ---
 # Do this before software role so that startx doesn't crash
-- name: Install some desktop-specific packages (everything in .xinitrc)
+- name: Install some desktop-specific packages (.xinitrc requirements, suckless build requirements)
   apt:
     pkg:
-      - xvkbd
-      - xbindkeys
-      - sxhkd
+      - autorandr
+      - build-essential
+      - cmake
       - feh
-      - xcape
-      - unclutter
-
-- name: Install picom (if not vm)
-  when: not vm
-  apt:
-    pkg:
+      - libasound2-dev
+      - libfontconfig1-dev
+      - libfreetype6-dev
+      - libharfbuzz-dev
+      - liblua5.1-0-dev
+      - libnl-3-dev
+      - libnl-genl-3-dev
+      - libpam0g-dev
+      - libtool
+      - libudev-dev
+      - libx11-dev
+      - libx11-xcb-dev
+      - libxcb-ewmh-dev
+      - libxcb-icccm4-dev
+      - libxcb-res0-dev
+      - libxcb-xrm-dev
+      - libxft-dev
+      - libxinerama-dev
+      - libxrandr-dev
+      - libxrender-dev
+      - libyajl-dev
+      - lua5.1
       - picom
+      - pkg-config
+      - python3-docutils
+      - sxhkd
+      - unclutter
+      - xbindkeys
+      - xcape
+      - xcb
+      - xdotool
+      - xutils-dev
+      - xvkbd
 
 - name: Remove autorandr service
   file:
