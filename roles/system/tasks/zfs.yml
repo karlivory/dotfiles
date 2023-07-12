@@ -1,9 +1,4 @@
 ---
-- name: Install sanoid (automatic zfs snapshots)
-  apt:
-    name: sanoid
-    state: present
-
 - name: Ensure /etc/sanoid/ exists
   file:
     path: /etc/sanoid
@@ -16,28 +11,12 @@
     src: files/sanoid.conf
     dest: /etc/sanoid/sanoid.conf
 
-- name: Disable default sanoid timer (systemd)
-  systemd:
-    name: sanoid.timer
-    enabled: no
-    state: stopped
-
-- name: Disable default sanoid-prune service (systemd)
-  systemd:
-    name: sanoid-prune.service
-    enabled: no
-    state: stopped
-
-- name: Add cron entry for sanoid
-  cron:
-    name: "sanoid"
-    job: "sanoid --cron"
-    user: root
-
 - name: Create docker dataset
-  shell: "zfs create -o mountpoint=/docker zroot/docker"
-  failed_when: false
-  changed_when: false
+  community.general.zfs:
+    name: zroot/docker
+    state: present
+    extra_zfs_properties:
+      mountpoint: /docker
 
 - name: Make zfs snapshots visible under /.zfs/snapshot/
   shell: "zfs set snapdir=visible zroot/ROOT/ubuntu"

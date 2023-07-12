@@ -1,11 +1,5 @@
 ---
-# TODO: this is slow and crashes on first run
-# - name: apt update, upgrade
-#   become: true
-#   apt:
-#     upgrade: yes
-#     update_cache: yes
-#     cache_valid_time: 86400 #One day
+- import_tasks: ./gnome_cleanup.yml
 
 - name: "Create {{ confdir }}"
   file:
@@ -26,9 +20,6 @@
 - import_tasks: ./packages.yml
 - import_tasks: ./zfs.yml
   when: not vm
-# - import_tasks: ./grub.yml
-- import_tasks: ./gnome_cleanup.yml
-  # TODO: rework this
 - import_tasks: ./nosnap.yml
 - import_tasks: ./yubikey.yml
 

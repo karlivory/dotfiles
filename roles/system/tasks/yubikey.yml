@@ -1,23 +1,4 @@
 ---
-- name: Add yubico repository
-  ansible.builtin.apt_repository:
-    repo: ppa:yubico/stable
-    state: present
-
-- name: Install yubikey manager (ykman)
-  apt:
-    update_cache: true
-    name: yubikey-manager
-    state: present
-
-- name: install yubikey packages
-  apt:
-    name:
-      - gnupg
-      - pcscd
-      - scdaemon
-    state: present
-
 - set_fact:
     gnupghome: "/home/{{ username }}/.local/share/gnupg"
 
@@ -72,9 +53,4 @@
     scope: user
   when: gpg_agent_conf.changed
   failed_when: false # gpg-agent not running
-
-- name: Install pinentry program (pinentry-qt)
-  apt:
-    name: pinentry-qt
-    state: present
 

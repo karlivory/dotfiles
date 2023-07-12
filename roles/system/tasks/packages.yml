@@ -1,14 +1,25 @@
 ---
+- name: Add yubico repository
+  ansible.builtin.apt_repository:
+    repo: ppa:yubico/stable
+    state: present
+
 - name: Install some system packages (needed for ansible file handlers)
   apt:
+    state: present
     name: 
-      - software-properties-common
-      - curl
-      - unzip
-      - rsync
-      - dbus
       - bluez
       - bluez-alsa-utils
-      - pulseaudio-module-bluetooth
+      - curl
+      - dbus
       - dnsutils
-    state: present
+      - gnupg
+      - pcscd
+      - pinentry-qt
+      - pulseaudio-module-bluetooth
+      - rsync
+      - sanoid
+      - scdaemon
+      - software-properties-common
+      - unzip
+      - yubikey-manager
