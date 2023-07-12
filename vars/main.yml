@@ -1,23 +1,7 @@
 ---
-username: karl
+confdir: "/data"
 home: "/home/{{ username }}"
 remove_gnome: true
+username: karl
 vm: false
 
-confdir: "/data"
-
-# fonts
-fonts_ubuntu_mono: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/UbuntuMono.zip"
-
-# software
-software_lf_binary: "https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz"
-software_jetbrains_toolbox: "https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.24.12080.tar.gz"
-software_ytdlp: "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"
-software_tt: "https://github.com/lemnos/tt/releases/download/v0.4.2/tt-linux"
-
-# neovim vars
-nvim_deb: "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb"
-nvim_jdtls_server: "https://download.eclipse.org/jdtls/snapshots/jdt-language-server-1.12.0-202206011637.tar.gz"
-
-# virt vars
-virt_ubuntu_2204_desktop:

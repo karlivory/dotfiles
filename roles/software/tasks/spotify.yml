@@ -1,5 +1,5 @@
-# TOOD: fix apt key deprecated warnings
 ---
+# TOOD: fix apt key deprecated warnings
 - name: Add spotify gpg signing key
   apt_key:
     url: "https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg"

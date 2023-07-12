@@ -10,7 +10,7 @@
 - name: Download UbuntuMono nerdfont from github
   include_tasks: util/download_file.yml
   vars:
-    dl_url: "{{ fonts_ubuntu_mono }}"
+    dl_url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/UbuntuMono.zip"
     dl_filename: "UbuntuMono.zip"
     dl_unarchive: yes
     dl_unarchive_dir: "{{ confdir }}/fonts/UbuntuMono"
@@ -25,3 +25,4 @@
   when: font_copy.changed
   command: fc-cache -f
   changed_when: false
+

@@ -2,7 +2,7 @@
 - name: Download, unarchive and link tt
   include_tasks: util/download_file.yml
   vars:
-    dl_url: "{{ software_tt }}"
+    dl_url: "https://github.com/lemnos/tt/releases/download/v0.4.2/tt-linux"
     dl_filename: "tt"
     dl_dest_dir: "{{ confdir }}/tt"
     dl_link_file_path: "{{ dl_dest_dir }}/tt"

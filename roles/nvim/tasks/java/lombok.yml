@@ -1,9 +1,0 @@
---- 
-- name: Download lombok jar
-  become: yes
-  become_user: "{{ username }}"
-  get_url:
-    url: "https://projectlombok.org/downloads/lombok-1.18.22.jar"
-    dest: "/home/{{ username }}/.local/ls/java/lombok.jar"
-    checksum: "sha256:ecef1581411d7a82cc04281667ee0bac5d7c0a5aae74cfc38430396c91c31831"
-  register: lombok

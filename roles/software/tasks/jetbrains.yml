@@ -2,7 +2,7 @@
 - name: Download, unarchive and link Jetbrains Toolbox
   include_tasks: util/download_file.yml
   vars:
-    dl_url: "{{ software_jetbrains_toolbox }}"
+    dl_url: "https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.24.12080.tar.gz"
     dl_filename: "jetbrains-toolbox.tar.gz"
     dl_unarchive: yes
     dl_unarchive_dir: "{{ confdir }}/toolbox"

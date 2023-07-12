@@ -32,6 +32,7 @@
       - picom
       - pkg-config
       - python3-docutils
+      - stow
       - sxhkd
       - unclutter
       - xbindkeys

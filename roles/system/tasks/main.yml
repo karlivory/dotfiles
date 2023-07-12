@@ -22,6 +22,7 @@
   when: not vm
 - import_tasks: ./nosnap.yml
 - import_tasks: ./yubikey.yml
+- import_tasks: ./fonts.yml
 
 - name: "disable any action on close lid"
   lineinfile:

@@ -2,7 +2,7 @@
 - name: Download and install lf
   include_tasks: util/download_file.yml
   vars:
-    dl_url: "{{ software_lf_binary }}"
+    dl_url: "https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz"
     dl_filename: "lf.tar.gz"
     dl_unarchive: yes
     dl_unarchive_dir: "{{ confdir }}/lf"

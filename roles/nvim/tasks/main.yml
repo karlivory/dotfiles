@@ -1,11 +1,20 @@
 ---
-# - name: Add neovim nightly ppa
-#   ansible.builtin.apt_repository:
-#     repo: ppa:neovim-ppa/unstable
-#     state: present
+- name: Install neovim related packages
+  apt:
+    name:
+      - lua5.1
+      - luarocks
+      - python-is-python3
+      - ripgrep
+      - fzf
+      - shellcheck
+      - shfmt
+      - python3-pynvim
+      - npm
+      - fd-find
+    state: present
 
-# TODO: download nvim.appimage to /usr/local/bin/nvim
-- name: Download, unarchive and link ytdlp
+- name: Download, unarchive and link nvim
   include_tasks: util/download_file.yml
   vars:
     dl_url: "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"
@@ -35,22 +44,4 @@
     repo: https://github.com/AstroNvim/AstroNvim
     dest: "/home/{{ username }}/.config/nvim"
     update: no
-
-- name: Install neovim and related packages
-  apt:
-    name:
-      - lua5.1
-      - luarocks
-      - python-is-python3
-      - ripgrep
-      - fzf
-      - shellcheck
-      - shfmt
-      - python3-pynvim
-      - npm
-      - fd-find
-    state: present
-
-# - import_tasks: ./formatters.yml
-- import_tasks: ./java/main.yml
 

@@ -2,7 +2,7 @@
 - name: Download, unarchive and link ytdlp
   include_tasks: util/download_file.yml
   vars:
-    dl_url: "{{ software_ytdlp }}"
+    dl_url: "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"
     dl_filename: "yt-dlp"
     dl_dest_dir: "{{ confdir }}/yt-dlp"
     dl_link_file_path: "{{ dl_dest_dir }}/yt-dlp"
