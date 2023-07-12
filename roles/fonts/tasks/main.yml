@@ -15,13 +15,13 @@
     dl_unarchive: yes
     dl_unarchive_dir: "{{ confdir }}/fonts/UbuntuMono"
 
-- name: "Copy UbuntuMono font to /usr/share/fonts"
+- name: Copy UbuntuMono font to /usr/share/fonts
   synchronize:
     src: "/{{ confdir }}/fonts/UbuntuMono"
     dest: /usr/share/fonts/
   register: font_copy
 
-- name: " Update font cache"
+- name: Update font cache
   when: font_copy.changed
   command: fc-cache -f
   changed_when: false

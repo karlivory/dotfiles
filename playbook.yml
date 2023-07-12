@@ -10,7 +10,6 @@
 
   vars_files:
     - ./vars/main.yml
-    # - ./config_personal/vars/main.yml
 
   pre_tasks:
     - name: Ensure /usr/local/bin exists
@@ -55,6 +54,3 @@
     - import_role:
         name: software
       tags: [software]
-    # - import_role:
-    #     name: virt
-    #   tags: [virt]
