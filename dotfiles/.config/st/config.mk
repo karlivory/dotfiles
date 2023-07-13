@@ -7,10 +7,12 @@ VERSION = 0.8.5
 PREFIX = /usr/local
 MANPREFIX = $(PREFIX)/share/man
 
-#X11INC = /usr/X11R6/include
-#X11LIB = /usr/X11R6/lib
-X11INC = $(CONFDIR)/libs/libxft/include
-X11LIB = $(CONFDIR)/libs/libxft/src/.libs
+X11INC = /usr/X11R6/include
+X11LIB = /usr/X11R6/lib
+# X11INC = $(CONFDIR)/libs/libxft/include
+# X11LIB = $(CONFDIR)/libs/libxft/src/.libs
+
+# SRC = st.c x.c sixel.c sixel_hls.c
 
 PKG_CONFIG = pkg-config
 
@@ -27,7 +29,7 @@ LIGATURES_INC = `$(PKG_CONFIG) --cflags harfbuzz`
 LIGATURES_LIBS = `$(PKG_CONFIG) --libs harfbuzz`
 
 # Uncomment this for the SIXEL patch / SIXEL_PATCH
-#SIXEL_C = sixel.c sixel_hls.c
+SIXEL_C = sixel.c sixel_hls.c
 
 # includes and libs, uncomment harfbuzz for the ligatures patch
 INCS = -I$(X11INC) \

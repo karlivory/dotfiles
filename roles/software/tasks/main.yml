@@ -1,7 +1,6 @@
 ---
-# TODO: install kubectl, yq
-
 - import_tasks: ./packages.yml
+- import_tasks: ./kubectl.yml
 - import_tasks: ./spotify.yml
 - import_tasks: ./lazygit.yml
 - import_tasks: ./gradle.yml

@@ -63,6 +63,7 @@ return {
   -- INSERT MODE
   i = {
     ["<c-h>"] = { "<c-w>", desc = "Delete previous word" },
+    ["<C-s>"] = { "<cmd>w!<cr>", desc = "Save" },
     [","]     = { ",<C-g>u", desc = "undo breakpoints" },
     ["."]     = { ".<c-g>u", desc = "undo breakpoints" },
     ["!"]     = { "!<c-g>u", desc = "undo breakpoints" },
