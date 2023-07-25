@@ -212,12 +212,13 @@ alias lm="sudo zfs mount zroot/log"
 alias lu="sudo zfs umount zroot/log && sudo rmdir /log"
 alias p="python3"
 alias z="zfs-snapshot-browser"
+alias wt='wrap "tt -n 20"'
 #############################################################################
 
 # kubectl completion
 alias k=kubectl
-# complete -o default -F __start_kubectl k
-# source <(kubectl completion bash)
+complete -o default -F __start_kubectl k
+source <(kubectl completion bash)
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 # needed for st
