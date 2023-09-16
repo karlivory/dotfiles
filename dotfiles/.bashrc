@@ -161,6 +161,7 @@ export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
 export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export GOPATH=$HOME/go
 
 export EDITOR='nvim'
 export VISUAL='nvim'
@@ -169,6 +170,7 @@ export GPG_TTY=$(tty)
 export _JAVA_AWT_WM_NONREPARENTING=1 # needed for jetbrains software
 export PATH=${PATH}:~/.local/share/coursier/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH=${PATH}:$HOME/go/bin
 
 # for colored man-pages
 export LESS_TERMCAP_mb=$'\e[1;32m'

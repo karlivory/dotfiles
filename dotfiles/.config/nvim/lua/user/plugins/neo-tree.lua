@@ -67,6 +67,14 @@ return {
         ["m"] = false,
         ["s"] = false,
         ["t"] = false,
+        ["oc"] = false,
+        ["od"] = false,
+        ["og"] = false,
+        ["om"] = false,
+        ["on"] = false,
+        ["os"] = false,
+        ["ot"] = false,
+
       },
     },
     event_handlers = {
