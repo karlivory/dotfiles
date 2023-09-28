@@ -31,6 +31,7 @@ return {
     ["<leader>dR"] = { function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
     ["<leader>du"] = { function() require("dapui").toggle() end, desc = "Toggle Debugger UI" },
     ["<leader>dh"] = { function() require("dap.ui.widgets").hover() end, desc = "Debugger Hover" },
+    ["<leader>gi"] = { '<cmd> silent lua require("guess-indent").set_from_buffer() <CR>', desc = "" },
     -- unbind default AstroNvim keybinds
     ["<TAB>"]      = false,
     ["<leader>w"]  = false,
