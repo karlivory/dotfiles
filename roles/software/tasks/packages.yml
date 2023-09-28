@@ -2,6 +2,7 @@
 - name: Install a bunch of software from apt (this might take a while)
   apt:
     pkg:
+      - age
       - autorandr
       - cmatrix
       - curl
