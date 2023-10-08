@@ -1,1 +1,0 @@
--- config for telescope_ui_select_nvim
