@@ -27,13 +27,6 @@ local default_theme = {
   theme = "dropdown"
 }
 
--- has to match tmux-sessionizer script
-local function get_session_name(dir)
-  local basename = dir:match("[^/]*$")
-  local session = basename:gsub("%.", "_")
-  return session
-end
-
 local function isempty(s)
   return s == nil or s == ''
 end
@@ -54,19 +47,12 @@ local function shell_command(cmd)
 end
 
 local function switch_to_session(dir)
-  local session = get_session_name(dir)
-  local tmux = is_inside_tmux()
-  if not tmux then
+  if not is_inside_tmux() then
     print("Not in tmux!")
     return
   end
-  local session_exists = isempty(shell_command("tmux has-session -t=" .. session .. " 2>&1"))
-  shell_command('tmux display -p "#S" > ' .. os.getenv("HOME") .. '/.cache/.tmux_last_session')
-  if session_exists then
-    shell_command("tmux switch-client -t " .. session)
-  else
-    shell_command("tmux new-session -ds " .. session .. " -c " .. dir .. " && tmux switch-client -t " .. session)
-  end
+  local cmd = "tmux-sessionizer " .. dir
+  shell_command(cmd)
 end
 
 M.find = function(opts)
