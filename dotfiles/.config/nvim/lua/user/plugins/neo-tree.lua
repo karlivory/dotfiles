@@ -81,7 +81,8 @@ return {
       {
         event = "file_opened",
         handler = function(_)
-          vim.cmd([[Neotree close]])
+          -- triggered on file_opened
+          -- vim.cmd([[Neotree close]])
         end,
         id = "id_file_opened",
       },
