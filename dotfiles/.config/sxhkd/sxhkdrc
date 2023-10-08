@@ -69,8 +69,6 @@ super + F4
 
 super + F9
     kill -9 $(pgrep xkill) || xkill # toggle xkill
-super + F10
-    powermenu
 super + F11
 	autorandr -c && set_default_wallpaper && remaps
 super + F12
