@@ -44,6 +44,13 @@ cmd extract %{{
 	#[ $ans = "y" ] && aunpack $fx
     aunpack $fx
 }}
+
+cmd setperms %{{
+	printf "Permissions [e.g. 0400, 755, +x, u+x]: " "$f"
+	read perms
+	#[ $ans = "y" ] && aunpack $fx
+    chmod "$perms" $fx
+}}
 # ===============================================================================
 
 # Bindings
@@ -58,7 +65,7 @@ map <esc> :clear; unselect
 map E extract
 map R reload
 map . set hidden!
-map <enter> open
+map P setperms
 map o open
 map O $mimeopen --ask $f
 
