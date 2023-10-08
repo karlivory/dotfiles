@@ -27,6 +27,9 @@ super + b
 
 super + n
 	networkmanager_dmenu
+
+super + semicolon
+    powermenu
     
 super + Print
 	flameshot gui # take screenshot
