@@ -1,3 +1,3 @@
 #!/bin/bash
 
-_jetbrains_launcher "IDEA-U" "idea.sh"
+_jetbrains_launcher "intellij-idea-ultimate" "idea.sh"
