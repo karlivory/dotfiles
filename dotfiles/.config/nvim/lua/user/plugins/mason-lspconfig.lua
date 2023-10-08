@@ -11,12 +11,13 @@ return {
       "jdtls",
       "jsonls",
       "lemminx",
-      -- "pyright", -- managed by pack
+      "gopls",
       "lua_ls",
       "svelte",
       "tailwindcss",
       "tsserver",
       "yamlls",
+      -- "pyright", -- managed by astrocommunity.pack.python
     }
   }
 }
