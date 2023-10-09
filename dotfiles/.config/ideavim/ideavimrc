@@ -61,7 +61,6 @@ nnoremap <C-c> mZggVGy`Z
 nmap <ESC> :noh<cr>
 
 " Like zen-mode
-nmap <Leader>z :action ToggleDistractionFreeMode<CR>
 " Not quite like vim jump, but good enough
 nmap <C-o> :action Back<cr>
 nmap <C-i> :action Forward<cr>
@@ -69,8 +68,10 @@ nmap <C-i> :action Forward<cr>
 nmap <C-6> <C-S-6>
 vmap <C-6> <C-S-6>
 nmap <leader>wf :action HideAllWindows<cr>
+nmap <Leader>z :action ToggleZenMode<CR>
 nmap <leader>fw :action FindInPath<cr>
 nmap gi :action GotoImplementation<cr>
+nmap <C-q> :bd<cr>
 
 " Window navigation
 map <C-j> <C-w>j
@@ -98,6 +99,9 @@ nmap <leader>lr :action RenameElement<cr>
 vmap <leader>lr :action RenameElement<cr>
 nmap <leader>a :action ShowIntentionActions<cr>
 
+imap <C-v> <C-o>P
+nnoremap c "_c
+nnoremap C "_C
 " ============================================================================
 
 " ============================== VIM-IDE handlers ============================
@@ -110,9 +114,10 @@ sethandler <C-D> a:vim
 sethandler <C-E> a:vim
 sethandler <C-F> a:ide
 sethandler <C-G> a:vim
+sethandler <C-H> a:vim
 sethandler <C-I> a:vim
-sethandler <C-K> a:ide
 sethandler <C-J> a:ide
+sethandler <C-K> a:ide
 sethandler <C-L> a:vim
 sethandler <C-M> a:vim
 sethandler <C-N> a:vim
@@ -121,6 +126,8 @@ sethandler <C-P> a:vim
 sethandler <C-Q> a:vim
 sethandler <C-R> a:vim
 sethandler <C-S> a:ide
+sethandler <C-T> a:vim
 sethandler <C-U> a:vim
 sethandler <C-V> a:vim
 sethandler <C-W> a:vim
+

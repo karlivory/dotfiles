@@ -67,6 +67,7 @@ return {
   i = {
     ["<c-h>"] = { "<c-w>", desc = "Delete previous word" },
     ["<C-s>"] = { "<cmd>w!<cr>", desc = "Save" },
+    ["<C-v>"] = { "<C-o>P", desc = "paste" },
     [","]     = { ",<C-g>u", desc = "undo breakpoints" },
     ["."]     = { ".<c-g>u", desc = "undo breakpoints" },
     ["!"]     = { "!<c-g>u", desc = "undo breakpoints" },
