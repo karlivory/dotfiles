@@ -9,17 +9,19 @@ function initialize_tmux_windows() {
     local session_name="$1"
     local dir="$2"
 
-    # Window 1: nvim
-    tmux send-keys -t "${session_name}:1" "nvim" C-m
+    if [[ $session_name != "vpn" ]]; then
+        # Window 1: nvim
+        tmux send-keys -t "${session_name}:1" "nvim" C-m
 
-    # Window 2: wrap lazygit
-    tmux new-window -t "${session_name}:2" -c "$dir"
-    tmux send-keys -t "${session_name}:2" "wrap lg" C-m
-    tmux rename-window -t "${session_name}:2" "lg"
+        # Window 2: wrap lazygit
+        tmux new-window -t "${session_name}:2" -c "$dir"
+        tmux send-keys -t "${session_name}:2" "wrap lg" C-m
+        tmux rename-window -t "${session_name}:2" "lg"
 
-    # Window 3: just bash
-    tmux new-window -t "${session_name}:3" -c "$dir"
-    tmux select-window -t "${session_name}:1"
+        # Window 3: just bash
+        tmux new-window -t "${session_name}:3" -c "$dir"
+        tmux select-window -t "${session_name}:1"
+    fi
 }
 
 function new_session() {
