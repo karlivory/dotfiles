@@ -2,10 +2,10 @@
 - name: Download, unarchive and link Jetbrains Toolbox
   include_tasks: util/download_file.yml
   vars:
-    dl_url: "https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.24.12080.tar.gz"
-    dl_filename: "jetbrains-toolbox.tar.gz"
+    dl_url: https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-2.0.4.17212.tar.gz
+    dl_filename: jetbrains-toolbox.tar.gz
     dl_unarchive: yes
     dl_unarchive_dir: "{{ confdir }}/toolbox"
-    dl_link_file_path: "{{ dl_unarchive_dir }}/jetbrains-toolbox-1.24.12080/jetbrains-toolbox"
-    dl_link_file_dest: "/usr/local/bin/jetbrains-toolbox"
+    dl_link_file_path: "{{ dl_unarchive_dir }}/jetbrains-toolbox-2.0.4.17212/jetbrains-toolbox"
+    dl_link_file_dest: /usr/local/bin/jetbrains-toolbox
 
