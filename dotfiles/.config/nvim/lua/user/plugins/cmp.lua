@@ -30,7 +30,7 @@ return {
         else
           fallback()
         end
-      end, { "i", "s", "c", }),
+      end, { "i", "s", }),
     }
   }
 }

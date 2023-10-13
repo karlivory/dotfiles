@@ -34,6 +34,7 @@ return {
     ["<leader>du"] = { function() require("dapui").toggle() end, desc = "Toggle Debugger UI" },
     ["<leader>dh"] = { function() require("dap.ui.widgets").hover() end, desc = "Debugger Hover" },
     ["<leader>gi"] = { '<cmd> silent lua require("guess-indent").set_from_buffer() <CR>', desc = "" },
+    ["<leader>y"]  = { function() require("yaml-companion").open_ui_select() end, desc = "" },
     -- unbind default AstroNvim keybinds
     ["<TAB>"]      = false,
     ["<leader>w"]  = false,
@@ -67,7 +68,7 @@ return {
   i = {
     ["<c-h>"] = { "<c-w>", desc = "Delete previous word" },
     ["<C-s>"] = { "<cmd>w!<cr>", desc = "Save" },
-    ["<C-v>"] = { "<C-o>P", desc = "paste" },
+    -- ["<C-v>"] = { "<C-o>p", desc = "paste" },
     [","]     = { ",<C-g>u", desc = "undo breakpoints" },
     ["."]     = { ".<c-g>u", desc = "undo breakpoints" },
     ["!"]     = { "!<c-g>u", desc = "undo breakpoints" },

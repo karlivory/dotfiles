@@ -70,7 +70,6 @@ vmap <C-6> <C-S-6>
 nmap <leader>wf :action HideAllWindows<cr>
 nmap <Leader>z :action ToggleZenMode<CR>
 nmap <leader>fw :action FindInPath<cr>
-nmap gi :action GotoImplementation<cr>
 nmap <C-q> :bd<cr>
 
 " Window navigation
@@ -93,13 +92,15 @@ vmap <leader>rf :action ReformatCode<cr>
 nmap <leader>rI :action OptimizeImports<cr>
 
 " LSP actions
+nmap <leader>a :action ShowIntentionActions<cr>
 nmap <leader>lg :action Generate<cr>
 vmap <leader>lg :action Generate<cr>
 nmap <leader>lr :action RenameElement<cr>
 vmap <leader>lr :action RenameElement<cr>
-nmap <leader>a :action ShowIntentionActions<cr>
+nmap gi :action GotoImplementation<cr>
+nmap gr :action ShowUsages<cr>
 
-imap <C-v> <C-o>P
+" imap <C-v> <C-o>P
 nnoremap c "_c
 nnoremap C "_C
 " ============================================================================
