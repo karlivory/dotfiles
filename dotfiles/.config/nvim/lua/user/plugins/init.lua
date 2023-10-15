@@ -9,6 +9,7 @@ return {
   -- syntax tree surfer
   -- undotree
   -- treesj
+  { "famiu/bufdelete.nvim" },
   {
     "kylechui/nvim-surround",
     event = "VeryLazy",
