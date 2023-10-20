@@ -79,6 +79,12 @@ return {
     },
     event_handlers = {
       {
+        event = "neo_tree_buffer_enter",
+        handler = function(_)
+          vim.cmd [[ setlocal nu rnu ]]
+        end,
+      },
+      {
         event = "file_opened",
         handler = function(_)
           -- triggered on file_opened
