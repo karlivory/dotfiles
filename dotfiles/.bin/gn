@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-notify-send "Good night"
-
 pulsemixer --mute
 
 redshift -PO 2100
@@ -9,3 +7,6 @@ redshift -PO 2100
 nmcli networking off
 
 feh --no-fehbg --bg-fill ~/.config/wallpapers/wallhaven-g8g9me-moon.jpg
+
+notify-send "Good night!"
+echo "Good night!"
