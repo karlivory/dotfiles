@@ -9,7 +9,7 @@ setxkbmap -option altwin:swap_alt_win
 # single-tap ctrl acts as escape
 xcape -e 'Control_L=Escape'
 
-xset r rate 660 25
+xset r rate 200 50
 
 binds=$(cat <<EOF
 "xvkbd -xsendevent -text '\{+dead_diaeresis}u'"
