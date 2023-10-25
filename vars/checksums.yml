@@ -1,6 +1,6 @@
 ---
 focal-server-cloudimg-amd64.img: sha256:75a04c7eed58e76dc51f61288b647bc120882378c28e928359948c0db9c7dc45
-jetbrains-toolbox.tar.gz: sha256:d819065a45d29d53646490fbd8ca45dbcaa3d544bdbc6da4494377460ddf6b79
+jetbrains-toolbox.tar.gz: sha256:b25e27ac0b098f3babb0be4d6c73687d719fbc3b8a4c2b7354ce0587a40e297c
 lf.tar.gz: sha256:8185b7838f84c3f8a9355b76229d24daf155f9001cfd3e3666ead546560d87d7
 UbuntuMono.zip: sha256:3ef8fcd564a2c67c5afd19e36fa9fa7ab354ce051cc58e3108cbc16c0edaebdb
 tt: sha256:46ce8f8fb3e80a394b67004befb6ec4770c61138832e4d91fb807a1a41cfb04e
