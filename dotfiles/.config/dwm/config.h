@@ -354,8 +354,8 @@ static const char *const autostart[] = {
 #if SCRATCHPADS_PATCH
 const char *spcmd1[] = {"st", "-n", "spterm1", "-g", "150x40", "-e", "wrap", "lf", NULL };
 const char *spcmd2[] = {"st", "-n", "spterm2", "-g", "150x34", NULL };
-const char *spcmd3[] = {"st", "-n", "spterm3", "-g", "120x34", NULL };
-const char *spcmd4[] = {"st", "-n", "spterm4", "-g", "120x34", "-e", "wrap", "bluetoothctl", NULL };
+const char *spcmd3[] = {"st", "-n", "spterm3", "-g", "120x34", "-e", "wrap", "sudo bash", NULL };
+const char *spcmd4[] = {"st", "-n", "spterm4", "-g", "100x34", "-e", "wrap", "bluetoothctl", NULL };
 static Sp scratchpads[] = {
    /* name          cmd  */
    {"spterm1",      spcmd1},
