@@ -4,8 +4,6 @@ pulsemixer --unmute
 
 redshift -PO 6500
 
-nmcli networking on
-
 feh --no-fehbg --bg-fill ~/.config/wallpapers/wallhaven-jxlwpm-eclipse.jpg
 
 notify-send "Good morning!"
