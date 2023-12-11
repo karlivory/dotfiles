@@ -2,9 +2,9 @@
 - name: Download and install anki
   include_tasks: util/download_file.yml
   vars:
-    dl_url: "https://github.com/ankitects/anki/releases/download/2.1.56/anki-2.1.56-linux-qt6.tar.zst"
+    dl_url: "https://github.com/ankitects/anki/releases/download/23.10.1/anki-23.10.1-linux-qt6.tar.zst"
     dl_filename: "anki.tar.zst"
     dl_unarchive: yes
     dl_unarchive_dir: "{{ confdir }}/anki"
-    dl_link_file_path: "{{ dl_unarchive_dir }}/anki-2.1.56-linux-qt6/anki"
+    dl_link_file_path: "{{ dl_unarchive_dir }}/anki-23.10.1-linux-qt6/anki"
     dl_link_file_dest: "/usr/local/bin/anki"
