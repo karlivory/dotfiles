@@ -10,7 +10,6 @@ if ! ls /log/personal; then
 sudo mkdir -p /log/personal/
 sudo chown karl:karl -R /log/personal/
 fi
-# syncthing
 if ! ls /log/personal/st; then
 sudo mkdir -p /log/personal/st/
 sudo chown karl:karl -R /log/personal/st/

@@ -28,10 +28,6 @@ deb http://security.ubuntu.com/ubuntu lunar-security universe
 deb http://security.ubuntu.com/ubuntu lunar-security multiverse
 EOF
 
-# cat <<EOF > /tmp/bootstrap/netcfg.yaml
-# # netplan
-# EOF
-
 echo "##################################################################"
 echo "## Source /etc/os-release"
 source /etc/os-release
@@ -51,7 +47,7 @@ export POOL_PART="2"
 export POOL_DEVICE="${POOL_DISK}p${POOL_PART}"
 
 cat <<EOF > /tmp/bootstrap/fstab
-$( blkid | grep "$BOOT_DEVICE" | cut -d ' ' -f 2 ) /boot/efi vfat defaults 0 0
+$(blkid | grep "$BOOT_DEVICE" | cut -d ' ' -f 2) /boot/efi vfat defaults 0 0
 EOF
 
 echo "------------------------------------------------------------------"

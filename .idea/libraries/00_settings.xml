@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="00-settings">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/config_personal/idea_settings/00-settings.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

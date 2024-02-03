@@ -10,7 +10,6 @@
       - shellcheck
       - shfmt
       - python3-pynvim
-      - npm
       - fd-find
     state: present
 
