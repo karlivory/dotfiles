@@ -17,6 +17,7 @@ return {
       "tailwindcss",
       "tsserver",
       "yamlls",
+      "volar"
       -- "pyright", -- managed by astrocommunity.pack.python
     }
   }

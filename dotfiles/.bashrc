@@ -211,10 +211,11 @@ alias ga="git add"
 alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 alias yt1440="yt-dlp -f 'bestvideo[height<=1440]+bestaudio'"
 alias lm="sudo zfs mount zroot/log"
-alias lu="sudo zfs umount zroot/log && sudo rmdir /log"
+alias lu="sudo zfs umount zroot/log && sudo rm -rf /log"
 alias p="python3"
 alias z="zfs-snapshot-browser"
 alias wt='wrap "tt -n 20"'
+alias ve='virtualenv venv && source venv/bin/activate'
 #############################################################################
 
 # kubectl completion
@@ -252,3 +253,8 @@ if [ -s "$HOME/.config/nvm/nvm.sh" ]; then
   done
 fi
 
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
