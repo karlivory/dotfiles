@@ -42,6 +42,10 @@
           default-address-pools:
             - base: 172.20.0.0/16
               size: 24
+        docker_packages:
+          - "docker-{{ docker_edition }}=5:24.0.9-1*"
+          - "docker-{{ docker_edition }}-cli=5:24.0.9-1*"
+          - "docker-{{ docker_edition }}-rootless-extras=5:24.0.9-1*"
     - import_role:
         name: software
       tags: [software]
