@@ -160,7 +160,7 @@ export ANDROID_HOME="$XDG_DATA_HOME"/android
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
 export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export GOPATH=$HOME/go
 
 export EDITOR='nvim'
@@ -228,33 +228,11 @@ echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 tput smkx
 . "$HOME/.cargo/env"
 
-## NVM lazy-load
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use 
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    nvm use default
-  fi
-}
-if [ -s "$HOME/.config/nvm/nvm.sh" ]; then
-  export NVM_DIR="$HOME/.config/nvm"
-  nvm_cmds=(nvm node npm yarn)
-  for cmd in "${nvm_cmds[@]}" ; do
-    alias $cmd="echo \"'nvm' loading... It's super slow, hold onto your hat...\" && unalias ${nvm_cmds[*]} && unset nvm_cmds && . $NVM_DIR/nvm.sh --no-use && load-nvmrc && $cmd"
-  done
-fi
-
-
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# fnm
+export PATH="/home/karl/.local/share/fnm:$PATH"
+eval "`fnm env`"
