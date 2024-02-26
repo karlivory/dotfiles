@@ -1,3 +1,7 @@
+---
+git:
+  autoFetch: true
+notARepository: quit
 # gui:
 #   theme:
 #     activeBorderColor:
