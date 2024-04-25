@@ -1,4 +1,3 @@
-[submodule "config_personal"]
-	path = config_personal
-	url = git@github.com:karlivory/config_personal
-	branch = master
+[submodule "dotfiles-personal"]
+	path = dotfiles-personal
+	url = git@github.com:karlivory/dotfiles-personal.git
