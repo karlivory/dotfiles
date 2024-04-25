@@ -1,5 +1,6 @@
 ---
 - name: Install neovim related packages
+  become: true
   apt:
     name:
       - lua5.1
@@ -21,6 +22,7 @@
     dl_dest_dir: "{{ confdir }}/nvim-releases"
 
 - name: Install neovim
+  become: true
   copy:
     src: "{{ confdir }}/nvim-releases/nvim.appimage"
     dest: "/usr/local/bin/nvim"
@@ -30,6 +32,7 @@
   register: nvim_install
 
 - name: remove .config/nvim
+  become: true
   when: nvim_install.changed
   file:
     dest: "/home/{{ username }}/.config/nvim"
@@ -43,4 +46,3 @@
     repo: https://github.com/AstroNvim/AstroNvim
     dest: "/home/{{ username }}/.config/nvim"
     update: no
-

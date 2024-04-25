@@ -1,5 +1,6 @@
 ---
 - name: "Create {{ confdir }}"
+  become: true
   file:
     path: "{{ confdir }}"
     state: directory
@@ -8,15 +9,17 @@
     owner: root
 
 - name: "Clone luastatus repo"
+  become: true
   git:
     repo: https://github.com/shdown/luastatus
     dest: "{{ confdir }}/luastatus"
-    version: master
+    version: 99123f6613332631fbfd2a11c2f32f0854e19d3d
     depth: 1
     update: yes
   register: clone_luastatus
 
 - name: build luastatus
+  become: true
   when: clone_luastatus.changed
   command: "cmake ."
   args:
@@ -24,6 +27,7 @@
   changed_when: false
 
 - name: build luastatus
+  become: true
   when: clone_luastatus.changed
   command: "make"
   args:
@@ -31,6 +35,7 @@
   changed_when: false
 
 - name: build luastatus
+  become: true
   when: clone_luastatus.changed
   command: "make install"
   args:

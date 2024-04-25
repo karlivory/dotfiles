@@ -3,6 +3,7 @@
     gnupghome: "/home/{{ username }}/.local/share/gnupg"
 
 - name: create gnupg folder
+  become: true
   file:
     state: directory
     path: "{{ gnupghome }}"
@@ -11,6 +12,7 @@
     mode: '0700'
 
 - name: copy over scdaemon.conf
+  become: true
   copy:
     src: files/scdaemon.conf
     owner: "{{ username }}"
@@ -20,6 +22,7 @@
   register: scdaemon_conf
 
 - name: restart pcscd
+  become: true
   systemd:
     name: pcscd.service
     enabled: true
@@ -27,6 +30,7 @@
   when: scdaemon_conf.changed
 
 - name: copy over gpg.conf
+  become: true
   copy:
     src: files/gpg.conf
     owner: "{{ username }}"
@@ -35,6 +39,7 @@
     mode: '0644'
 
 - name: copy over gpg-agent.conf
+  become: true
   copy:
     src: files/gpg-agent.conf
     owner: "{{ username }}"

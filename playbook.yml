@@ -1,15 +1,15 @@
 ---
 # ╔═════════════════════════════════╗
-# ║ Intended to run on Ubuntu 22.04 ║
+# ║ Intended to run on Ubuntu 24.04 ║
 # ╚═════════════════════════════════╝
 - name: "Configure my pc (root)"
-  become: true
-  become_method: sudo
+  # become_method: sudo
   hosts: localhost
   connection: local
 
   vars_files:
-    - ./vars/main.yml
+    - ./config.yml
+    - ./config_personal/vars.yml
 
   pre_tasks:
     - name: Ensure /usr/local/bin exists
@@ -19,15 +19,6 @@
         mode: 0755
 
   tasks:
-    - import_role:
-        name: system
-      tags: [init, system]
-    - import_role:
-        name: nvim
-      tags: [init, nvim]
-    - import_role:
-        name: dotfiles
-      tags: [init, dotfiles]
     - import_role:
         name: desktop
       tags: [init, desktop]
@@ -49,3 +40,6 @@
     - import_role:
         name: software
       tags: [software]
+    - import_role:
+        name: repos
+      tags: [repos]

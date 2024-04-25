@@ -171,6 +171,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1 # needed for jetbrains software
 export PATH=${PATH}:~/.local/share/coursier/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=${PATH}:$HOME/go/bin
+export PATH=${PATH}:$HOME/.dotnet
 
 # for colored man-pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
@@ -216,6 +217,8 @@ alias p="python3"
 alias z="zfs-snapshot-browser"
 alias wt='wrap "tt -n 20"'
 alias ve='virtualenv venv && source venv/bin/activate'
+alias ci='curl ifconfig.me'
+alias r='openssl rand -base64'
 #############################################################################
 
 # kubectl completion
@@ -231,8 +234,9 @@ tput smkx
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # fnm
 export PATH="/home/karl/.local/share/fnm:$PATH"
 eval "`fnm env`"
+
+export SOPS_AGE_KEY_FILE=$HOME/.sops/key.txt

@@ -1,12 +1,41 @@
 ---
+- name: "Create {{ confdir }}"
+  become: true
+  file:
+    path: "{{ confdir }}"
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
 
-- import_tasks: ./packages.yml
-- import_tasks: ./cleanup_home.yml
-  # libxft-bgra got merged in upstream! yay
-  #- import_tasks: ./libxft_bgra.yml # needs to be done first
-- import_tasks: ./dwm.yml
-- import_tasks: ./st.yml
-- import_tasks: ./dmenu.yml
-- import_tasks: ./luastatus.yml
-- import_tasks: ./slock.yml
+- name: copy over global_env.sh
+  become: true
+  copy:
+    src: files/global_env.sh
+    dest: /etc/profile.d/global_env.sh
+    owner: root
+    group: root
+    mode: 0664
 
+- import_tasks: ./apt.yml
+- import_tasks: ./fonts.yml
+- import_tasks: ./yubikey.yml
+- import_tasks: ./zfs.yml
+
+- import_tasks: ./nvim.yml
+- import_tasks: ./dotfiles.yml
+
+- import_tasks: ./de/dwm.yml
+- import_tasks: ./de/st.yml
+- import_tasks: ./de/dmenu.yml
+- import_tasks: ./de/luastatus.yml
+- import_tasks: ./de/slock.yml
+
+- import_tasks: ./cleanup.yml
+
+- name: "disable any action on close lid"
+  become: true
+  lineinfile:
+    path: "/etc/systemd/logind.conf"
+    regexp: "^HandleLidSwitch.*"
+    line: "HandleLidSwitch=ignore"

@@ -1,0 +1,157 @@
+---
+##====================================== PREFS ========================================##
+#########################################################################################
+
+- name: Set custom apt preferences
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/custom.pref
+    content: |
+      Explanation: Prevent installation of snapd
+      Package: snapd
+      Pin: release a=*
+      Pin-Priority: -10
+
+      Explanation: Prevent installation of ubuntu-desktop-minimal
+      Package: ubuntu-desktop-minimal
+      Pin: release a=*
+      Pin-Priority: -10
+
+      Explanation: Prevent installation of ubuntu-desktop
+      Package: ubuntu-desktop
+      Pin: release a=*
+      Pin-Priority: -10
+
+      Explanation: Prevent installation of gdm3
+      Package: gdm3
+      Pin: release a=*
+      Pin-Priority: -10
+
+##====================================== REPOS ========================================##
+#########################################################################################
+
+- name: Add yubico repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:yubico/stable
+    state: present
+
+- name: Add spotify repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb http://repository.spotify.com stable non-free"
+    state: present
+    filename: spotify
+    update_cache: yes
+
+- name: Add google chrome repository
+  become: true
+  apt_repository:
+    repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+    state: present
+    filename: google-chrome
+    update_cache: yes
+
+- name: Add firefox esr repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:mozillateam/ppa
+    state: present
+
+##==================================== PACKAGES =======================================##
+#########################################################################################
+
+- name: Install some packages
+  become: true
+  apt:
+    state: present
+    install_recommends: false
+    name:
+      - autorandr
+      - bluez
+      - bluez-alsa-utils
+      - build-essential
+      - cmake
+      - curl
+      - dbus
+      - dnsutils
+      - feh
+      - gnupg
+      - libasound2-dev
+      - libfontconfig1-dev
+      - libfreetype6-dev
+      - libharfbuzz-dev
+      - liblua5.1-0-dev
+      - libnl-3-dev
+      - libnl-genl-3-dev
+      - libpam0g-dev
+      - libtool
+      - libudev-dev
+      - libx11-dev
+      - libx11-xcb-dev
+      - libxcb-ewmh-dev
+      - libxcb-icccm4-dev
+      - libxcb-res0-dev
+      - libxcb-xrm-dev
+      - libxft-dev
+      - libxinerama-dev
+      - libxrandr-dev
+      - libxrender-dev
+      - libyajl-dev
+      - lua5.1
+      - pcscd
+      - picom
+      - pinentry-qt
+      - pkg-config
+      - pulseaudio-module-bluetooth
+      - python3-docutils
+      - rsync
+      - sanoid
+      - scdaemon
+      - software-properties-common
+      - stow
+      - sxhkd
+      - unclutter
+      - unzip
+      - xbindkeys
+      - xcape
+      - xcb
+      - xdotool
+      - xorg
+      - xutils-dev
+      - xvkbd
+      - yubikey-manager
+
+- name: Purge some packages
+  apt:
+    state: absent
+    purge: true
+    autoremove: true
+    name: 
+      - gdm3
+      - gedit-common
+      - gir1.2-gdm-1.0 
+      - gir1.2-gnomebluetooth-1.0
+      - gir1.2-gnomedesktop-3.0
+      - gir1.2-goa-1.0 
+      - gnome-*
+      - language-pack-gnome-*
+      - language-pack-gnome-en-base
+      - language-pack-gnome-ru 
+      - language-selector-gnome
+      - libgail18
+      - libgnome-autoar-0-0
+      - libgnome-bluetooth13 
+      - libgnome-desktop-3-19
+      - libgnome-games-support-1-3
+      - libgnome-games-support-common 
+      - libgnome-menu-3-0
+      - libgnome-todo
+      - libgnomekbd-common
+      - libgnomekbd8
+      - libgoa-1.0-0b 
+      - libgoa-1.0-common
+      - libpam-gnome-keyring
+      - nautilus-extension-gnome-terminal
+      - pinentry-gnome3
+      - yaru-theme-gnome-shell

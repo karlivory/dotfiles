@@ -1,5 +1,6 @@
 ---
-- name: "Create /{{ confdir }}/fonts"
+- name: "Create {{ confdir }}/fonts"
+  become: true
   file:
     path: "/{{ confdir }}/fonts"
     state: directory
@@ -16,12 +17,14 @@
     dl_unarchive_dir: "{{ confdir }}/fonts/UbuntuMono"
 
 - name: Copy UbuntuMono font to /usr/share/fonts
+  become: true
   synchronize:
     src: "/{{ confdir }}/fonts/UbuntuMono"
     dest: /usr/share/fonts/
   register: font_copy
 
 - name: Update font cache
+  become: true
   when: font_copy.changed
   command: fc-cache -f
   changed_when: false

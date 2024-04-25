@@ -1,0 +1,6 @@
+---
+confdir: "/data"
+home: "/home/{{ username }}"
+remove_gnome: true
+username: karl
+vm: false

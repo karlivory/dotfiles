@@ -1,6 +1,9 @@
 return {
   "AstroNvim/astrocommunity",
+  -- { import = "astrocommunity.pack.ansible" }, # annoying error messages
+  -- { import = "astrocommunity.pack.helm" }, # annoying error messages
   { import = "astrocommunity.pack.rust" },
+  { import = "astrocommunity.pack.vue" },
   {
     -- further customize the options set by the community
     "rust-tools.nvim",
@@ -28,5 +31,5 @@ return {
       },
     },
   },
-  { import = "astrocommunity.pack.python" },
+  { import = "astrocommunity.pack.python-ruff" },
 }

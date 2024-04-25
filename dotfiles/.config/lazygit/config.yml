@@ -1,6 +1,6 @@
 ---
 git:
-  autoFetch: true
+  autoFetch: false
 notARepository: quit
 # gui:
 #   theme:

@@ -1,81 +1,26 @@
 #!/usr/bin/env bash
 
-if [ "$0" != "./run.sh" ]; then
-    echo -e "\033[33mWARNING: script was run outside of its directory. Fixing...\033[0m"
-    cd "$(dirname "$0")"
-fi
+ARGS="$@"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+VENV_PATH="$DIR/venv"
 
-if ! command -v unbuffer &> /dev/null
-then
-    echo "expect not installed! Installing..."
-    sudo apt install expect -y
-fi
+setup_venv() {
+    command -v /usr/bin/virtualenv >/dev/null 2>&1 || fail "virtualenv is required but it's not installed."
 
-function sigint_handler()
-{
-    echo "Execution halted via SIGINT!" | tee -a $logfile
-    exit
-}
-function invalid_tag()
-{
-    echo "Invalid tag! Exiting..." | tee -a $logfile
-    exit 1
-}
-function root_playbook(){
-    sudo ansible-galaxy install -r roles/requirements.yml
-    sudo unbuffer ansible-playbook playbook.yml $sudo_tags_arg 2>&1 | tee -a $logfile
-}
-function user_playbook(){
-    if [ -z "$(ls -A ./config_personal)" ]; then
-       echo "config_personal is empty. Skipping playbook_user.yml"
-       exit 0
+    # Create a virtual environment if it doesn't exist
+    if [ ! -d "$VENV_PATH" ]; then
+        echo "Creating a virtual environment..."
+        /usr/bin/virtualenv "$VENV_PATH"
     fi
-    ansible-galaxy install -r roles/requirements.yml
-    unbuffer ansible-playbook playbook_user.yml $user_tags_arg 2>&1 | tee -a $logfile
+
+    source "$VENV_PATH/bin/activate"
+
+    echo "Installing pip requirements..."
+    pip install -r "$DIR/requirements.txt"
+
 }
-trap sigint_handler SIGINT
 
-mkdir -p logs
-logfile="logs/ansible-$(date +%F)"
-touch $logfile
-echo "============================ $(date) ============================" >> "$logfile"
+setup_venv
 
-sudo_tags_arg=""
-user_tags_arg=""
-all=0
-if [ ! $# -eq 0 ]
-then
-    case $1 in
-        init|system|fonts|dotfiles|desktop|nvim|software|virt)
-            sudo_tags_arg="-t $1" ;;
-        repos)
-            user_tags_arg="-t $1" ;;
-        *)
-            invalid_tag ;;
-    esac
-
-    echo "Running playbook with given tag: $1" | tee -a $logfile
-fi
-
-if ! command -v ansible &> /dev/null
-then
-    echo "Ansible not installed! Installing..."
-    sudo apt install ansible -y
-fi
-
-
-if [[ -z $sudo_tags_arg && -z $user_tags_arg ]]
-then
-    echo "No tags specified. Running all tasks..."
-    root_playbook
-    user_playbook
-elif [[ ! -z $sudo_tags_arg ]]
-then
-    echo "Running root playbook with tag: $1"
-    root_playbook
-elif [[ ! -z $user_tags_arg ]]
-then
-    echo "Running user playbook with tag: $1"
-    user_playbook
-fi
-
+ansible-galaxy collection install -r roles/requirements.yml
+ansible-playbook -K playbook.yml $ARGS

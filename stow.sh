@@ -8,6 +8,8 @@ fi
 rm_if_link() { [ ! -L "$1" ] || rm -v "$1"; }
 rm_if_not_link() { [ -L "$1" ] || rm -rfv "$1"; }
 
+mkdir -p ~/.config/systemd/user
+
 # remove existing files/dirs
 rm_if_not_link ~/.bin
 rm_if_not_link ~/.bashrc
@@ -18,14 +20,11 @@ rm_if_not_link ~/.xinitrc
 rm_if_not_link ~/.inputrc
 rm_if_not_link ~/.config/lazygit
 rm_if_not_link ~/.config/tmuxinator
-mkdir -p ~/.config
 rm_if_not_link ~/.config/picom
 rm_if_not_link ~/.config/ranger
 rm_if_not_link ~/.config/nvim/lua/user
 rm_if_not_link ~/.config/user-dirs.dirs
 rm_if_not_link ~/.config/mimeapps.list
-
-mkdir -p ~/.config/systemd/user
 
 stow dotfiles -t ~
 if [ ! $(find config_personal -maxdepth 0 -empty) ]; then
