@@ -45,4 +45,5 @@
   ansible.builtin.git:
     repo: https://github.com/AstroNvim/AstroNvim
     dest: "/home/{{ username }}/.config/nvim"
+    version: 0da3fa834137597f13e53196c8c6f7e1425601ea # TODO: astronvim v4 migration
     update: no

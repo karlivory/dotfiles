@@ -30,6 +30,7 @@
     dl_dest: "{{ dl_dest_dir }}/{{ dl_filename }}"
 
 - name: "Get checksum of {{ dl_filename }}"
+  become: true
   when: not dl_checksum 
   shell: "grep \"{{ dl_filename }}\" vars/checksums.yml | sed 's/^.*: //g'"
   changed_when: false
@@ -40,11 +41,13 @@
     dl_checksum: "{{ checksum_grep.stdout }}"
 
 - name: "Ensure download destination ({{ dl_dest_dir }}) exists"
+  become: true
   file:
     path: "{{ dl_dest_dir }}"
     state: directory 
 
 - name: "Download {{ dl_filename }} (with checksum)"
+  become: true
   when: dl_checksum 
   ignore_errors: yes
   get_url:
@@ -54,6 +57,7 @@
   register: dl1
 
 - name: "Download {{ dl_filename }} (without checksum)"
+  become: true
   when: not dl_checksum or dl1.failed
   get_url:
     url: "{{ dl_url }}"
@@ -64,6 +68,7 @@
     dl_changed: "{{ dl1.changed or dl2.changed }}"
 
 - name: "Calculate sha256 checksum of {{ dl_filename }}"
+  become: true
   when: dl_changed
   stat:
     path: "{{ dl_dest }}"
@@ -72,6 +77,7 @@
   register: sha256
 
 - name: "Update checksum of {{ dl_filename }} in vars/checksums.yml file"
+  become: true
   when: dl_changed
   lineinfile:
     path: "vars/checksums.yml"
@@ -79,24 +85,28 @@
     line: "{{ dl_filename }}: sha256:{{ sha256.stat.checksum }}"
 
 - name: "Create unpack dir ({{ dl_unarchive_dir }}) for {{ dl_filename }}"
+  become: true
   when: dl_unarchive
   file:
     state: directory
     path: "{{ dl_unarchive_dir }}"
 
 - name: Clean up existing archive files
+  become: true
   when: dl_unarchive and dl_changed
   file:
     state: absent
     path: "{{ dl_unarchive_dir }}/*"
 
 - name: "Unarchive {{ dl_filename }}" 
+  become: true
   when: dl_unarchive and dl_changed
   unarchive:
     src: "{{ dl_dest }}"
     dest: "{{ dl_unarchive_dir }}"
 
 - name: "Symlink {{ dl_link_file_path }} to {{ dl_link_file_dest }}"
+  become: true
   when: dl_link_file_path and dl_link_file_dest
   file:
     src: "{{ dl_link_file_path }}"

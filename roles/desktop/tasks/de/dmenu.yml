@@ -1,7 +1,7 @@
 ---
 - name: build dmenu
   make:
-    chdir: home/.config/dwm
+    chdir: home/.config/dmenu
     target: install
     params: "CONFDIR={{ confdir }}"
   become: true

@@ -26,11 +26,10 @@
   shell: "zfs set snapdir=visible zroot/ROOT/ubuntu"
   changed_when: false
 
-# https://github.com/openzfs/zfs/issues/9461#issuecomment-699889066
-- name: zfs snapdir issue workaround
-  become: true
-  lineinfile: 
-    path: /etc/fstab
-    regexp: '^zroot'
-    line: zroot/ROOT/ubuntu / zfs defaults,noatime 0 0
-
+# # https://github.com/openzfs/zfs/issues/9461#issuecomment-699889066
+# - name: zfs snapdir issue workaround
+#   become: true
+#   lineinfile: 
+#     path: /etc/fstab
+#     regexp: '^zroot'
+#     line: zroot/ROOT/ubuntu / zfs defaults,noatime 0 0
