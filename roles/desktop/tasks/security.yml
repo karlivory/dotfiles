@@ -1,0 +1,15 @@
+---
+- name: Enable firewall
+  become: true
+  community.general.ufw:
+    state: enabled
+    default: deny
+
+- name: Disallow SSH password authentication
+  become: true
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: present
+  register: sshd_config

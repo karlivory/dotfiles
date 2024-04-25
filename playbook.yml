@@ -24,6 +24,7 @@
       tags: [init, desktop]
     - import_role:
         name: geerlingguy.docker
+      become: true
       when: not vm
       tags: [software]
       vars:
@@ -37,9 +38,9 @@
           - "docker-{{ docker_edition }}=5:24.0.9-1*"
           - "docker-{{ docker_edition }}-cli=5:24.0.9-1*"
           - "docker-{{ docker_edition }}-rootless-extras=5:24.0.9-1*"
-    - import_role:
-        name: software
-      tags: [software]
+    # - import_role:
+    #     name: software
+    #   tags: [software]
     - import_role:
         name: repos
       tags: [repos]

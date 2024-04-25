@@ -17,6 +17,6 @@
 - name: add dwm.desktop xsession entry
   when: dwm.changed
   copy:
-    src: files/dwm.desktop
+    src: ../files/dwm.desktop
     dest: /usr/share/xsessions/dwm.desktop
 

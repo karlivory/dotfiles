@@ -67,19 +67,31 @@
     state: present
     install_recommends: false
     name:
+      - age
       - autorandr
       - bluez
       - bluez-alsa-utils
       - build-essential
       - cmake
+      - cmatrix
       - curl
       - dbus
       - dnsutils
+      - dunst
+      - expect
       - feh
+      - flameshot
+      - fuse
+      - fzf
+      - gimp
+      - gir1.2-nm-1.0
       - gnupg
+      - htop
+      - jq
       - libasound2-dev
       - libfontconfig1-dev
       - libfreetype6-dev
+      - libfuse2
       - libharfbuzz-dev
       - liblua5.1-0-dev
       - libnl-3-dev
@@ -99,28 +111,56 @@
       - libxrender-dev
       - libyajl-dev
       - lua5.1
+      - lxrandr
+      - mdp
+      - moreutils
+      - mpv
+      - ncal
+      - neofetch
+      - net-tools
+      - network-manager-gnome
+      - openjdk-11-jdk
+      - openjdk-17-jdk
+      - openjdk-21-jdk
+      - openvpn-systemd-resolved
+      - parallel
       - pcscd
       - picom
       - pinentry-qt
       - pkg-config
+      - psmisc
       - pulseaudio-module-bluetooth
+      - pulsemixer
       - python3-docutils
+      - python3-pip
+      - ranger
+      - redshift
       - rsync
       - sanoid
       - scdaemon
       - software-properties-common
       - stow
       - sxhkd
+      - sxiv
+      - thunar
+      - tmux
+      - tree
+      - ufw
       - unclutter
       - unzip
+      - virt-manager
+      - virtualenv
+      - vlc
       - xbindkeys
       - xcape
       - xcb
+      - xclip
       - xdotool
       - xorg
       - xutils-dev
       - xvkbd
       - yubikey-manager
+      - zathura
 
 - name: Purge some packages
   apt:
