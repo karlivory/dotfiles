@@ -2,4 +2,4 @@ logs
 dotfiles/.config/themes/dmenu/theme
 dotfiles/.config/themes/dwm/theme
 dotfiles/.config/themes/luastatus/color.lua
-
+venv

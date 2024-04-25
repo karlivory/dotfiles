@@ -1,3 +1,0 @@
-#!/bin/bash
-
-kubectl exec -i -t -n "$1" "$2" -c "$3" -- sh -c "clear; (bash || ash || sh)"

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-systemctl --user stop picom.service
-# systemctl --user disable picom.service

@@ -1,3 +1,0 @@
-#!/bin/bash
-
-_jetbrains_launcher "intellij-idea-ultimate" "idea.sh"

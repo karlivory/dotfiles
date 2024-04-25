@@ -8,6 +8,7 @@ fi
 rm_if_link() { [ ! -L "$1" ] || rm -v "$1"; }
 rm_if_not_link() { [ -L "$1" ] || rm -rfv "$1"; }
 
+mkdir -p ~/.local/share/gnupg
 mkdir -p ~/.config/systemd/user
 
 # remove existing files/dirs
@@ -25,8 +26,10 @@ rm_if_not_link ~/.config/ranger
 rm_if_not_link ~/.config/nvim/lua/user
 rm_if_not_link ~/.config/user-dirs.dirs
 rm_if_not_link ~/.config/mimeapps.list
+rm_if_not_link ~/.local/share/gnupg/gpg.conf
+rm_if_not_link ~/.local/share/gnupg/gpg-agent.conf
 
-stow dotfiles -t ~
+stow home -t ~
 if [ ! $(find config_personal -maxdepth 0 -empty) ]; then
     echo "stowing personal dotfiles"
     cd config_personal

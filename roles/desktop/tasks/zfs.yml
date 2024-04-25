@@ -23,7 +23,7 @@
 
 - name: Make zfs snapshots visible under /.zfs/snapshot/
   become: true
-  shell: "zfs set snapdir=visible zroot/ROOT/ubuntu"
+  shell: "zfs set snapdir=visible {{ dotfiles_root_zfs_dataset }}"
   changed_when: false
 
 # # https://github.com/openzfs/zfs/issues/9461#issuecomment-699889066

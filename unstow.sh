@@ -5,7 +5,7 @@ if [ "$0" != "./unstow.sh" ]; then
     cd "$(dirname "$0")"
 fi
 
-stow -D dotfiles -t ~
+stow -D home -t ~
 if [ ! "$(find config_personal -maxdepth 0 -empty)" ]; then
     echo "stowing personal dotfiles"
     cd config_personal

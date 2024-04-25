@@ -1,4 +1,5 @@
 ---
+dotfiles_root_zfs_dataset: zroot/ROOT/ubuntu
 confdir: "/data"
 home: "/home/{{ username }}"
 remove_gnome: true
