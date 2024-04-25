@@ -1,8 +1,8 @@
 ---
-- name: "Create {{ confdir }}/fonts"
+- name: "Create {{ dotfiles_data_dir }}/fonts"
   become: true
   file:
-    path: "/{{ confdir }}/fonts"
+    path: "/{{ dotfiles_data_dir }}/fonts"
     state: directory
     mode: 0755
     group: root
@@ -14,12 +14,12 @@
     dl_url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/UbuntuMono.zip"
     dl_filename: "UbuntuMono.zip"
     dl_unarchive: yes
-    dl_unarchive_dir: "{{ confdir }}/fonts/UbuntuMono"
+    dl_unarchive_dir: "{{ dotfiles_data_dir }}/fonts/UbuntuMono"
 
 - name: Copy UbuntuMono font to /usr/share/fonts
   become: true
   synchronize:
-    src: "/{{ confdir }}/fonts/UbuntuMono"
+    src: "/{{ dotfiles_data_dir }}/fonts/UbuntuMono"
     dest: /usr/share/fonts/
   register: font_copy
 

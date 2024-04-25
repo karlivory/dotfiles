@@ -3,7 +3,7 @@
   make:
     chdir: home/.config/dmenu
     target: install
-    params: "CONFDIR={{ confdir }}"
+    params: "CONFDIR={{ dotfiles_data_dir }}"
   become: true
   register: dmenu
   changed_when: dmenu.stdout is search("c99 -o") or dmenu.stdout is search("cc -o")

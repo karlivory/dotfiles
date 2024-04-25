@@ -1,8 +1,8 @@
 ---
-- name: "Create {{ confdir }}"
+- name: "Create {{ dotfiles_data_dir }}"
   become: true
   file:
-    path: "{{ confdir }}"
+    path: "{{ dotfiles_data_dir }}"
     state: directory
     mode: 0755
     group: root

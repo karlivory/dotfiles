@@ -3,7 +3,7 @@
 - import_tasks: ./helm.yml
 - import_tasks: ./kubectl.yml
 - import_tasks: ./lazygit.yml
-- import_tasks: ./gradle.yml
+# - import_tasks: ./gradle.yml
 - import_tasks: ./anki.yml
 - import_tasks: ./ytdlp.yml
 - import_tasks: ./jetbrains.yml

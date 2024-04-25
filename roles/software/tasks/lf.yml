@@ -5,7 +5,7 @@
     dl_url: "https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz"
     dl_filename: "lf.tar.gz"
     dl_unarchive: yes
-    dl_unarchive_dir: "{{ confdir }}/lf"
+    dl_unarchive_dir: "{{ dotfiles_data_dir }}/lf"
     dl_link_file_path: "{{ dl_unarchive_dir }}/lf"
     dl_link_file_dest: "/usr/local/bin/lf"
 

@@ -4,7 +4,7 @@
   vars:
     dl_url: "https://github.com/lemnos/tt/releases/download/v0.4.2/tt-linux"
     dl_filename: "tt"
-    dl_dest_dir: "{{ confdir }}/tt"
+    dl_dest_dir: "{{ dotfiles_data_dir }}/tt"
     dl_link_file_path: "{{ dl_dest_dir }}/tt"
     dl_link_file_dest: "/usr/local/bin/tt"
 

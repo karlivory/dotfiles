@@ -4,12 +4,12 @@
   vars:
     dl_url: "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"
     dl_filename: "nvim.appimage"
-    dl_dest_dir: "{{ confdir }}/nvim-releases"
+    dl_dest_dir: "{{ dotfiles_data_dir }}/nvim-releases"
 
 - name: Install neovim
   become: true
   copy:
-    src: "{{ confdir }}/nvim-releases/nvim.appimage"
+    src: "{{ dotfiles_data_dir }}/nvim-releases/nvim.appimage"
     dest: "/usr/local/bin/nvim"
     owner: root
     group: root

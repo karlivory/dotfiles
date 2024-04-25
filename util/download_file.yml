@@ -23,7 +23,7 @@
     dl_unarchive_dir: "{{ dl_unarchive_dir | default(\"\") }}"
 
 - set_fact:
-    dl_dest_dir: "{{ confdir }}/downloads"
+    dl_dest_dir: "{{ dotfiles_data_dir }}/downloads"
   when: not dl_dest_dir 
 
 - set_fact:

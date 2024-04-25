@@ -4,7 +4,7 @@
   vars:
     dl_url: "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"
     dl_filename: "yt-dlp"
-    dl_dest_dir: "{{ confdir }}/yt-dlp"
+    dl_dest_dir: "{{ dotfiles_data_dir }}/yt-dlp"
     dl_link_file_path: "{{ dl_dest_dir }}/yt-dlp"
     dl_link_file_dest: "/usr/local/bin/yt-dlp"
 

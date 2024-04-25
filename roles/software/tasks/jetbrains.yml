@@ -5,7 +5,7 @@
     dl_url: https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-2.0.4.17212.tar.gz
     dl_filename: jetbrains-toolbox.tar.gz
     dl_unarchive: yes
-    dl_unarchive_dir: "{{ confdir }}/toolbox"
+    dl_unarchive_dir: "{{ dotfiles_data_dir }}/toolbox"
     dl_link_file_path: "{{ dl_unarchive_dir }}/jetbrains-toolbox-2.0.4.17212/jetbrains-toolbox"
     dl_link_file_dest: /usr/local/bin/jetbrains-toolbox
 

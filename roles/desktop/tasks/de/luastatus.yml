@@ -1,8 +1,8 @@
 ---
-- name: "Create {{ confdir }}"
+- name: "Create {{ dotfiles_data_dir }}"
   become: true
   file:
-    path: "{{ confdir }}"
+    path: "{{ dotfiles_data_dir }}"
     state: directory
     mode: 0755
     group: root
@@ -12,7 +12,7 @@
   become: true
   git:
     repo: https://github.com/shdown/luastatus
-    dest: "{{ confdir }}/luastatus"
+    dest: "{{ dotfiles_data_dir }}/luastatus"
     version: 99123f6613332631fbfd2a11c2f32f0854e19d3d
     depth: 1
     update: yes
@@ -23,7 +23,7 @@
   when: clone_luastatus.changed
   command: "cmake ."
   args:
-    chdir: "{{ confdir }}/luastatus"
+    chdir: "{{ dotfiles_data_dir }}/luastatus"
   changed_when: false
 
 - name: build luastatus
@@ -31,7 +31,7 @@
   when: clone_luastatus.changed
   command: "make"
   args:
-    chdir: "{{ confdir }}/luastatus"
+    chdir: "{{ dotfiles_data_dir }}/luastatus"
   changed_when: false
 
 - name: build luastatus
@@ -39,5 +39,5 @@
   when: clone_luastatus.changed
   command: "make install"
   args:
-    chdir: "{{ confdir }}/luastatus"
+    chdir: "{{ dotfiles_data_dir }}/luastatus"
   changed_when: false

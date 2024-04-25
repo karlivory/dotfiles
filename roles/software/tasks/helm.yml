@@ -5,6 +5,6 @@
     dl_url: "https://get.helm.sh/helm-v3.12.3-linux-amd64.tar.gz"
     dl_filename: "helm.tar.gz"
     dl_unarchive: yes
-    dl_unarchive_dir: "{{ confdir }}/helm"
+    dl_unarchive_dir: "{{ dotfiles_data_dir }}/helm"
     dl_link_file_path: "{{ dl_unarchive_dir }}/linux-amd64/helm"
     dl_link_file_dest: "/usr/local/bin/helm"

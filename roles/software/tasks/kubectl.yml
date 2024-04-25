@@ -4,6 +4,6 @@
   vars:
     dl_url: "https://dl.k8s.io/release/v1.28.1/bin/linux/amd64/kubectl"
     dl_filename: "kubectl"
-    dl_dest_dir: "{{ confdir }}/kubectl"
+    dl_dest_dir: "{{ dotfiles_data_dir }}/kubectl"
     dl_link_file_path: "{{ dl_dest_dir }}/kubectl"
     dl_link_file_dest: "/usr/local/bin/kubectl"

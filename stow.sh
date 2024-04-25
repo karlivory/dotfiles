@@ -22,6 +22,7 @@ rm_if_not_link ~/.inputrc
 rm_if_not_link ~/.config/lazygit
 rm_if_not_link ~/.config/tmuxinator
 rm_if_not_link ~/.config/picom
+rm_if_not_link ~/.config/autorandr
 rm_if_not_link ~/.config/ranger
 rm_if_not_link ~/.config/nvim/lua/user
 rm_if_not_link ~/.config/user-dirs.dirs
