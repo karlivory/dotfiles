@@ -4,7 +4,7 @@ Requires=graphical-session.target
 After=dbus.service graphical-session.target xorg.target
 
 [Service]
-ExecStart=picom --experimental-backends -c
+ExecStart=picom -c
 Restart=always
 Slice=session.slice
 
