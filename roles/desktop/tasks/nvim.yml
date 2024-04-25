@@ -1,19 +1,4 @@
 ---
-- name: Install neovim related packages
-  become: true
-  apt:
-    name:
-      - lua5.1
-      - luarocks
-      - python-is-python3
-      - ripgrep
-      - fzf
-      - shellcheck
-      - shfmt
-      - python3-pynvim
-      - fd-find
-    state: present
-
 - name: Download, unarchive and link nvim
   include_tasks: util/download_file.yml
   vars:

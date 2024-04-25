@@ -1,18 +1,4 @@
 ---
-- name: Ensure /etc/sanoid/ exists
-  become: true
-  file:
-    path: /etc/sanoid
-    state: directory
-    mode: 0755
-    owner: root
-
-- name: Copy over sanoid.conf 
-  become: true
-  synchronize:
-    src: files/sanoid.conf
-    dest: /etc/sanoid/sanoid.conf
-
 - name: Create docker dataset
   become: true
   community.general.zfs:
@@ -25,11 +11,3 @@
   become: true
   shell: "zfs set snapdir=visible {{ dotfiles_root_zfs_dataset }}"
   changed_when: false
-
-# # https://github.com/openzfs/zfs/issues/9461#issuecomment-699889066
-# - name: zfs snapdir issue workaround
-#   become: true
-#   lineinfile: 
-#     path: /etc/fstab
-#     regexp: '^zroot'
-#     line: zroot/ROOT/ubuntu / zfs defaults,noatime 0 0

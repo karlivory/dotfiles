@@ -48,3 +48,19 @@
             match:
               name: e*
             dhcp4: true
+
+- name: "disable any action on close lid"
+  become: true
+  lineinfile:
+    path: "/etc/systemd/logind.conf"
+    regexp: "^HandleLidSwitch.*"
+    line: "HandleLidSwitch=ignore"
+
+- name: Disallow SSH password authentication
+  become: true
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: present
+  register: sshd_config

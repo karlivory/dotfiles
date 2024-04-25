@@ -110,6 +110,7 @@
       - dnsutils
       - dunst
       - expect
+      - fd-find
       - feh
       - flameshot
       - fuse
@@ -142,6 +143,7 @@
       - libxrender-dev
       - libyajl-dev
       - lua5.1
+      - luarocks
       - lxrandr
       - mdp
       - moreutils
@@ -162,13 +164,18 @@
       - psmisc
       - pulseaudio-module-bluetooth
       - pulsemixer
+      - python-is-python3
       - python3-docutils
       - python3-pip
+      - python3-pynvim
       - ranger
       - redshift
+      - ripgrep
       - rsync
       - sanoid
       - scdaemon
+      - shellcheck
+      - shfmt
       - software-properties-common
       - stow
       - sxhkd

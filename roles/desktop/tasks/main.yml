@@ -8,15 +8,6 @@
     group: root
     owner: root
 
-- name: copy over global_env.sh
-  become: true
-  copy:
-    src: files/global_env.sh
-    dest: /etc/profile.d/global_env.sh
-    owner: root
-    group: root
-    mode: 0664
-
 - import_tasks: ./apt.yml
 - import_tasks: ./fonts.yml
 - import_tasks: ./zfs.yml
@@ -34,9 +25,3 @@
 - import_tasks: ./etc.yml
 - import_tasks: ./cleanup.yml
 
-- name: "disable any action on close lid"
-  become: true
-  lineinfile:
-    path: "/etc/systemd/logind.conf"
-    regexp: "^HandleLidSwitch.*"
-    line: "HandleLidSwitch=ignore"

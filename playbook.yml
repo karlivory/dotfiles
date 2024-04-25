@@ -35,9 +35,9 @@
             - base: 172.20.0.0/16
               size: 24
     # TODO: fix
-    # - import_role:
-    #     name: software
-    #   tags: [software]
+    - import_role:
+        name: software
+      tags: [software]
     - import_role:
         name: repos
       tags: [repos]
