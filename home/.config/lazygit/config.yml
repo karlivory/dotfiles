@@ -1,0 +1,11 @@
+---
+git:
+  autoFetch: false
+notARepository: quit
+# gui:
+#   theme:
+#     activeBorderColor:
+#       - yellow
+#       - bold
+#     inactiveBorderColor:
+#       - red

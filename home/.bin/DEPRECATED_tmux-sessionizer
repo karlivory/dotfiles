@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+# deprecated
+# starting point: https://github.com/ThePrimeagen/.dotfiles/blob/196aa23e0e2dfc6245f69c77bd2b05c8849f9908/bin/.local/bin/tmux-sessionizer
+# TODO: integrate tmuxinator
+# 					* if session does not exist, initialize it w/ tmuxinator .yml file (1. nvim +CtrlF, 2. lg, 3. bash)
+
+last_session_file=$HOME/.cache/.tmux_last_session
+CMD=""
+
+if [[ $# -eq 1 ]]; then
+	selected=$1
+elif [[ $# -gt 1 ]]; then
+    echo "ERROR! tmux-sessionizer accepts 0 or 1 argument, but $# args were given!"
+    exit 1
+else
+	echo '' > /tmp/tmux-sessioniser-action
+	selected=$("$HOME/.config/vars/repos" | fzf --bind "ctrl-x:execute(echo LAST_SESSION > /tmp/tmux-sessioniser-action)+abort" --bind "ctrl-n:execute(echo NEW_SESSION_HERE > /tmp/tmux-sessioniser-action)+abort" )
+fi
+TMUX_SESSIONIZER_ACTION=$(cat /tmp/tmux-sessioniser-action)
+
+if [[ "$TMUX_SESSIONIZER_ACTION" == "LAST_SESSION" ]]; then
+	last_session_file=$HOME/.cache/.tmux_last_session
+
+	if [ ! -f  $last_session_file ]; then
+    echo "ERROR! No last session file found! ($last_session_file)"
+    exit 1
+	fi
+	session_name=$(cat $last_session_file | tr -s '\n' ' ' | tr -dc 'a-zA-Z0-9_-')
+	if [ -z $session_name ]; then
+    	echo "ERROR! Could not determine session name from $last_session_file!"
+    	exit 1
+	fi
+	if ! tmux has-session -t=$session_name 2> /dev/null; then
+    	echo "ERROR! Session $session_name does not exist! Removing $last_session_file..."
+    	rm $last_session_file
+    	exit 1
+	fi
+
+	tmux_running=$(pgrep tmux)
+	inside_tmux=$TMUX
+
+	# is tmux running?
+	if [[ -z $inside_tmux ]] && [[ -z $tmux_running ]]; then
+    	tmux new-session -s $session_name -c $selected
+    	exit 0
+	fi
+
+	# tmux is running and the session already exists.
+	if [[ ! -z $inside_tmux ]]; then
+    	tmux display -p "#S" > $last_session_file
+    	tmux switch-client -t $session_name
+	else
+    	tmux attach-session -d -t $session_name
+	fi
+	exit 1
+fi
+
+if [[ $TMUX_SESSIONIZER_ACTION == "NEW_SESSION_HERE" ]]; then
+	tmux_running=$(pgrep tmux)
+	inside_tmux=$TMUX
+
+	session_name=$(pwd | sed 's/.*\///')
+	session_name=$(echo "$session_name" | tr -s '\n' ' ' | tr -dc 'a-zA-Z0-9_-')
+	# is tmux running?
+	if [[ -z $inside_tmux ]] && [[ -z $tmux_running ]]; then
+    	tmux new-session -s $session_name -c $PWD
+    	exit 0
+	fi
+
+	# tmux is running... does the session need to be created?
+	if ! tmux has-session -t="$session_name" 2>/dev/null; then
+		tmux new-session -ds "$session_name" -c "$selected"
+	fi
+
+	# tmux is running and the session already exists.
+	if [[ ! -z $inside_tmux ]]; then
+    	tmux display -p "#S" > $last_session_file
+    	tmux switch-client -t $session_name
+	else
+    	tmux attach-session -d -t $session_name
+	fi
+	exit 1
+fi
+
+if [[ ! -z "$CMD" ]] || [[ -z $selected ]]; then
+	exit 0
+fi
+
+if echo "$selected" | grep -q "ERROR!"; then
+	echo "$selected"
+	exit 1
+fi
+
+session_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+inside_tmux=$TMUX
+
+# is tmux running?
+if [[ -z $inside_tmux ]] && [[ -z $tmux_running ]]; then
+	tmux start-server
+	# tmux new-session -s $session_name -c $selected
+fi
+
+# tmux is running... does the session need to be created?
+if ! tmux has-session -t="$session_name" 2>/dev/null; then
+	tmux new-session -ds "$session_name" -c "$selected"
+fi
+
+# tmux is running and the session already exists.
+if [[ -n $inside_tmux ]]; then
+	tmux display -p "#S" > "$last_session_file"
+	tmux switch-client -t "$session_name"
+else
+	tmux attach-session -d -t "$session_name"
+fi

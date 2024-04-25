@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# nd -- nvim date
+
+filename=$(date -I).md
+
+# Create file if it does not exist, prepend with current date as header
+if [[ ! -e $filename ]]; then
+    touch $filename
+    { printf '# '$(date -I)'\n'; cat $(date -I).md; } > tmpfile.$$
+    mv tmpfile.$$ $filename
+fi
+
+nvim $filename

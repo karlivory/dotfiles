@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+source $HOME/.config/youtube_downloader/channels.sh
+
+BASE_PATH=$HOME/Videos/youtube
+mkdir -p $BASE_PATH
+
+# Check if there is >50gb space left
+reqSpace=50000000
+function check_space(){
+  availSpace=$(df / | awk 'NR==2 { print $4 }')
+  if (( availSpace < reqSpace )); then
+    echo "not enough space" >&2
+    exit 1
+  fi
+}
+
+for key in "${!channels[@]}"; do
+  mkdir -p "$BASE_PATH/$key"
+  echo "============================ channel: ${key} ============================"
+  check_space
+  # cd "$key"
+  curl "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=5&playlistId=${channels[$key]}&sort=date&key={${YT_API_KEY}}" | jq -r '.items | .[] | .contentDetails | .videoId' > $BASE_PATH/$key/video_urls
+  yt-dlp --paths /$BASE_PATH/$key/ --dateafter today-30days --throttled-rate 600K -a $BASE_PATH/$key/video_urls -f "bestvideo[height<=1080]+bestaudio"
+  # cd ..
+done

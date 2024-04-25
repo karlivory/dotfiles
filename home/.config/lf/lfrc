@@ -1,0 +1,79 @@
+# ============================== OPTIONS ========================================
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set period 1
+# set cleaner '~/.config/lf/cleaner'
+set previewer '~/.config/lf/preview'
+set ratios 1:2:3
+set drawbox
+set hidden
+# ===============================================================================
+
+# ================================ CMDS =========================================
+cmd open ${{
+    test -L $f && f=$(readlink -f $f)
+    case $(file --mime-type $f -b) in
+        text/*) $EDITOR $fx;;
+        image/gif) setsid animate $fx > /dev/null 2>&1 &;;
+        image/*) setsid sxiv $fx > /dev/null 2>&1 &;;
+        video/*) setsid vlc $fx > /dev/null 2>&1 &;;
+        *) for f in $fx; do setsid xdg-open $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+cmd create_file %{{
+    # arguments are pre-split by newlines somehow? this fixes it
+    file=$(echo "$*" | tr "\n" " " | sed 's/.$//')
+    case "$file" in 
+        */) mkdir "$file" ;;
+        *) [ ! -f "$file" ] && echo "#" > "$file" ;;
+    esac
+}}
+
+cmd extract %{{
+    len=$(echo "$fx" | wc -l)
+    if [ "$((len))" -gt 1 ]; then
+        echo "$((len - 0)) Cannot extract! More than one file selected!"; exit 1
+    fi
+    if [ "$((len))" -lt 1 ]; then
+        echo "$((len - 0)) Cannot extract! No archives selected!"; exit 1
+    fi
+	printf "%s\textract?[y/N]" "$f"
+	#read ans
+	#[ $ans = "y" ] && aunpack $fx
+    aunpack $fx
+}}
+
+cmd setperms %{{
+	printf "Permissions [e.g. 0400, 755, +x, u+x]: " "$f"
+	read perms
+	#[ $ans = "y" ] && aunpack $fx
+    chmod "$perms" $fx
+}}
+# ===============================================================================
+
+# Bindings
+# ============================== KEYBINDS =======================================
+# unbind some defaults
+map gh
+
+map ` mark-load
+map d delete
+map x cut
+map <esc> :clear; unselect
+map E extract
+map R reload
+map . set hidden!
+map P setperms
+map o open
+map O $mimeopen --ask $f
+
+map a push :create_file<space>
+
+
+map V push :!nvim<space>
+
+# copy file location
+map Y $printf "%s" "$fx" | xclip -selection clipboard
+# ===============================================================================

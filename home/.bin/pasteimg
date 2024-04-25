@@ -1,0 +1,7 @@
+#!/bin/bash
+size=$(zenity --list --title "Select target size" --column=size original 2560 1920 1280 640)
+if [ size = original ]; then
+    xclip -selection c -o -t image/png > clip.png
+else
+    xclip -selection c -o -t image/png | convert -resize $size\> - clip.png
+fi

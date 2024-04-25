@@ -1,0 +1,75 @@
+# Browser
+super + w
+	google-chrome \
+        --no-default-browser-check
+
+super + Return
+    st
+
+super + Tab
+    dmenu_run
+
+
+#=============================== dwm ===========================================
+super + shift + n
+    xsetroot -name "fsignal:3" # dwm:togglebar
+
+# scratchpads
+super + a
+    xsetroot -name "fsignal:100" # dwm:togglebar
+super + s
+    xsetroot -name "fsignal:101" # dwm:togglebar
+super + d
+    xsetroot -name "fsignal:102" # dwm:togglebar
+super + b
+    xsetroot -name "fsignal:103" # dwm:togglebar
+#===============================================================================
+
+super + n
+	networkmanager_dmenu
+
+super + semicolon
+    powermenu
+    
+super + Print
+	flameshot gui # take screenshot
+
+super + shift + Print
+	flameshot gui -p /st/docs/private/wiki/static/$(date -I)-$(openssl rand -hex 2) # take screenshot
+
+super + shift + t
+	theme_changer
+
+super + Escape
+	slock
+
+super + shift + F1
+	sxhkd_reload # reload sxhkd configuration
+
+super + F1
+    pulsemixer --change-volume -10 && touch $HOME/.config/luastatus/fifo/.volume
+
+XF86AudioLowerVolume
+    pulsemixer --change-volume -3 && touch $HOME/.config/luastatus/fifo/.volume
+
+super + F2
+    pulsemixer --change-volume +10 && touch $HOME/.config/luastatus/fifo/.volume
+
+XF86AudioRaiseVolume
+    pulsemixer --change-volume +3 && touch $HOME/.config/luastatus/fifo/.volume
+
+super + F3
+	pulsemixer --toggle-mute && touch $HOME/.config/luastatus/fifo/.volume
+
+XF86AudioMute
+	pulsemixer --toggle-mute && touch $HOME/.config/luastatus/fifo/.volume
+
+super + F4
+	st -e pulsemixer # TODO: make this floating terminal (like bluetoothctl)
+
+super + F9
+    kill -9 $(pgrep xkill) || xkill # toggle xkill
+super + F11
+	autorandr -c && set_default_wallpaper && remaps
+super + F12
+	pkill -1 dwm

@@ -1,0 +1,8 @@
+name: config
+root: ~/git/config
+windows:
+  - dotfiles:
+    - nvim +CtrlF
+  - git:
+    - lg
+  - bash:

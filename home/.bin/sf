@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "sf:      opens temporary lf file browser over ssh"
+    echo ""
+    echo "Usage:   sf [ssh-address]:[dir]"
+    echo "example: sf root@10.1.2.3:/root/dir1"
+    exit 1
+fi
+SSHFS_ADDRESS=$1
+
+cleanup() {
+    if mountpoint -q "$MOUNT_DIR"; then
+        echo "Unmounting $MOUNT_DIR..."
+        fusermount -u "$MOUNT_DIR" || umount "$MOUNT_DIR" || echo "ERROR! Unable to unmount tmp dir!"
+    fi
+    if [ -d "$MOUNT_DIR" ]; then
+        rmdir "$MOUNT_DIR"
+    fi
+}
+
+USER_HOST=$(echo "$SSHFS_ADDRESS" | cut -d ':' -f 1)
+UUID=$(uuidgen)
+MOUNT_DIR="./sf-${USER_HOST}-${UUID}"
+
+mkdir -p "$MOUNT_DIR"
+
+trap cleanup EXIT
+
+if sshfs "$SSHFS_ADDRESS" "$MOUNT_DIR" -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3; then
+    echo "Mounted $SSHFS_ADDRESS at $MOUNT_DIR"
+else
+    echo "sshfs command failed!"
+    exit 1
+fi
+
+lf "$MOUNT_DIR"

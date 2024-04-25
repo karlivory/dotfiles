@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# keyboard layout
+setxkbmap -layout us -variant altgr-intl
+# caps lock is another ctrl
+setxkbmap -option ctrl:swapcaps
+# both alt keys as winkeys, winkey is alt
+setxkbmap -option altwin:swap_alt_win
+# single-tap ctrl acts as escape
+xcape -e 'Control_L=Escape'
+
+xset r rate 200 50
+
+binds=$(cat <<EOF
+"xvkbd -xsendevent -text '\{+dead_diaeresis}u'"
+	Mod4 + u
+"xvkbd -xsendevent -text '\{+dead_diaeresis}U'"
+	Shift+Mod4 + u
+"xvkbd -xsendevent -text '\{+dead_diaeresis}o'"
+	Mod4 + i
+"xvkbd -xsendevent -text '\{+dead_diaeresis}O'"
+	Shift+Mod4 + i
+"xvkbd -xsendevent -text '\{+dead_tilde}o'"
+	Mod4 + o
+"xvkbd -xsendevent -text '\{+dead_tilde}O'"
+	Shift+Mod4 + O
+"xvkbd -xsendevent -text '\{+dead_diaeresis}a'"
+	Mod4 + p
+"xvkbd -xsendevent -text '\{+dead_diaeresis}A'"
+	Shift+Mod4 + p
+EOF
+)
+tmpfile="$(mktemp)"
+printf '%s\n' "${binds}" > "$tmpfile"
+xbindkeys -f "$tmpfile"

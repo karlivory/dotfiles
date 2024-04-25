@@ -1,0 +1,3 @@
+#!/bin/bash
+
+_jetbrains_launcher "PyCharm-P" "pycharm.sh"

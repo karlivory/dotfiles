@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+pulsemixer --mute
+
+redshift -PO 2100
+
+feh --no-fehbg --bg-fill ~/.config/wallpapers/wallhaven-g8g9me-moon.jpg
+
+notify-send "Good night!"
+echo "Good night!"
