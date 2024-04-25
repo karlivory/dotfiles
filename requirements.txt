@@ -1,1 +1,2 @@
 ansible==9.3.0
+python-debian==0.1.49

@@ -29,34 +29,65 @@
 
 ##====================================== REPOS ========================================##
 #########################################################################################
+# examples of new format: https://gist.github.com/roib20/27fde10af195cee1c1f8ac5f68be7e9b
 
-- name: Add yubico repository
-  become: true
-  ansible.builtin.apt_repository:
-    repo: ppa:yubico/stable
-    state: present
+# - name: Add spotify apt repository
+#   become: true
+#   ansible.builtin.deb822_repository:
+#     name: spotify
+#     types: [deb]
+#     uris:
+#       - http://repository.spotify.com
+#     signed_by: https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
+#     suites: [stable]
+#     components: [non-free]
+#     state: present
+#     architectures: amd64
+#     enabled: yes
 
-- name: Add spotify repository
+- name: Add google apt repository
   become: true
-  ansible.builtin.apt_repository:
-    repo: "deb http://repository.spotify.com stable non-free"
+  ansible.builtin.deb822_repository:
+    name: google
+    types: [deb]
+    uris:
+      - http://dl.google.com/linux/chrome/deb
+      - http://dl.google.com/linux/earth/deb
+    signed_by: https://dl.google.com/linux/linux_signing_key.pub
+    suites: [stable]
+    components: [main]
     state: present
-    filename: spotify
-    update_cache: yes
+    architectures: amd64
+    enabled: yes
 
-- name: Add google chrome repository
+# https://support.yubico.com/hc/en-us/articles/360016649039-Installing-Yubico-Software-on-Linux
+- name: Add yubico apt repository
   become: true
-  apt_repository:
-    repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+  ansible.builtin.deb822_repository:
+    name: yubico
+    types: [deb]
+    uris:
+      - http://ppa.launchpad.net/yubico/stable/ubuntu
+    signed_by: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3653E21064B19D134466702E43D5C49532CBA1A9
+    suites: [lunar]
+    components: [main]
     state: present
-    filename: google-chrome
-    update_cache: yes
+    architectures: amd64
+    enabled: yes
 
-- name: Add firefox esr repository
+- name: Add mozilla apt repository
   become: true
-  ansible.builtin.apt_repository:
-    repo: ppa:mozillateam/ppa
+  ansible.builtin.deb822_repository:
+    name: mozilla
+    types: [deb]
+    uris:
+      - http://ppa.launchpad.net/mozillateam/ppa/ubuntu
+    signed_by: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0AB215679C571D1C8325275B9BDB3D89CE49EC21
+    suites: [lunar]
+    components: [main]
     state: present
+    architectures: amd64
+    enabled: yes
 
 ##==================================== PACKAGES =======================================##
 #########################################################################################
@@ -163,6 +194,7 @@
       - zathura
 
 - name: Purge some packages
+  become: true
   apt:
     state: absent
     purge: true
