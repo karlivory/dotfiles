@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ "$0" != "./stow.sh" ]; then
-    echo -e "\033[33mWARNING: script was run outside of its directory. Fixing...\033[0m"
-    cd "$(dirname "$0")"
-fi
-
 rm_if_link() { [ ! -L "$1" ] || rm -v "$1"; }
 rm_if_not_link() { [ -L "$1" ] || rm -rfv "$1"; }
 
@@ -30,9 +25,8 @@ rm_if_not_link ~/.config/mimeapps.list
 rm_if_not_link ~/.local/share/gnupg/gpg.conf
 rm_if_not_link ~/.local/share/gnupg/gpg-agent.conf
 
-stow home -t ~
+stow home -v -t ~ 2>&1
 if [ ! $(find config_personal -maxdepth 0 -empty) ]; then
-    echo "stowing personal dotfiles"
     cd config_personal
     stow dotfiles_personal -t ~
     cd ..
@@ -48,5 +42,3 @@ fi
 if [ ! -f ~/.config/themes/luastatus/theme ]; then
     cp ~/.config/themes/luastatus/gruvbox.lua ~/.config/themes/luastatus/color.lua
 fi
-
-echo "done"

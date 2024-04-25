@@ -2,8 +2,7 @@
 # ╔═════════════════════════════════╗
 # ║ Intended to run on Ubuntu 24.04 ║
 # ╚═════════════════════════════════╝
-- name: "Configure my pc (root)"
-  # become_method: sudo
+- name: Configure pc
   hosts: localhost
   connection: local
 
@@ -20,13 +19,13 @@
 
   tasks:
     - import_role:
-        name: desktop
-      tags: [init, desktop]
+        name: system
+      tags: [system]
     - import_role:
         name: geerlingguy.docker
       become: true
       when: not vm
-      tags: [software]
+      tags: [docker]
       vars:
         docker_daemon_options:
           bip: "172.20.0.1/24"
@@ -34,7 +33,6 @@
           default-address-pools:
             - base: 172.20.0.0/16
               size: 24
-    # TODO: fix
     - import_role:
         name: software
       tags: [software]
