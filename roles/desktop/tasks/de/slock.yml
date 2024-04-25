@@ -1,7 +1,7 @@
 ---
 - name: build slock
   make:
-    chdir: dotfiles/.config/slock
+    chdir: home/.config/dwm
     target: install
   become: true
   register: slock

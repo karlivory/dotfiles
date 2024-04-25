@@ -1,7 +1,7 @@
 ---
 - name: build  and install dwm
   make:
-    chdir: dotfiles/.config/dwm
+    chdir: home/.config/dwm
     target: install
     params: "CONFDIR={{ confdir }}"
   become: true

@@ -1,7 +1,7 @@
 ---
 - name: build st
   make:
-    chdir: dotfiles/.config/st
+    chdir: home/.config/dwm
     target: install
   become: true
   register: st
