@@ -229,7 +229,7 @@ source <(kubectl completion bash)
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 # needed for st
 tput smkx
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
