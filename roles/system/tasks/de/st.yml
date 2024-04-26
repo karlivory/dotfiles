@@ -16,5 +16,5 @@
 - name: add st.desktop xsession entry
   when: st.changed
   copy:
-    src: files/st.desktop
+    src: ../files/st.desktop
     dest: /usr/share/applications/st.desktop

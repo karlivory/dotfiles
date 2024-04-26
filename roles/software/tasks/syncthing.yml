@@ -1,17 +1,11 @@
 ---
 - name: Install syncthing
+  become: true
   apt:
     name: syncthing
     state: present
 
 # syncthing.service user-level systemd enable is in xinitrc
-
-- name: Create syncthing folder
-  file:
-    state: directory
-    path: /st
-    owner: "{{ username }}"
-    group: "{{ username }}"
 
 - name: Delete the default Sync dir
   file:

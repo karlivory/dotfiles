@@ -8,7 +8,7 @@
 
   vars_files:
     - ./config.yml
-    - ./config_personal/vars.yml
+    - ./dotfiles-personal/vars.yml
 
   pre_tasks:
     - name: Ensure /usr/local/bin exists
