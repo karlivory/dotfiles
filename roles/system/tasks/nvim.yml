@@ -13,22 +13,4 @@
     dest: "/usr/local/bin/nvim"
     owner: root
     group: root
-    mode: '0755'
-  register: nvim_install
-
-- name: remove .config/nvim
-  become: true
-  when: nvim_install.changed
-  file:
-    dest: "/home/{{ username }}/.config/nvim"
-    state: absent
-
-- name: Git clone astronvim
-  when: nvim_install.changed
-  become: true
-  become_user: "{{ username }}"
-  ansible.builtin.git:
-    repo: https://github.com/AstroNvim/AstroNvim
-    dest: "/home/{{ username }}/.config/nvim"
-    version: 0da3fa834137597f13e53196c8c6f7e1425601ea # TODO: astronvim v4 migration
-    update: no
+    mode: "0755"

@@ -202,6 +202,7 @@
       - wpasupplicant # for wifi nic
       - rustup
       - flatpak
+      - python3.12-venv
       - google-chrome-stable
 
 - name: Purge some packages
