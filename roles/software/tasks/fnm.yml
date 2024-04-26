@@ -1,0 +1,10 @@
+---
+- name: Download and install fnm
+  include_tasks: util/download_file.yml
+  vars:
+    dl_url: https://github.com/Schniz/fnm/releases/download/v1.35.1/fnm-linux.zip
+    dl_filename: fnm.zip
+    dl_unarchive: yes
+    dl_unarchive_dir: "{{ dotfiles_data_dir }}/fnm"
+    dl_link_file_path: "{{ dl_unarchive_dir }}/fnm"
+    dl_link_file_dest: "/usr/local/bin/fnm"
