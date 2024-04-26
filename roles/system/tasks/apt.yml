@@ -199,6 +199,10 @@
       - xvkbd
       - yubikey-manager
       - zathura
+      - wpasupplicant # for wifi nic
+      - rustup
+      - flatpak
+      - google-chrome-stable
 
 - name: Purge some packages
   become: true
