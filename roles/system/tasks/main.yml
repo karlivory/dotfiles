@@ -21,7 +21,6 @@
 - import_tasks: ./de/luastatus.yml
 - import_tasks: ./de/slock.yml
 
-- import_tasks: ./security.yml
 - import_tasks: ./etc.yml
+- import_tasks: ./security.yml
 - import_tasks: ./cleanup.yml
-
