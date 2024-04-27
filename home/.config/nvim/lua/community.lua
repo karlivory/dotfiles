@@ -12,6 +12,7 @@ return {
   { import = "astrocommunity.pack.vue" },
   { import = "astrocommunity.pack.python-ruff" },
   { import = "astrocommunity.pack.rust" },
+  { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.editing-support.zen-mode-nvim" },
   {
     "folke/zen-mode.nvim",
