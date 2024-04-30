@@ -1,0 +1,61 @@
+diff --git a/config.def.h b/config.def.h
+index ca145fc..5754399 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -5,7 +5,7 @@
+  *
+  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+  */
+-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
++static char *font = "UbuntuMono Nerd Font Mono:style=Regular:size=12";
+ #if FONT2_PATCH
+ /* Spare fonts */
+ static char *font2[] = {
+@@ -396,6 +396,13 @@ static char *setbgcolorcmd[] = { "/bin/sh", "-c",
+ 
+ static Shortcut shortcuts[] = {
+ 	/* mask                 keysym          function         argument   screen */
++	{ MODKEY,               XK_k,           kscrollup,       {.i = 1} },
++	{ MODKEY,               XK_j,           kscrolldown,     {.i = 1} },
++	{ MODKEY,               XK_u,           kscrollup,       {.i = -1} },
++	{ MODKEY,               XK_d,           kscrolldown,     {.i = -1} },
++	{ ControlMask,          XK_equal,       zoom,            {.f = +1} },
++	{ ControlMask,          XK_minus,       zoom,            {.f = -1} },
++	{ ControlMask,          XK_0,           zoomreset,       {.f =  0} },
+ 	{ XK_ANY_MOD,           XK_Break,       sendbreak,       {.i =  0} },
+ 	{ ControlMask,          XK_Print,       toggleprinter,   {.i =  0} },
+ 	{ ShiftMask,            XK_Print,       printscreen,     {.i =  0} },
+@@ -501,6 +508,8 @@ static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
+  */
+ static Key key[] = {
+ 	/* keysym           mask            string      appkey appcursor */
++	{ XK_Tab,           ControlMask,                    "\033[9;5u",   0,  +1},
++	{ XK_ISO_Left_Tab,  ShiftMask|ControlMask,          "\033[1;5Z",   0,  +1},
+ 	{ XK_KP_Home,       ShiftMask,      "\033[2J",       0,   -1},
+ 	{ XK_KP_Home,       ShiftMask,      "\033[1;2H",     0,   +1},
+ 	{ XK_KP_Home,       XK_ANY_MOD,     "\033[H",        0,   -1},
+diff --git a/config.mk b/config.mk
+index ca09e0b..a897297 100644
+--- a/config.mk
++++ b/config.mk
+@@ -21,14 +21,14 @@ PKG_CONFIG = pkg-config
+ #XCURSOR = `$(PKG_CONFIG) --libs xcursor`
+ 
+ # Uncomment the lines below for the ligatures patch / LIGATURES_PATCH
+-#LIGATURES_C = hb.c
+-#LIGATURES_H = hb.h
+-#LIGATURES_INC = `$(PKG_CONFIG) --cflags harfbuzz`
+-#LIGATURES_LIBS = `$(PKG_CONFIG) --libs harfbuzz`
++LIGATURES_C = hb.c
++LIGATURES_H = hb.h
++LIGATURES_INC = `$(PKG_CONFIG) --cflags harfbuzz`
++LIGATURES_LIBS = `$(PKG_CONFIG) --libs harfbuzz`
+ 
+ # Uncomment this for the SIXEL patch / SIXEL_PATCH
+-#SIXEL_C = sixel.c sixel_hls.c
+-#SIXEL_LIBS = `$(PKG_CONFIG) --libs imlib2`
++SIXEL_C = sixel.c sixel_hls.c
++SIXEL_LIBS = `$(PKG_CONFIG) --libs imlib2`
+ 
+ # Uncomment for the netwmicon patch / NETWMICON_PATCH
+ #NETWMICON_LIBS = `$(PKG_CONFIG) --libs gdlib`

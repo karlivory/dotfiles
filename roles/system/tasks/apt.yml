@@ -130,6 +130,7 @@
       - libnl-genl-3-dev
       - libpam0g-dev
       - libtool
+      - libimlib2-dev
       - libudev-dev
       - libx11-dev
       - libx11-xcb-dev
