@@ -10,3 +10,6 @@
 [submodule "home/.config/slock/slock-flexipatch"]
 	path = home/.config/slock/slock-flexipatch
 	url = https://github.com/bakkeby/slock-flexipatch
+[submodule "home/.config/dwm/dwm-flexipatch"]
+	path = home/.config/dwm/dwm-flexipatch
+	url = https://github.com/bakkeby/dwm-flexipatch

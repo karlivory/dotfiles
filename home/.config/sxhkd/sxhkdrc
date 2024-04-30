@@ -11,18 +11,15 @@ super + Tab
 
 
 #=============================== dwm ===========================================
-super + shift + n
-    xsetroot -name "fsignal:3" # dwm:togglebar
-
 # scratchpads
-super + a
-    xsetroot -name "fsignal:100" # dwm:togglebar
-super + s
-    xsetroot -name "fsignal:101" # dwm:togglebar
-super + d
-    xsetroot -name "fsignal:102" # dwm:togglebar
-super + b
-    xsetroot -name "fsignal:103" # dwm:togglebar
+# super + a
+#     xsetroot -name "fsignal:100" # dwm:togglebar
+# super + s
+#     xsetroot -name "fsignal:101" # dwm:togglebar
+# super + d
+#     xsetroot -name "fsignal:102" # dwm:togglebar
+# super + b
+#     xsetroot -name "fsignal:103" # dwm:togglebar
 #===============================================================================
 
 super + n
