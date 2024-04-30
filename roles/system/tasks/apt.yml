@@ -113,7 +113,7 @@
       - fd-find
       - feh
       - flameshot
-      - fuse
+      # - fuse
       - fzf
       - gimp
       - gir1.2-nm-1.0
@@ -123,7 +123,7 @@
       - libasound2-dev
       - libfontconfig1-dev
       - libfreetype6-dev
-      - libfuse2
+      # - libfuse2
       - libharfbuzz-dev
       - liblua5.1-0-dev
       - libnl-3-dev
