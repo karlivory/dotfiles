@@ -1,8 +1,8 @@
 ---
 - name: build slock
-  make:
-    chdir: home/.config/slock
-    target: install
   become: true
+  shell: FLEXIPATCH=slock ./run.sh
+  args:
+    chdir: home/.config/slock
   register: slock
   changed_when: slock.stdout is search("c99 -o") or slock.stdout is search("CC -o")

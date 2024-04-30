@@ -1,19 +1,21 @@
 ---
 - name: build st
-  make:
-    chdir: home/.config/st
-    target: install
   become: true
+  shell: FLEXIPATCH=st ./run.sh
+  args:
+    chdir: home/.config/st
   register: st
-  changed_when: st.stdout is search("c99 -o") or st.stdout is search("cc -o")
+  changed_when: "'TASK_CHANGED' in st.stdout"
 
 - name: Ensure /usr/share/applications exists
+  become: true
   when: st.changed
   file:
     path: /usr/share/applications
     state: directory
 
 - name: add st.desktop xsession entry
+  become: true
   when: st.changed
   copy:
     src: ../files/st.desktop

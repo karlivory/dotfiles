@@ -1,10 +1,9 @@
 ---
 - name: build dmenu
-  make:
-    chdir: home/.config/dmenu
-    target: install
-    params: "CONFDIR={{ dotfiles_data_dir }}"
   become: true
+  shell: FLEXIPATCH=dmenu ./run.sh
+  args:
+    chdir: home/.config/dmenu
   register: dmenu
   changed_when: dmenu.stdout is search("c99 -o") or dmenu.stdout is search("cc -o")
 

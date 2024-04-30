@@ -1,11 +1,9 @@
 ---
 - name: build  and install dwm
   become: true
-  make:
+  shell: FLEXIPATCH=dwm ./run.sh
+  args:
     chdir: home/.config/dwm
-    target: install
-    params: "CONFDIR={{ dotfiles_data_dir }}"
-  become: true
   register: dwm
   changed_when: dwm.stdout is search("c99 -o") or dwm.stdout is search("cc -o")
 
