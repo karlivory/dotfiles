@@ -7,3 +7,6 @@
 [submodule "home/.config/dmenu/dmenu-flexipatch"]
 	path = home/.config/dmenu/dmenu-flexipatch
 	url = https://github.com/bakkeby/dmenu-flexipatch
+[submodule "home/.config/slock/slock-flexipatch"]
+	path = home/.config/slock/slock-flexipatch
+	url = https://github.com/bakkeby/slock-flexipatch
