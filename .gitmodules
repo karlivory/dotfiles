@@ -4,3 +4,6 @@
 [submodule "dotfiles-personal"]
 	path = dotfiles-personal
 	url = git@github.com:karlivory/dotfiles-personal.git
+[submodule "home/.config/dmenu/dmenu-flexipatch"]
+	path = home/.config/dmenu/dmenu-flexipatch
+	url = https://github.com/bakkeby/dmenu-flexipatch
