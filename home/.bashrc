@@ -63,26 +63,26 @@ lfcd() {
 bind -m "vi-command" '"\C-o": "ddilfcd\C-m"'
 bind -m "vi-insert" '"\C-o": "\eddilfcd\C-m"'
 
-# Kinda nice. ctrl-j/k to go up directories fast. Using cd clears the stack
-_cdup() {
-    [[ "$PWD" != "/" ]] && pushd .. >/dev/null
-}
-bind -m "vi-command" '"\C-k": "ddi_cdup # <==\C-m"'
-bind -m "vi-insert" '"\C-k": "\eddi_cdup # <==\C-m"'
-_cddown() {
-    popd >/dev/null
-}
-bind -m "vi-command" '"\C-e": "ddi_cddown # ==>\C-m"'
-bind -m "vi-insert" '"\C-e": "\eddi_cddown # ==>\C-m"'
-_clearcd() {
-    if [ $# -eq 0 ]; then
-        DIR="${HOME}"
-    else
-        DIR="$1"
-    fi
-    cd "${DIR}" && dirs -c
-}
-alias cd='_clearcd'
+# # Kinda nice. ctrl-j/k to go up directories fast. Using cd clears the stack
+# _cdup() {
+#     [[ "$PWD" != "/" ]] && pushd .. >/dev/null
+# }
+# bind -m "vi-command" '"\C-k": "ddi_cdup # <==\C-m"'
+# bind -m "vi-insert" '"\C-k": "\eddi_cdup # <==\C-m"'
+# _cddown() {
+#     popd >/dev/null
+# }
+# bind -m "vi-command" '"\C-e": "ddi_cddown # ==>\C-m"'
+# bind -m "vi-insert" '"\C-e": "\eddi_cddown # ==>\C-m"'
+# _clearcd() {
+#     if [ $# -eq 0 ]; then
+#         DIR="${HOME}"
+#     else
+#         DIR="$1"
+#     fi
+#     cd "${DIR}" && dirs -c
+# }
+# alias cd='_clearcd'
 
 # If not running interactively, don't do anything
 case $- in
