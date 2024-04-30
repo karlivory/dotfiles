@@ -6,12 +6,6 @@
       - transmission
       - transmission-daemon
 
-- name: Install stig
-  pip:
-    state: absent
-    name:
-      - stig
-
 - name: Make transmission directory
   become: true
   file:
