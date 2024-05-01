@@ -1,6 +1,6 @@
 ---
-# - import_tasks: ./packages.yml
 - import_tasks: ./fnm.yml
+- import_tasks: ./sops.yml
 - import_tasks: ./helm.yml
 - import_tasks: ./kubectl.yml
 - import_tasks: ./lazygit.yml
