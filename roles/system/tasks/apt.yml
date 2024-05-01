@@ -74,6 +74,7 @@
     state: present
     architectures: amd64
     enabled: yes
+  changed_when: false # keyserver.ubuntu.com returns key metadata in random order
 
 - name: Add mozilla apt repository
   become: true
@@ -88,6 +89,7 @@
     state: present
     architectures: amd64
     enabled: yes
+  changed_when: false # keyserver.ubuntu.com returns key metadata in random order
 
 ##==================================== PACKAGES =======================================##
 #########################################################################################
