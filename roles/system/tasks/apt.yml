@@ -91,6 +91,20 @@
     enabled: yes
   changed_when: false # keyserver.ubuntu.com returns key metadata in random order
 
+- name: Add Lens Desktop repository
+  become: true
+  ansible.builtin.deb822_repository:
+    name: lens
+    types: [deb]
+    uris:
+      - https://downloads.k8slens.dev/apt/debian
+    signed_by: https://downloads.k8slens.dev/keys/gpg
+    suites: [stable]
+    components: [main]
+    state: present
+    architectures: amd64
+    enabled: yes
+
 ##==================================== PACKAGES =======================================##
 #########################################################################################
 
@@ -104,6 +118,7 @@
       - autorandr
       - bluez
       - bluez-alsa-utils
+      - bridge-utils
       - build-essential
       - cmake
       - cmatrix
@@ -115,25 +130,29 @@
       - fd-find
       - feh
       - flameshot
-      # - fuse
+      - flatpak
       - fzf
       - gimp
       - gir1.2-nm-1.0
+      - gir1.2-spiceclientgtk-3.0
       - gnupg
+      - google-chrome-stable
       - htop
+      - intel-media-va-driver-non-free 
       - jq
       - libasound2-dev
       - libfontconfig1-dev
       - libfreetype6-dev
-      # - libfuse2
       - libharfbuzz-dev
+      - libimlib2-dev
       - liblua5.1-0-dev
       - libnl-3-dev
       - libnl-genl-3-dev
       - libpam0g-dev
       - libtool
-      - libimlib2-dev
       - libudev-dev
+      - libvirt-clients
+      - libvirt-daemon-system
       - libx11-dev
       - libx11-xcb-dev
       - libxcb-ewmh-dev
@@ -171,10 +190,13 @@
       - python3-docutils
       - python3-pip
       - python3-pynvim
+      - python3.12-venv
+      - qemu-kvm
       - ranger
       - redshift
       - ripgrep
       - rsync
+      - rustup
       - sanoid
       - scdaemon
       - shellcheck
@@ -190,8 +212,10 @@
       - unclutter
       - unzip
       - virt-manager
+      - virt-manager
       - virtualenv
       - vlc
+      - wpasupplicant # for wifi nic
       - xbindkeys
       - xcape
       - xcb
@@ -202,11 +226,6 @@
       - xvkbd
       - yubikey-manager
       - zathura
-      - wpasupplicant # for wifi nic
-      - rustup
-      - flatpak
-      - python3.12-venv
-      - google-chrome-stable
 
 - name: Purge some packages
   become: true
