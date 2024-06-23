@@ -36,7 +36,7 @@ tmpdir="/tmp/snapshot-$(date +%s%N)-$file_basename"
 
 mkdir "$tmpdir"
 
-
+ln -sT "$FILE" "$tmpdir/.current"
 for dir in $snapdir/*; do
   snapshot_basename=$(basename $dir)
   if [ -d "$dir$FILE" ] || [ -f "$dir$FILE" ]; then
