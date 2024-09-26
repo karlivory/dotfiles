@@ -211,14 +211,14 @@ alias gr="git restore --staged"
 alias ga="git add"
 alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 alias yt1440="yt-dlp -f 'bestvideo[height<=1440]+bestaudio'"
-alias lm="sudo zfs mount zroot/log"
-alias lu="sudo zfs umount zroot/log && sudo rm -rf /log"
 alias p="python3"
 alias z="zfs-snapshot-browser"
 alias wt='wrap "tt -n 20"'
 alias ve='virtualenv venv && source venv/bin/activate'
 alias ci='curl ifconfig.me'
 alias r='openssl rand -base64'
+alias vv='virtualenv venv'
+alias sv='source venv/bin/activate'
 #############################################################################
 
 # kubectl completion
