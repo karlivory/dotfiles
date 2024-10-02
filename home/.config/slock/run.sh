@@ -18,6 +18,7 @@ if [ ! -f patches.h ] || ! cmp -s ../patches.h patches.h; then
   sudo cp ../patches.h patches.h
 fi
 
+touch "$FLEXIPATCH"
 sudo cp "$FLEXIPATCH" "../$FLEXIPATCH.bak"
 sudo make install
 

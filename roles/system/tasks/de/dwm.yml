@@ -1,5 +1,5 @@
 ---
-- name: build  and install dwm
+- name: build and install dwm
   become: true
   shell: FLEXIPATCH=dwm ./run.sh
   args:
