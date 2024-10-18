@@ -129,6 +129,7 @@
       - expect
       - fd-find
       - feh
+      - firmware-sof-signed # audio
       - flameshot
       - flatpak
       - fzf
@@ -148,6 +149,7 @@
       - liblua5.1-0-dev
       - libnl-3-dev
       - libnl-genl-3-dev
+      - libpam-yubico
       - libpam0g-dev
       - libtool
       - libudev-dev
@@ -164,6 +166,8 @@
       - libxrandr-dev
       - libxrender-dev
       - libyajl-dev
+      - libyubikey-udev
+      - libyubikey0
       - lua5.1
       - luarocks
       - lxrandr
@@ -174,7 +178,6 @@
       - neofetch
       - net-tools
       - network-manager-gnome
-      - openjdk-11-jdk
       - openjdk-17-jdk
       - openjdk-21-jdk
       - openvpn-systemd-resolved
@@ -224,6 +227,7 @@
       - xorg
       - xutils-dev
       - xvkbd
+      - yubico-piv-tool
       - yubikey-manager
       - zathura
 
