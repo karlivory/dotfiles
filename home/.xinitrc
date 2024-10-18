@@ -2,6 +2,7 @@
 systemctl --user enable picom && systemctl --user start picom
 systemctl --user enable syncthing && systemctl --user start syncthing
 systemctl --user enable redshift && systemctl --user start redshift
+systemctl --user start gpg-agent.service
 
 # fixes slow gtk application (thunar, virt-manager etc) startup issue
 dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
