@@ -36,6 +36,3 @@
     - import_role:
         name: software
       tags: [software]
-    - import_role:
-        name: repos
-      tags: [repos]
