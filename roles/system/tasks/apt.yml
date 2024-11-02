@@ -114,6 +114,7 @@
     state: present
     install_recommends: false
     name:
+      - dnsmasq
       - age
       - autorandr
       - bluez
@@ -130,6 +131,7 @@
       - expect
       - fd-find
       - feh
+      - ffmpeg
       - firmware-sof-signed # audio
       - flameshot
       - flatpak
