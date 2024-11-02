@@ -103,6 +103,7 @@ HISTIGNORE="&:ls:l:clear:pwd:cd ..:_cdup # <==:_cddown # ==>:tmux-sessionizer"
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+# HISTFILE=/dev/null
 HISTSIZE=10000
 HISTFILESIZE=20000
 
@@ -237,6 +238,6 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # fnm
 export PATH="/home/karl/.local/share/fnm:$PATH"
-eval "`fnm env`"
+eval "$(fnm env)"
 
 export SOPS_AGE_KEY_FILE=$HOME/.sops/key.txt
