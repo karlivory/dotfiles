@@ -7,6 +7,7 @@ set ideajoin
 " source: https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins
 set commentary
 set surround
+set matchit " plugin for: % jumps between matching html tags
 " set multiple-cursors
 set highlightedyank
 let g:highlightedyank_highlight_duration = "300"
