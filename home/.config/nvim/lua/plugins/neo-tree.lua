@@ -5,7 +5,7 @@ return {
       sources = {
         "filesystem",
         "buffers",
-        "git_status"
+        "git_status",
       },
     },
     default_source = "filesystem",
@@ -21,7 +21,7 @@ return {
       window = {
         mappings = {
           ["."] = "toggle_hidden",
-        }
+        },
       },
     },
     window = {
@@ -38,7 +38,7 @@ return {
         ["<c-w>v"] = "open_vsplit",
         ["?"] = "show_help",
         ["R"] = "refresh",
-        ["a"] = { "add", config = { show_path = "relative", }, }, -- show_path: "none", "relative", "absolute"
+        ["a"] = { "add", config = { show_path = "relative" } }, -- show_path: "none", "relative", "absolute"
         ["d"] = "delete",
         ["o"] = "open",
         ["p"] = "paste_from_clipboard",
@@ -48,6 +48,7 @@ return {
         ["x"] = "cut_to_clipboard",
         ["y"] = "copy_to_clipboard",
         --------------- UNBINDS ------------------
+        ["<c-f>"] = false,
         ["/"] = false,
         ["<"] = false,
         ["<bs>"] = false,
@@ -74,15 +75,12 @@ return {
         ["on"] = false,
         ["os"] = false,
         ["ot"] = false,
-
       },
     },
     event_handlers = {
       {
         event = "neo_tree_buffer_enter",
-        handler = function(_)
-          vim.cmd [[ setlocal nu rnu ]]
-        end,
+        handler = function(_) vim.cmd [[ setlocal nu rnu ]] end,
       },
       {
         event = "file_opened",
@@ -92,6 +90,6 @@ return {
         end,
         id = "id_file_opened",
       },
-    }
-  }
+    },
+  },
 }
