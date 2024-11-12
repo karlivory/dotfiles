@@ -1,6 +1,4 @@
-# Dotfiles
-
-My dotfiles.
+# My dotfiles
 
 ## Overview
 
@@ -9,16 +7,18 @@ My dotfiles.
 | **Bootloader:**           | [zfsbootmenu](https://github.com/zbm-dev/zfsbootmenu)                                                      |
 | **File system:**          | zfs                                                                                                        |
 | **OS:**                   | Ubuntu 24.04                                                                                               |
+| **Package manager:**      | apt, homebrew                                                                                              |
+| **Shell:**                | bash                                                                                                       |
 | **Window manager:**       | [dwm](https://github.com/bakkeby/dwm-flexipatch)                                                           |
 | **Status bar:**           | [luastatus](https://github.com/shdown/luastatus)                                                           |
 | **Terminal:**             | [st](https://github.com/bakkeby/st-flexipatch)                                                             |
 | **Screen lock:**          | [slock](https://github.com/bakkeby/slock-flexipatch)                                                       |
 | **Menu:**                 | [dmenu](https://github.com/bakkeby/dmenu-flexipatch)                                                       |
-| **Shell:**                | bash                                                                                                       |
-| **Package manager:**      | apt, homebrew                                                                                              |
+| **Compositor:**           | [picom](https://github.com/yshui/picom)                                                                    |
 | **Font:**                 | [UbuntuMono Nerd Font Mono](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/UbuntuMono)  |
-| **Editor:**               | neovim                                                                                                     |
-| **terminal multiplexer:** | tmux                                                                                                       |
+| **Editor:**               | [neovim](https://github.com/neovim/neovim)                                                                 |
+| **Terminal multiplexer:** | [tmux](https://github.com/tmux/tmux)                                                                       |
+| **Hotkey daemon:**        | [sxhkd](https://github.com/baskerville/sxhkd)                                                              |
 | **TUI file manager:**     | [lf](https://github.com/gokcehan/lf)                                                                       |
 | **TUI git:**              | [lazygit](https://github.com/jesseduffield/lazygit)                                                        |
 
