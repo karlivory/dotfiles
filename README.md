@@ -1,5 +1,7 @@
 # My dotfiles
 
+![Screenshot](docs/screenshot.png)
+
 ## Overview
 
 | Key                       | Value                                                                                                      |
