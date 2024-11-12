@@ -26,6 +26,7 @@
     path: /home/linuxbrew/.linuxbrew/bin
     state: present
     name:
+      - "{{ home }}/.config/homebrew-formulas/bruno.rb"
       - "{{ home }}/.config/homebrew-formulas/jetbrains-toolbox.rb"
       - "{{ home }}/.config/homebrew-formulas/typing-test.rb"
       - dive

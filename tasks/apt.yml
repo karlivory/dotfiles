@@ -121,6 +121,7 @@
       - bluez
       - bluez-alsa-utils
       - bridge-utils
+      - bruno
       - build-essential
       - catdoc
       - cmake
@@ -148,7 +149,7 @@
       - google-chrome-stable
       - highlight
       - htop
-      - intel-media-va-driver-non-free 
+      - intel-media-va-driver-non-free
       - jq
       - libasound2-dev
       - libdbus-1-dev
@@ -255,29 +256,29 @@
     state: absent
     purge: true
     autoremove: true
-    name: 
+    name:
       - gdm3
       - gedit-common
-      - gir1.2-gdm-1.0 
+      - gir1.2-gdm-1.0
       - gir1.2-gnomebluetooth-1.0
       - gir1.2-gnomedesktop-3.0
-      - gir1.2-goa-1.0 
+      - gir1.2-goa-1.0
       - gnome-*
       - language-pack-gnome-*
       - language-pack-gnome-en-base
-      - language-pack-gnome-ru 
+      - language-pack-gnome-ru
       - language-selector-gnome
       - libgail18
       - libgnome-autoar-0-0
-      - libgnome-bluetooth13 
+      - libgnome-bluetooth13
       - libgnome-desktop-3-19
       - libgnome-games-support-1-3
-      - libgnome-games-support-common 
+      - libgnome-games-support-common
       - libgnome-menu-3-0
       - libgnome-todo
       - libgnomekbd-common
       - libgnomekbd8
-      - libgoa-1.0-0b 
+      - libgoa-1.0-0b
       - libgoa-1.0-common
       - libpam-gnome-keyring
       - nautilus-extension-gnome-terminal

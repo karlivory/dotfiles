@@ -1,6 +1,5 @@
 class TypingTest < Formula
   desc "typing test"
-  desc "Download, unarchive and link typing-test"
   homepage "https://github.com/lemnos/tt"
   url "https://github.com/lemnos/tt/releases/download/v0.4.2/tt-linux"
   version "0.4.2"

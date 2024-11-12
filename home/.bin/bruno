@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+__appimage_bruno --no-sandbox
