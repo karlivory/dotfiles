@@ -1,8 +1,21 @@
 #!/bin/bash
-#############################################################################
+
+# If not running interactively, don't do anything
+case $- in
+*i*) ;;
+*) return ;;
+esac
+
+if [[ -t 0 && $- = *i* ]]; then
+    stty -ixon
+fi
+
+##================================== FUNCTIONS ========================================##
+#########################################################################################
+
 # For ctrl-r fzf history search
 # copied from: /usr/share/doc/fzf/examples/key-bindings.bash
-# (because I don't want the other keybindings)
+# (not sourced because I don't want the other keybindings)
 __fzfcmd() {
     [[ -n "$TMUX_PANE" ]] && { [[ "${FZF_TMUX:-0}" != 0 ]] || [[ -n "$FZF_TMUX_OPTS" ]]; } &&
         echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
@@ -21,37 +34,18 @@ __fzf_history__() {
         READLINE_POINT=0x7fffffff
     fi
 }
-bind -m emacs-standard -x '"\C-r": __fzf_history__'
-bind -m vi-command -x '"\C-r": __fzf_history__'
-bind -m vi-insert -x '"\C-r": __fzf_history__'
-#############################################################################
 
-tmux_sessionizer() {
-    tmux-sessionizer
-}
+_tmux_sessionizer() { tmux-sessionizer; }
 
-bind -x '"\C-x": tmux_sessionizer'
-bind -m "vi-command" '"\C-x": "i\C-x"'
+# Copy current bash readline to clipboard
+_copy_readline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
 
-# ctrl-y copies current bash readline to clipboard
-copyline() { printf %s "$READLINE_LINE" | xclip -selection clipboard; }
-bind -m "vi-command" -x '"\C-Y": copyline'
-bind -m "vi-insert" -x '"\C-Y": copyline'
-
-# WOOOOOOOOOOOOOOOOOOOOW SO EFFECTIVE
-bind -m "vi-command" -x '"\C-g": git status'
-bind -m "vi-insert" -x '"\C-g": git status'
-
-# BEST FUNCTION EVER!!!
 _common_dirs() {
     dir=$("$HOME/.config/vars/common_dirs" | fzf)
     [[ -n "$dir" ]] && cd "$dir" || return
 }
-bind -m "vi-command" '"\C-f": "ddi_common_dirs\C-m"'
-bind -m "vi-insert" '"\C-f": "\eddi_common_dirs\C-m"'
 
-# Mildly useful
-lfcd() {
+_lfcd() {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1' HUP INT QUIT TERM PWR EXIT
     lf -last-dir-path="$tmp" "$@"
@@ -60,63 +54,46 @@ lfcd() {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return
     fi
 }
-bind -m "vi-command" '"\C-o": "ddilfcd\C-m"'
-bind -m "vi-insert" '"\C-o": "\eddilfcd\C-m"'
 
-# # Kinda nice. ctrl-j/k to go up directories fast. Using cd clears the stack
-# _cdup() {
-#     [[ "$PWD" != "/" ]] && pushd .. >/dev/null
-# }
-# bind -m "vi-command" '"\C-k": "ddi_cdup # <==\C-m"'
-# bind -m "vi-insert" '"\C-k": "\eddi_cdup # <==\C-m"'
-# _cddown() {
-#     popd >/dev/null
-# }
-# bind -m "vi-command" '"\C-e": "ddi_cddown # ==>\C-m"'
-# bind -m "vi-insert" '"\C-e": "\eddi_cddown # ==>\C-m"'
-# _clearcd() {
-#     if [ $# -eq 0 ]; then
-#         DIR="${HOME}"
-#     else
-#         DIR="$1"
-#     fi
-#     cd "${DIR}" && dirs -c
-# }
-# alias cd='_clearcd'
+##==================================== KEYBINDS =======================================##
+#########################################################################################
 
-# If not running interactively, don't do anything
-case $- in
-*i*) ;;
-*) return ;;
-esac
+bind -m emacs-standard -x '"\C-r": __fzf_history__'
+bind -m vi-command -x '"\C-r": __fzf_history__'
+bind -m vi-insert -x '"\C-r": __fzf_history__'
 
-if [[ -t 0 && $- = *i* ]]; then
-    stty -ixon
-fi
+bind -x '"\C-x": _tmux_sessionizer'
+bind -m "vi-command" '"\C-x": "i\C-x"'
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
+bind -m "vi-command" -x '"\C-Y": _copy_readline'
+bind -m "vi-insert" -x '"\C-Y": _copy_readline'
+
+bind -m "vi-command" -x '"\C-g": git status'
+bind -m "vi-insert" -x '"\C-g": git status'
+
+bind -m "vi-command" '"\C-f": "ddi_common_dirs\C-m"'
+bind -m "vi-insert" '"\C-f": "\eddi_common_dirs\C-m"'
+
+bind -m "vi-command" '"\C-o": "ddi_lfcd\C-m"'
+bind -m "vi-insert" '"\C-o": "\eddi_lfcd\C-m"'
+
+##==================================== HISTORY ========================================##
+#########################################################################################
+
 HISTCONTROL=ignoreboth
-HISTIGNORE="&:ls:l:clear:pwd:cd ..:_cdup # <==:_cddown # ==>:tmux-sessionizer"
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-# HISTFILE=/dev/null
+HISTIGNORE="&:ls:l:clear:pwd:cd ..:_common_dirs:_lfcd:_tmux_sessionizer:_copy_readline"
 HISTSIZE=10000
 HISTFILESIZE=20000
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# append to the history file, don't overwrite it
+shopt -s histappend
+# check the window size after each command and, if necessary, update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
+# If set, the pattern "**" used in a pathname expansion context will match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+##==================================== PROMPT =========================================##
+#########################################################################################
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -128,30 +105,16 @@ case "$TERM" in
 xterm-color | *-256color) color_prompt=yes ;;
 esac
 
-_set_prompt() {
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-}
-
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;38;5;214m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
-fi
+##=================================== EXPORTS =========================================##
+#########################################################################################
 
-# EXPORTS
-#############################################################################
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_STATE_HOME=$HOME/.local/state
@@ -169,8 +132,6 @@ export VISUAL='nvim'
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export _JAVA_AWT_WM_NONREPARENTING=1 # needed for jetbrains software
-export PATH=${PATH}:~/.local/share/coursier/bin
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=${PATH}:$HOME/go/bin
 export PATH=${PATH}:$HOME/.dotnet
 export PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin
@@ -185,18 +146,18 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 #############################################################################
 
-# ALIASES
-#############################################################################
+##=================================== ALIASES =========================================##
+#########################################################################################
+
 alias tree='tree -C'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias l='ls -alF'
+alias l='ls -ahlF'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias xc='xclip -selection clipboard'
 alias xv='xclip -selection clipboard -o'
-alias vpn='sudo openvpn --config'
 alias rsa='redshift -PO 6500'
 alias rsb='redshift -PO 3000'
 alias b='bluetoothctl'
@@ -213,19 +174,30 @@ alias gd="git diff"
 alias gr="git restore --staged"
 alias ga="git add"
 alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
-alias yt1440="yt-dlp -f 'bestvideo[height<=1440]+bestaudio'"
 alias p="python3"
 alias k="kubectl"
 alias z="zfs-snapshot-browser"
 alias wt='wrap "typing-test -n 20" 0.2'
-alias ve='virtualenv venv && source venv/bin/activate'
 alias ci='curl ifconfig.me'
 alias r='openssl rand -base64'
-alias vv='virtualenv venv'
-alias sv='source venv/bin/activate'
-#############################################################################
+alias vv='[ -d venv ] || virtualenv venv; source venv/bin/activate'
 
-# BREW BASH COMPLTEIONS
+##==================================== MISC ===========================================##
+#########################################################################################
+
+# Make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Add bash completions
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
+fi
+
+# Add bash completions for brew packages
 if type brew &>/dev/null; then
     HOMEBREW_PREFIX=/home/linuxbrew/.linuxbrew
     if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
@@ -238,8 +210,6 @@ if type brew &>/dev/null; then
 fi
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
-# needed for st
-tput smkx
-# . "$HOME/.cargo/env"
+tput smkx # needed for st
 
-export SOPS_AGE_KEY_FILE=$HOME/.sops/key.txt
+# . "$HOME/.cargo/env"
