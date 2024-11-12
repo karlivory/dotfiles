@@ -14,10 +14,16 @@
     path: /usr/share/xsessions
     state: directory
 
-- name: add dwm.desktop xsession entry
+- name: Create dwm xsession entry at /usr/share/xsessions/dwm.desktop
   become: true
   when: dwm.changed
-  copy:
-    src: ../files/dwm.desktop
+  ansible.builtin.copy:
     dest: /usr/share/xsessions/dwm.desktop
-
+    content: |
+      [Desktop Entry]
+      Encoding=UTF-8
+      Name=Dwm
+      Comment=the dynamic window manager
+      Exec=dwm
+      Icon=dwm
+      Type=XSession

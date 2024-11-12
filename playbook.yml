@@ -2,13 +2,12 @@
 # ╔═════════════════════════════════╗
 # ║ Intended to run on Ubuntu 24.04 ║
 # ╚═════════════════════════════════╝
-- name: Configure pc
+- name: Dotfiles
   hosts: localhost
   connection: local
 
   vars_files:
-    - ./config.yml
-    - ./dotfiles-personal/vars.yml
+    - ./vars/default.yml
 
   pre_tasks:
     - name: Ensure /usr/local/bin exists
@@ -18,14 +17,52 @@
         mode: 0755
 
   tasks:
-    - import_role:
-        name: system
-      tags: [system]
+    - import_tasks: ./tasks/system.yml
+      tags:
+        - system
+
+    - import_tasks: ./tasks/apt.yml
+      tags:
+        - apt
+
+    - import_tasks: ./tasks/stow.yml
+      tags:
+        - always
+
+    - import_tasks: ./tasks/dwm.yml
+      tags:
+        - dwm
+        - desktop
+
+    - import_tasks: ./tasks/st.yml
+      tags:
+        - st
+        - desktop
+
+    - import_tasks: ./tasks/dmenu.yml
+      tags:
+        - dmenu
+        - desktop
+
+    - import_tasks: ./tasks/luastatus.yml
+      tags:
+        - luastatus
+        - desktop
+
+    - import_tasks: ./tasks/slock.yml
+      tags:
+        - slock
+        - desktop
+
+    - import_tasks: ./tasks/brew.yml
+      tags:
+        - brew
+
     - import_role:
         name: geerlingguy.docker
       become: true
-      when: not vm
-      tags: [docker]
+      tags:
+        - docker
       vars:
         docker_daemon_options:
           bip: "172.20.0.1/24"
@@ -33,6 +70,4 @@
           default-address-pools:
             - base: 172.20.0.0/16
               size: 24
-    - import_role:
-        name: software
-      tags: [software]
+

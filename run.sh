@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
 ARGS="$@"
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 VENV_PATH="$DIR/venv"
 
 prerequisites() {
     if ! command -v /usr/bin/virtualenv >/dev/null 2>&1; then
-        sudo apt install virtualenv
+        sudo apt install -y virtualenv
     fi
     if ! command -v pip >/dev/null 2>&1; then
-        sudo apt install python3-pip
+        sudo apt install -y python3-pip
     fi
     if ! command -v python >/dev/null 2>&1; then
-        sudo apt install python-is-python3
+        sudo apt install -y python-is-python3
     fi
 }
 
@@ -30,5 +30,5 @@ setup_venv() {
 prerequisites
 setup_venv
 
-ansible-galaxy collection install -r roles/requirements.yml
+ansible-galaxy collection install -r ansible-requirements.yml
 ansible-playbook -K playbook.yml $ARGS

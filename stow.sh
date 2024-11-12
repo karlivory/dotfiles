@@ -29,7 +29,7 @@ rm_if_not_link ~/.local/share/gnupg/gpg-agent.conf
 
 stow home -v -t ~ 2>&1
 if [ ! $(find dotfiles-personal -maxdepth 0 -empty) ]; then
-    cd dotfiles-personal
+    cd dotfiles-personal || exit 1
     stow home -v -t ~
     cd ..
 fi

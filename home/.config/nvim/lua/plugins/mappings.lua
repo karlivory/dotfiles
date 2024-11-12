@@ -21,6 +21,12 @@ return {
           ["<leader>z"] = { "<cmd> ZenMode <CR>", desc = "toggle Zen mode" },
           -- TELESCOPE
           ["<C-F>"] = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
+          ["<Leader>fw"] = {
+            function()
+              require("telescope.builtin").live_grep { additional_args = function() return { "--hidden" } end }
+            end,
+            desc = "Find words",
+          },
           ["<Leader>fq"] = { "<cmd> Telescope quickfix <CR>", desc = "quickfix" },
           ["<Leader>fQ"] = { "<cmd> Telescope quickfixhistory <CR>", desc = "quickfixhistory" },
           ["<Leader>fd"] = { "<cmd> Telescope diagnostics <CR>", desc = "diagnostics (hint: press <c-l>)" },

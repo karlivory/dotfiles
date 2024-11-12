@@ -7,7 +7,7 @@ index ca145fc..5754399 100644
   * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
   */
 -static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-+static char *font = "UbuntuMono Nerd Font Mono:style=Regular:size=12";
++static char *font = "monospace:size=12";
  #if FONT2_PATCH
  /* Spare fonts */
  static char *font2[] = {

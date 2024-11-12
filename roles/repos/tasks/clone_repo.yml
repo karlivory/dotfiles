@@ -1,8 +1,0 @@
----
-- name: "Clone {{ repo.url }}"
-  git:
-    accept_hostkey: true
-    repo: "{{ repo.url }}"
-    dest: "{{ repo_group_dest }}/{{ repo.dir }}"
-    force: "{{ repo.force | default(false) | bool }}"
-    update: "{{ repo.update | default(false) | bool }}"

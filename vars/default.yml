@@ -1,7 +1,5 @@
 ---
 dotfiles_root_zfs_dataset: zroot/ROOT/ubuntu
 dotfiles_data_dir: "/config"
-home: "/home/{{ username }}"
-remove_gnome: true
 username: karl
-vm: false
+home: "/home/{{ username }}"

@@ -114,42 +114,48 @@
     state: present
     install_recommends: false
     name:
-      - dnsmasq
       - age
+      - atool
       - autorandr
+      - bat
       - bluez
       - bluez-alsa-utils
       - bridge-utils
       - build-essential
+      - catdoc
       - cmake
       - cmatrix
       - curl
       - dbus
       - dbus-x11
+      - dnsmasq
       - dnsutils
+      - docx2txt
       - dunst
       - expect
       - fd-find
       - feh
       - ffmpeg
+      - ffmpegthumbnailer
       - firmware-sof-signed # audio
       - flameshot
-      - flatpak
+      - fontconfig
       - fzf
       - gimp
       - gir1.2-nm-1.0
       - gir1.2-spiceclientgtk-3.0
       - gnupg
       - google-chrome-stable
+      - highlight
       - htop
       - intel-media-va-driver-non-free 
       - jq
-      - libappindicator3-1
       - libasound2-dev
       - libdbus-1-dev
       - libfontconfig1-dev
       - libfreetype6-dev
       - libharfbuzz-dev
+      - libimage-exiftool-perl
       - libimlib2-dev
       - liblua5.1-0-dev
       - libnl-3-dev
@@ -176,16 +182,20 @@
       - lua5.1
       - luarocks
       - lxrandr
+      - lynx
       - mdp
+      - mediainfo
       - moreutils
       - mpv
       - ncal
       - neofetch
       - net-tools
       - network-manager-gnome
+      - odt2txt
       - openjdk-17-jdk
       - openjdk-21-jdk
       - openvpn-systemd-resolved
+      - p7zip-full
       - parallel
       - pcscd
       - picom
@@ -213,11 +223,13 @@
       - stow
       - sxhkd
       - sxiv
+      - syncthing
       - thunar
       - tmux
       - tree
       - ufw
       - unclutter
+      - unrar
       - unzip
       - virt-manager
       - virt-manager
@@ -228,6 +240,7 @@
       - xcape
       - xcb
       - xclip
+      - xdotool
       - xdotool
       - xorg
       - xutils-dev

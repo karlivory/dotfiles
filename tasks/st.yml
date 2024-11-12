@@ -14,9 +14,16 @@
     path: /usr/share/applications
     state: directory
 
-- name: add st.desktop xsession entry
+- name: Create st desktop application entry at /usr/share/applications/st.desktop
   become: true
   when: st.changed
-  copy:
-    src: ../files/st.desktop
+  ansible.builtin.copy:
     dest: /usr/share/applications/st.desktop
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Name=st
+      Comment=simple-terminal emulator for X
+      Icon=utilities-terminal
+      Exec=st
+      Categories=System;TerminalEmulator

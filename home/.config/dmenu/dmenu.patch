@@ -16,7 +16,7 @@ index 0e89947..d26694b 100644
  #endif // XRESOURCES_PATCH
  {
 -	"monospace:size=10"
-+	"UbuntuMono Nerd Font Mono:style=Regular:size=12"
++	"monospace:size=12"
  };
  #endif // PANGO_PATCH
  #if MANAGED_PATCH

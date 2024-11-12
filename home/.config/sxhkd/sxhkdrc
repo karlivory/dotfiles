@@ -1,13 +1,12 @@
 # Browser
 super + w
-	google-chrome \
-        --no-default-browser-check
+	google-chrome --no-default-browser-check
 
 super + Return
-    st
+  st
 
 super + Tab
-    dmenu_run
+  dmenu_run
 
 
 #=============================== dwm ===========================================
@@ -26,7 +25,7 @@ super + n
 	networkmanager_dmenu
 
 super + semicolon
-    powermenu
+  powermenu
     
 super + Print
 	flameshot gui # take screenshot
@@ -44,16 +43,16 @@ super + shift + F1
 	sxhkd_reload # reload sxhkd configuration
 
 super + F1
-    pulsemixer --change-volume -10 && touch $HOME/.config/luastatus/fifo/.volume
+  pulsemixer --change-volume -10 && touch $HOME/.config/luastatus/fifo/.volume
 
 XF86AudioLowerVolume
-    pulsemixer --change-volume -3 && touch $HOME/.config/luastatus/fifo/.volume
+  pulsemixer --change-volume -3 && touch $HOME/.config/luastatus/fifo/.volume
 
 super + F2
-    pulsemixer --change-volume +10 && touch $HOME/.config/luastatus/fifo/.volume
+  pulsemixer --change-volume +10 && touch $HOME/.config/luastatus/fifo/.volume
 
 XF86AudioRaiseVolume
-    pulsemixer --change-volume +3 && touch $HOME/.config/luastatus/fifo/.volume
+  pulsemixer --change-volume +3 && touch $HOME/.config/luastatus/fifo/.volume
 
 super + F3
 	pulsemixer --toggle-mute && touch $HOME/.config/luastatus/fifo/.volume
@@ -65,7 +64,7 @@ super + F4
 	st -e pulsemixer # TODO: make this floating terminal (like bluetoothctl)
 
 super + F9
-    kill -9 $(pgrep xkill) || xkill # toggle xkill
+  kill -9 $(pgrep xkill) || xkill # toggle xkill
 super + F11
 	autorandr -c && set_default_wallpaper && remaps
 super + F12

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# pk: kill user-level processes that listen on <port_number>
+
+PORT=$1
+if [[ -z "$PORT" || ! "$PORT" =~ ^[0-9]+$ ]]; then
+    echo "Usage: pk <port_number>"
+    exit 1
+fi
+
+PID=$(netstat -plnt 2>/dev/null | awk -v port=":$PORT" '$4 ~ port {split($7, a, "/"); print a[1]}')
+if [ -n "$PID" ]; then
+    kill -9 "$PID" 2>/dev/null
+    echo "Killed process $PID listening on TCP port $PORT"
+else
+    echo "No process found listening on TCP port $PORT"
+fi

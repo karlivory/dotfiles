@@ -1,0 +1,43 @@
+---
+##====================================== BREW =========================================##
+#########################################################################################
+
+- name: Install Homebrew
+  ansible.builtin.shell: |
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  args:
+    # prevents reinstall
+    creates: /home/linuxbrew/.linuxbrew/bin/brew
+
+- name: Update homebrew
+  community.general.homebrew:
+    path: /home/linuxbrew/.linuxbrew/bin
+    update_homebrew: true
+
+- name: Create symbolic link for fonts installed via homebrew/linux-fonts
+  ansible.builtin.file:
+    src: /home/linuxbrew/.linuxbrew/share/fonts
+    dest: "{{ home }}/.local/share/fonts"
+    state: link
+
+- name: Install packages via homebrew
+  register: homebrew_result
+  community.general.homebrew:
+    path: /home/linuxbrew/.linuxbrew/bin
+    state: present
+    name:
+      - "{{ home }}/.config/homebrew-formulas/jetbrains-toolbox.rb"
+      - "{{ home }}/.config/homebrew-formulas/typing-test.rb"
+      - dive
+      - helm
+      - homebrew/linux-fonts/font-ubuntu-mono-nerd-font
+      - kubectl
+      - lazygit
+      - lf
+      - neovim
+      - sops
+      - yt-dlp
+
+- name: Refresh font cache
+  ansible.builtin.command: fc-cache -fv
+  when: homebrew_result.changed

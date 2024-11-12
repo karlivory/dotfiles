@@ -1,26 +1,60 @@
-Dotfiles and ansible role to configure my pc.
+# Dotfiles
 
-* fresh Ubuntu 22.04 install w/ zfs & defaults
-* ctrl + alt + F3
-* ./run.sh init
-* reboot
-* git clone --recurse-submodules git@github.com:karlivory/config
-* ./run.sh
-* reboot again for good measure
-* set up syncthing, http://localhost:8384
-* install Jetbrains software via jetbrains-toolbox
+My dotfiles.
 
-Credit
+## Overview
+
+| Key                       | Value                                                                                                      |
+|---------------------------|------------------------------------------------------------------------------------------------------------|
+| **Bootloader:**           | [zfsbootmenu](https://github.com/zbm-dev/zfsbootmenu)                                                      |
+| **File system:**          | zfs                                                                                                        |
+| **OS:**                   | Ubuntu 24.04                                                                                               |
+| **Window manager:**       | [dwm](https://github.com/bakkeby/dwm-flexipatch)                                                           |
+| **Status bar:**           | [luastatus](https://github.com/shdown/luastatus)                                                           |
+| **Terminal:**             | [st](https://github.com/bakkeby/st-flexipatch)                                                             |
+| **Screen lock:**          | [slock](https://github.com/bakkeby/slock-flexipatch)                                                       |
+| **Menu:**                 | [dmenu](https://github.com/bakkeby/dmenu-flexipatch)                                                       |
+| **Shell:**                | bash                                                                                                       |
+| **Package manager:**      | apt, homebrew                                                                                              |
+| **Font:**                 | [UbuntuMono Nerd Font Mono](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/UbuntuMono)  |
+| **Editor:**               | neovim                                                                                                     |
+| **terminal multiplexer:** | tmux                                                                                                       |
+| **TUI file manager:**     | [lf](https://github.com/gokcehan/lf)                                                                       |
+| **TUI git:**              | [lazygit](https://github.com/jesseduffield/lazygit)                                                        |
+
+Some useful scripts I've written over the years:
+
+* [tmux-sessionizer](./home/.bin/tmux-sessionizer): quickly create/switch tmux sessions; inspired by ThePrimeagen. I use this a TON!
+* [zfs-snapshot-browser](./home/.bin/zfs-snapshot-browser): browse previous zfs snapshots at current directory.
+* [sf](./home/.bin/sf): open an lf session mounted to a remote host over ssh. Works really nicely with multiple lf instances (copy files between hosts)
+
+## Keymaps
+
+I've remapped some keys for ergonomics:
+
+* Caps Lock is ctrl when held down, escape when pressed once (see [remaps](./home/.bin/remaps)). If you're a vim user, you'll love this.
+* Alt and winkey are swapped. Alt is powerkey for `dwm`.
+
+## Installation
+
+For a full install:
+
+```sh
+./run.sh
+```
+
+Or specify a tag to install a specific item:
+
+```sh
+./run.sh -t dwm
+```
+
 ------------------
-Lots of inspiration from:
 
-https://github.com/junnunkarim/dotfiles-linux
+## Credit
 
-https://github.com/baobaoit/beande
+Borrowed inspiration and code from:
 
-https://github.com/s1n7ax/dotnvim
-
-https://github.com/mfussenegger/dotfiles
-
-https://github.com/LukeSmithxyz/voidrice
+* https://github.com/junnunkarim/dotfiles-linux
+* https://github.com/LukeSmithxyz/voidrice
 

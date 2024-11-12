@@ -15,7 +15,7 @@ function initialize_tmux_windows() {
 
         # Window 2: wrap lazygit
         tmux new-window -t "${session_name}:2" -c "$dir"
-        tmux send-keys -t "${session_name}:2" "wrap lg" C-m
+        tmux send-keys -t "${session_name}:2" "wrap lazygit" C-m
         tmux rename-window -t "${session_name}:2" "git"
 
         # Window 3: lf file browser

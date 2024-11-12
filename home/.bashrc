@@ -173,6 +173,7 @@ export PATH=${PATH}:~/.local/share/coursier/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=${PATH}:$HOME/go/bin
 export PATH=${PATH}:$HOME/.dotnet
+export PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin
 
 # for colored man-pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
@@ -199,11 +200,12 @@ alias vpn='sudo openvpn --config'
 alias rsa='redshift -PO 6500'
 alias rsb='redshift -PO 3000'
 alias b='bluetoothctl'
+alias lg='lazygit'
 alias v='nvim'
 alias drm='docker rm $(docker ps -q) --force'
 alias cdg='cd $(git rev-parse --show-toplevel)'
 alias fcd='cd $(find -type d 2>/dev/null | fzf)'
-alias lf='lfub'
+alias tt='typing-test'
 alias cx='chmod +x'
 alias gc="git commit -m"
 alias gcn="git commit --no-gpg-sign -m"
@@ -213,8 +215,9 @@ alias ga="git add"
 alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 alias yt1440="yt-dlp -f 'bestvideo[height<=1440]+bestaudio'"
 alias p="python3"
+alias k="kubectl"
 alias z="zfs-snapshot-browser"
-alias wt='wrap "tt -n 20"'
+alias wt='wrap "typing-test -n 20" 0.2'
 alias ve='virtualenv venv && source venv/bin/activate'
 alias ci='curl ifconfig.me'
 alias r='openssl rand -base64'
@@ -222,22 +225,21 @@ alias vv='virtualenv venv'
 alias sv='source venv/bin/activate'
 #############################################################################
 
-# kubectl completion
-alias k=kubectl
-complete -o default -F __start_kubectl k
-source <(kubectl completion bash)
+# BREW BASH COMPLTEIONS
+if type brew &>/dev/null; then
+    HOMEBREW_PREFIX=/home/linuxbrew/.linuxbrew
+    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+        source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    else
+        for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+            [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+        done
+    fi
+fi
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 # needed for st
 tput smkx
 # . "$HOME/.cargo/env"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# fnm
-export PATH="/home/karl/.local/share/fnm:$PATH"
-eval "$(fnm env)"
 
 export SOPS_AGE_KEY_FILE=$HOME/.sops/key.txt

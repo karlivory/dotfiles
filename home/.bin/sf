@@ -1,12 +1,40 @@
 #!/bin/bash
 
+PORT=""
+
+# Parse options
+while getopts ":p:h" opt; do
+    case ${opt} in
+    p)
+        PORT=$OPTARG
+        ;;
+    h)
+        echo "sf:      opens temporary lf file browser over ssh"
+        echo ""
+        echo "Usage:   sf [-p port] [ssh-address]:[dir]"
+        echo "example: sf -p 2222 root@10.1.2.3:/root/dir1"
+        exit 0
+        ;;
+    \?)
+        echo "Invalid Option: -$OPTARG" 1>&2
+        exit 1
+        ;;
+    :)
+        echo "Option -$OPTARG requires an argument." 1>&2
+        exit 1
+        ;;
+    esac
+done
+shift $((OPTIND - 1))
+
 if [ "$#" -ne 1 ]; then
     echo "sf:      opens temporary lf file browser over ssh"
     echo ""
-    echo "Usage:   sf [ssh-address]:[dir]"
-    echo "example: sf root@10.1.2.3:/root/dir1"
+    echo "Usage:   sf [-p port] [ssh-address]:[dir]"
+    echo "example: sf -p 2222 root@10.1.2.3:/root/dir1"
     exit 1
 fi
+
 SSHFS_ADDRESS=$1
 
 cleanup() {
@@ -27,7 +55,13 @@ mkdir -p "$MOUNT_DIR"
 
 trap cleanup EXIT
 
-if sshfs "$SSHFS_ADDRESS" "$MOUNT_DIR" -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3; then
+SSHFS_OPTIONS="-o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3"
+
+if [ -n "$PORT" ]; then
+    SSHFS_OPTIONS="-p $PORT $SSHFS_OPTIONS"
+fi
+
+if sshfs "$SSHFS_ADDRESS" "$MOUNT_DIR" $SSHFS_OPTIONS; then
     echo "Mounted $SSHFS_ADDRESS at $MOUNT_DIR"
 else
     echo "sshfs command failed!"
