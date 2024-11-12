@@ -27,15 +27,15 @@
 Some useful scripts I've written over the years:
 
 * [tmux-sessionizer](./home/.bin/tmux-sessionizer): quickly create/switch tmux sessions; inspired by ThePrimeagen. I use this a TON!
-* [zfs-snapshot-browser](./home/.bin/zfs-snapshot-browser): browse previous zfs snapshots at current directory.
-* [sf](./home/.bin/sf): open an lf session mounted to a remote host over ssh. Works really nicely with multiple lf instances (copy files between hosts)
+* [zfs-snapshot-browser](./home/.bin/zfs-snapshot-browser): browse previous zfs snapshots of given directory. Useful for quickly recovering deleted/changed files.
+* [sf](./home/.bin/sf): open an lf session mounted to a remote host over ssh. Works really nicely with multiple lf instances (copy files between hosts).
 
 ## Keymaps
 
 I've remapped some keys for ergonomics:
 
 * Caps Lock is ctrl when held down, escape when pressed once (see [remaps](./home/.bin/remaps)). If you're a vim user, you'll love this.
-* Alt and winkey are swapped. Alt is powerkey for `dwm`.
+* Alt and winkey are swapped. Alt is powerkey for dwm.
 
 ## Installation
 
