@@ -47,14 +47,6 @@
 ##====================================== ETC ==========================================##
 #########################################################################################
 
-# https://github.com/openzfs/zfs/issues/9461#issuecomment-699889066
-- name: /etc/fstab
-  become: true
-  ansible.builtin.copy:
-    dest: /etc/fstab
-    content: |
-      {{ dotfiles_root_zfs_dataset }} / zfs defaults,noatime 0 0
-
 - name: /etc/sanoid/sanoid.conf
   become: true
   ansible.builtin.copy:
@@ -71,6 +63,20 @@
           yearly = 0
           autosnap = yes
           autoprune = yes
+
+# https://github.com/openzfs/zfs/issues/9461#issuecomment-699889066
+- name: /etc/fstab
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/fstab
+    content: |
+      {{ dotfiles_root_zfs_dataset }} / zfs defaults,noatime 0 0
+
+- name: Disable apt ubuntu pro message by clearing /etc/apt/apt.conf.d/20apt-esm-hook.conf
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/apt/apt.conf.d/20apt-esm-hook.conf
+    content: ""
 
 - name: /etc/profile.d/global_env.sh
   become: true

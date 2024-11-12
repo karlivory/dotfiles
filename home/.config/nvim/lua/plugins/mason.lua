@@ -21,7 +21,6 @@ return {
         "lua_ls",
         "svelte",
         "tailwindcss",
-        "tsserver",
         "yamlls",
         "volar",
         "lua_ls",
