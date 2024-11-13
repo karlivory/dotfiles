@@ -1,7 +1,7 @@
 ---
 - name: build slock
   become: true
-  shell: FLEXIPATCH=slock ./run.sh
+  shell: "{{ home }}/.bin/_build_flexipatch slock"
   args:
     chdir: home/.config/slock
   register: slock

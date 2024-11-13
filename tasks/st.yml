@@ -1,7 +1,7 @@
 ---
 - name: build st
   become: true
-  shell: FLEXIPATCH=st ./run.sh
+  shell: "{{ home }}/.bin/_build_flexipatch st"
   args:
     chdir: home/.config/st
   register: st

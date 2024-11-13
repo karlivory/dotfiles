@@ -1,7 +1,7 @@
 ---
 - name: build dmenu
   become: true
-  shell: FLEXIPATCH=dmenu ./run.sh
+  shell: "{{ home }}/.bin/_build_flexipatch dmenu"
   args:
     chdir: home/.config/dmenu
   register: dmenu

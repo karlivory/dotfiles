@@ -1,7 +1,7 @@
 ---
 - name: build and install dwm
   become: true
-  shell: FLEXIPATCH=dwm ./run.sh
+  shell: "{{ home }}/.bin/_build_flexipatch dwm"
   args:
     chdir: home/.config/dwm
   register: dwm

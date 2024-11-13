@@ -20,6 +20,7 @@ rm_if_not_link ~/.config/tmuxinator
 rm_if_not_link ~/.config/picom
 rm_if_not_link ~/.config/autorandr
 rm_if_not_link ~/.config/ranger
+rm_if_not_link ~/.config/lazygit
 rm_if_not_link ~/.config/nvim/lua/user
 rm_if_not_link ~/.config/user-dirs.dirs
 rm_if_not_link ~/.config/mimeapps.list
@@ -29,18 +30,18 @@ rm_if_not_link ~/.local/share/gnupg/gpg-agent.conf
 
 stow home -v -t ~ 2>&1
 if [ ! $(find dotfiles-personal -maxdepth 0 -empty) ]; then
-    cd dotfiles-personal || exit 1
-    stow home -v -t ~
-    cd ..
+  cd dotfiles-personal || exit 1
+  stow home -v -t ~
+  cd ..
 fi
 
 # Init themes if they do not exist
 if [ ! -f ~/.config/themes/dwm/theme ]; then
-    cp ~/.config/themes/dwm/gruvbox ~/.config/themes/dwm/theme
+  cp ~/.config/themes/dwm/gruvbox ~/.config/themes/dwm/theme
 fi
 if [ ! -f ~/.config/themes/dmenu/theme ]; then
-    cp ~/.config/themes/dmenu/gruvbox ~/.config/themes/dmenu/theme
+  cp ~/.config/themes/dmenu/gruvbox ~/.config/themes/dmenu/theme
 fi
 if [ ! -f ~/.config/themes/luastatus/theme ]; then
-    cp ~/.config/themes/luastatus/gruvbox.lua ~/.config/themes/luastatus/color.lua
+  cp ~/.config/themes/luastatus/gruvbox.lua ~/.config/themes/luastatus/color.lua
 fi

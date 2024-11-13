@@ -2,13 +2,23 @@
 
 set -e
 
-if [[ -z "${FLEXIPATCH}" ]]; then
-  echo "FLEXIPATCH not set"
+if [[ -z "$1" ]]; then
+  echo "Usage: _build_flexipatch <flexipatch>"
+  echo "TASK_FAILED"
   exit 1
 fi
+FLEXIPATCH="$1"
 
-cd "$FLEXIPATCH-flexipatch"
+case "$FLEXIPATCH" in
+st | dwm | slock | dmenu) ;;
+*)
+  echo "Invalid flexipatch. Choose one of: st, dwm, slock, dmenu."
+  exit 1
+  ;;
+esac
 
+cd "$FLEXIPATCH-flexipatch" || exit 1
+git restore .
 git apply "../$FLEXIPATCH.patch"
 
 if [ ! -f config.h ] || ! cmp -s config.def.h config.h; then
