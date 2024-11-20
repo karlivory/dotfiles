@@ -15,6 +15,7 @@ rm_if_not_link ~/.bash_logout
 rm_if_not_link ~/.bash_profile
 rm_if_not_link ~/.xinitrc
 rm_if_not_link ~/.inputrc
+rm_if_not_link ~/.config/redshift
 rm_if_not_link ~/.config/lazygit
 rm_if_not_link ~/.config/tmuxinator
 rm_if_not_link ~/.config/picom
