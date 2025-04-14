@@ -133,7 +133,7 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export _JAVA_AWT_WM_NONREPARENTING=1 # needed for jetbrains software
 export PATH=${PATH}:$HOME/go/bin
-export PATH=${PATH}:$HOME/.dotnet
+# export PATH=${PATH}:$HOME/.dotnet
 export PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin
 
 # for colored man-pages
@@ -181,9 +181,13 @@ alias wt='wrap "typing-test -n 20" 0.2'
 alias ci='curl ifconfig.me'
 alias r='openssl rand -base64'
 alias vv='[ -d venv ] || virtualenv venv; source venv/bin/activate'
+alias dc='docker compose'
 
 ##==================================== MISC ===========================================##
 #########################################################################################
+
+# kubectl completions for alias 'k'
+complete -F __start_kubectl k
 
 # Make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -213,3 +217,11 @@ echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 tput smkx # needed for st
 
 # . "$HOME/.cargo/env"
+
+# pnpm
+export PNPM_HOME="/home/karl/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

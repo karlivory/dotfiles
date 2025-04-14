@@ -12,7 +12,7 @@ function! alloy#fmt#Format() abort
     return
   endif
 
-  " Execute `alloy fmt`, redirecting stderror to a temporary file.
+  " Execute `alloy fmt`, redirecting stderr to a temporary file.
   let tmpfile = tempname()
   let shellredir_save = &shellredir
   let &shellredir = '>%s 2>' . tmpfile
@@ -31,7 +31,10 @@ function! alloy#fmt#Format() abort
     echohl None
   endif
 
+  " Convert tabs to spaces after formatting.
+  silent execute ':%retab'
+
   " Delete the temporary file and restore the view.
   call delete(tmpfile)
-  call winrestview(cur_view)
+  call winrestview(l:cur_view)
 endfunction
