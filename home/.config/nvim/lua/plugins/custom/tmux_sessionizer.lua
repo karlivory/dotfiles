@@ -1,83 +1,82 @@
 local M = {}
 
-local pickers = require("telescope.pickers")
-local finders = require("telescope.finders")
-local conf = require("telescope.config").values
-local actions = require "telescope.actions"
-local action_state = require "telescope.actions.state"
-
+local snacks = require "snacks"
 local home = os.getenv "HOME"
-local input = { 'sh', home .. '/.config/vars/repos' }
+local input_cmd = "sh " .. home .. "/.config/vars/repos"
 
-local default_theme = {
-  border = true,
-  borderchars = {
-    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-    results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" }
+local function isempty(s) return s == nil or s == "" end
+
+local function is_inside_tmux() return not isempty(os.getenv "TMUX") end
+
+local layout = {
+  reverse = true,
+  layout = {
+    box = "vertical",
+    position = "bottom",
+    preview = false,
+    height = 0.5,
+    border = "top",
+    title = "tmux-sessionizer",
+    { win = "list", border = "none" },
+    { win = "input", height = 1, border = "bottom" },
   },
-  layout_strategy = "bottom_pane",
-  layout_config = {
-    prompt_position = "bottom",
-    height = 0.5
+  win = {
+    input = {
+      keys = {
+        ["<C-x>"] = function(picker)
+          picker:close()
+          vim.schedule(function() vim.fn.system "tmux-sessionizer --last" end)
+        end,
+      },
+    },
   },
-  mappings = {},
-  results_title = false,
-  sorting_strategy = "descending",
-  theme = "dropdown"
 }
-
-local function isempty(s)
-  return s == nil or s == ''
-end
-
-local function is_inside_tmux()
-  local tmux = os.getenv "TMUX"
-  return not isempty(tmux)
-end
-
 local function shell_command(cmd)
   local handle = io.popen(cmd)
   local output = nil
   if handle then
-    output = handle:read('*a')
+    output = handle:read "*a"
     handle:close()
   end
   return output
 end
 
-local function switch_to_session(dir)
-  if not is_inside_tmux() then
-    print("Not in tmux!")
-    return
+local function get_repos()
+  local output = shell_command(input_cmd)
+  if output == nil then return {} end
+
+  local items = {}
+  local i = 0
+  for line in output:gmatch "[^\r\n]+" do
+    i = i + 1
+    table.insert(items, {
+      idx = i,
+      score = i,
+      text = line,
+    })
   end
-  local cmd = "tmux-sessionizer " .. dir
-  shell_command(cmd)
+
+  return items
 end
 
-M.find = function(opts)
-  opts = opts or default_theme
-  pickers.new(opts, {
-    prompt_title = "tmux-sessionizer",
-    finder = finders.new_oneshot_job(input, {}),
-    sorter = conf.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, map)
-      map('i', 'c-q', false)
-      map('i', '<c-x>', function()
-        actions.close(prompt_bufnr)
-        shell_command("tmux-sessionizer --last")
-      end)
-      map('i', '<esc>', function()
-        actions.close(prompt_bufnr)
-      end)
-      actions.select_default:replace(function()
-        actions.close(prompt_bufnr)
-        local selection = action_state.get_selected_entry()[1]
-        switch_to_session(selection)
-      end)
-      return true
+M.find = function()
+  local repos = get_repos()
+  if not is_inside_tmux() then
+    vim.notify("Not inside tmux", vim.log.levels.WARN)
+    return
+  end
+
+  snacks.picker.pick {
+    title = "Tmux Sessionizer",
+    reverse = true,
+    items = repos,
+    layout = layout,
+    format = function(item) return { { item.text } } end,
+    confirm = function(picker, item)
+      picker:close()
+      shell_command("tmux-sessionizer " .. item.text)
     end,
-  }):find()
+  }
 end
 
 return M

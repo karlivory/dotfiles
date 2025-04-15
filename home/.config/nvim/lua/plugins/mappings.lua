@@ -12,28 +12,52 @@ return {
           ["<C-S-Tab>"] = { "<cmd> bprev <CR>", desc = "  cycle prev buffer" },
           ["ga"] = { "<c-a>", desc = "increment" },
           ["gx"] = { "<c-x>", desc = "decrement" },
-          ["<C-Q>"] = { "<cmd>lua require('bufdelete').bufdelete(0, false)<cr>", desc = "close buffer" },
+          ["<C-Q>"] = {
+            function() require("snacks.bufdelete").delete() end,
+            -- "<cmd>lua require('bufdelete').bufdelete(0, false)<cr>",
+            desc = "close buffer",
+          },
           ["<C-X>"] = {
-            "<cmd>lua require('plugins.custom.tmux_sessionizer').find()<cr>",
+            function() require("plugins.custom.tmux_sessionizer").find() end,
             desc = "tmux-sessionizer",
           },
           ["<C-C>"] = { "mZggVGy`Z", desc = "  yank whole file" },
-          ["<leader>z"] = { "<cmd> ZenMode <CR>", desc = "toggle Zen mode" },
+          ["<leader>z"] = {
+            function() require("snacks.zen").zen() end,
+            -- "<cmd> ZenMode <CR>",
+            desc = "toggle Zen mode",
+          },
           -- TELESCOPE
-          ["<C-F>"] = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
+          ["<C-F>"] = {
+            function() require("snacks.picker").files { hidden = true } end,
+            desc = "  find files",
+          },
           ["<Leader>fw"] = {
-            function()
-              require("telescope.builtin").live_grep { additional_args = function() return { "--hidden" } end }
-            end,
+            function() require("snacks.picker").grep { hidden = true } end,
             desc = "Find words",
           },
-          ["<Leader>fq"] = { "<cmd> Telescope quickfix <CR>", desc = "quickfix" },
-          ["<Leader>fQ"] = { "<cmd> Telescope quickfixhistory <CR>", desc = "quickfixhistory" },
-          ["<Leader>fd"] = { "<cmd> Telescope diagnostics <CR>", desc = "diagnostics (hint: press <c-l>)" },
-          ["<Leader>fD"] = { "<cmd> Telescope diagnostics bufnr=0 <CR>", desc = "diagnostics in current buffer" },
-          ["gr"] = { "<cmd> Telescope lsp_references <CR>", desc = "quickfix" },
-          ["gi"] = { "<cmd> Telescope lsp_implementations <CR>", desc = "quickfix" },
-          ["gd"] = { "<cmd> Telescope lsp_definitions <CR>", desc = "quickfix" },
+          -- ["<Leader>fq"] = { "<cmd> Telescope quickfix <CR>", desc = "quickfix" },
+          -- ["<Leader>fQ"] = { "<cmd> Telescope quickfixhistory <CR>", desc = "quickfixhistory" },
+          ["<Leader>fd"] = {
+            function() require("snacks.picker").diagnostics() end,
+            desc = "diagnostics (hint: press <c-l>)",
+          },
+          ["<Leader>fD"] = {
+            function() require("snacks.picker").diagnostics_buffer() end,
+            desc = "diagnostics in current buffer",
+          },
+          ["gr"] = {
+            function() require("snacks.picker").lsp_references() end,
+            desc = "lsp: references",
+          },
+          ["gi"] = {
+            function() require("snacks.picker").lsp_implementations() end,
+            desc = "lsp: implementations",
+          },
+          ["gd"] = {
+            function() require("snacks.picker").lsp_definitions() end,
+            desc = "lsp: definitions",
+          },
           -- LSP actions
           ["<Leader>a"] = { function() vim.lsp.buf.code_action() end, desc = "Code action" },
           -- unbind default AstroNvim keybinds
@@ -82,7 +106,10 @@ return {
           ["<C-E>"] = { "<cmd> Neotree reveal toggle <CR>", desc = "   toggle neotree" },
           ["<C-TAB>"] = { "<cmd> bnext <CR>", desc = "  cycle next buffer" },
           ["<C-S-Tab>"] = { "<cmd> bprev <CR>", desc = "  cycle prev buffer" },
-          ["<C-F>"] = { "<cmd> Telescope find_files hidden=true<CR>", desc = "  find files" },
+          ["<C-F>"] = {
+            function() require("snacks.picker").files { hidden = true } end,
+            desc = "  find files",
+          },
           -- Suppress yanking on operations
           ["p"] = { '"_dp' },
           ["P"] = { '"_dP' },
