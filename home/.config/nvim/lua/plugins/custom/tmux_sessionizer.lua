@@ -20,16 +20,6 @@ local layout = {
     { win = "list", border = "none" },
     { win = "input", height = 1, border = "bottom" },
   },
-  win = {
-    input = {
-      keys = {
-        ["<C-x>"] = function(picker)
-          picker:close()
-          vim.schedule(function() vim.fn.system "tmux-sessionizer --last" end)
-        end,
-      },
-    },
-  },
 }
 local function shell_command(cmd)
   local handle = io.popen(cmd)
@@ -76,6 +66,19 @@ M.find = function()
       picker:close()
       shell_command("tmux-sessionizer " .. item.text)
     end,
+    win = {
+      input = {
+        keys = {
+          ["<c-x>"] = {
+            function(picker)
+              picker:close()
+              vim.schedule(function() vim.fn.system "tmux-sessionizer --last" end)
+            end,
+            mode = { "i", "n" },
+          },
+        },
+      },
+    },
   }
 end
 
