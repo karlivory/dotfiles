@@ -4,7 +4,7 @@ pulsemixer --unmute
 
 redshift -PO 6500
 
-feh --no-fehbg --bg-fill ~/.config/wallpapers/wallhaven-jxlwpm-eclipse.jpg
+feh --no-fehbg --bg-fill ~/.config/wallpapers/wallhaven-d85ewm-port.png
 
 notify-send "Good morning!"
 echo "Good morning!"
