@@ -217,11 +217,3 @@ echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 tput smkx # needed for st
 
 # . "$HOME/.cargo/env"
-
-# pnpm
-export PNPM_HOME="/home/karl/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
