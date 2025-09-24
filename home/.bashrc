@@ -133,6 +133,7 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export _JAVA_AWT_WM_NONREPARENTING=1 # needed for jetbrains software
 export PATH=${PATH}:$HOME/go/bin
+export PATH=${PATH}:$HOME/.cargo/bin
 # export PATH=${PATH}:$HOME/.dotnet
 export PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin
 
@@ -215,5 +216,3 @@ fi
 
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 tput smkx # needed for st
-
-# . "$HOME/.cargo/env"
