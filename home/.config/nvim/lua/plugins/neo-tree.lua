@@ -4,8 +4,8 @@ return {
     source_selector = {
       sources = {
         "filesystem",
-        "buffers",
-        "git_status",
+        -- "buffers",
+        -- "git_status",
       },
     },
     default_source = "filesystem",
@@ -32,10 +32,10 @@ return {
         nowait = true,
       },
       mappings = {
-        ["<c-S-TAB>"] = "prev_source",
-        ["<c-Tab>"] = "next_source",
-        ["<c-w>s"] = "open_split",
-        ["<c-w>v"] = "open_vsplit",
+        -- ["<c-S-TAB>"] = "prev_source",
+        -- ["<c-Tab>"] = "next_source",
+        ["<C-w>s"] = "open_split",
+        ["<C-w>v"] = "open_vsplit",
         ["?"] = "show_help",
         ["R"] = "refresh",
         ["a"] = { "add", config = { show_path = "relative" } }, -- show_path: "none", "relative", "absolute"
@@ -48,7 +48,28 @@ return {
         ["x"] = "cut_to_clipboard",
         ["y"] = "copy_to_clipboard",
         --------------- UNBINDS ------------------
-        ["<c-f>"] = false,
+        --- NB! ctrl commands have to be in format: C-f, C-w and so on
+        ["<C-f>"] = function(state)
+          local node = state.tree:get_node()
+          local path = node.type == "directory" and node:get_id() or vim.fn.fnamemodify(node:get_id(), ":h")
+
+          require("snacks").picker.files {
+            cwd = path,
+            hidden = true,
+            title = "[DIR] Files in " .. path,
+          }
+        end,
+        ["<space>fw"] = function(state)
+          local node = state.tree:get_node()
+          local path = node.type == "directory" and node:get_id() or vim.fn.fnamemodify(node:get_id(), ":h")
+
+          require("snacks").picker.grep {
+            cwd = path,
+            hidden = true,
+            title = "[DIR] Grep in " .. path,
+          }
+        end,
+        ["<C-x>"] = function(_) require("plugins.custom.tmux_sessionizer").find() end,
         ["/"] = false,
         ["<"] = false,
         ["<bs>"] = false,
