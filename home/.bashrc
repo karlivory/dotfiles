@@ -214,5 +214,7 @@ if type brew &>/dev/null; then
     fi
 fi
 
+eval "$(fnm env --use-on-cd --shell bash)"
+
 echo "UPDATESTARTUPTTY" | gpg-connect-agent >/dev/null 2>&1
 tput smkx # needed for st
