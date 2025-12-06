@@ -6,13 +6,31 @@
   ansible.builtin.shell: |
     NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   args:
-    # prevents reinstall
     creates: /home/linuxbrew/.linuxbrew/bin/brew
 
 - name: Update homebrew
   community.general.homebrew:
     path: /home/linuxbrew/.linuxbrew/bin
     update_homebrew: true
+
+- name: Set brew tap variables
+  ansible.builtin.set_fact:
+    local_tap_path: "/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/karl/homebrew-local"
+    local_formula_dir: "{{ home }}/.config/homebrew-formulas"
+    local_tap_formula_path: "/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/karl/homebrew-local/Formula"
+
+- name: Ensure local tap directory exists
+  ansible.builtin.file:
+    path: "{{ local_tap_path }}"
+    state: directory
+    mode: "0755"
+
+- name: Symlink entire local formulas directory as tap Formula/
+  ansible.builtin.file:
+    src: "{{ local_formula_dir }}"
+    dest: "/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/karl/homebrew-local/Formula"
+    state: link
+    force: true
 
 - name: Create symbolic link for fonts installed via homebrew/linux-fonts
   ansible.builtin.file:
@@ -26,13 +44,13 @@
     path: /home/linuxbrew/.linuxbrew/bin
     state: present
     name:
-      - "{{ home }}/.config/homebrew-formulas/bruno.rb"
-      - "{{ home }}/.config/homebrew-formulas/insomnia.rb"
-      - "{{ home }}/.config/homebrew-formulas/jetbrains-toolbox.rb"
-      - "{{ home }}/.config/homebrew-formulas/typing-test.rb"
+      # - karl/local/bruno
+      # - karl/local/insomnia
+      - karl/local/jetbrains-toolbox
+      - karl/local/typing-test
       - dive
       - helm
-      - homebrew/linux-fonts/font-ubuntu-mono-nerd-font
+      # - homebrew/linux-fonts/font-ubuntu-mono-nerd-font
       - kubectl
       - lazygit
       - lf
