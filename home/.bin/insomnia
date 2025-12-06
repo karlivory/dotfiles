@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-__appimage_insomnia --no-sandbox

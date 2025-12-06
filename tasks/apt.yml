@@ -121,7 +121,6 @@
       - bluez
       - bluez-alsa-utils
       - bridge-utils
-      - bruno
       - build-essential
       - catdoc
       - cmake
