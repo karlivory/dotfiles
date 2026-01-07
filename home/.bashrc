@@ -178,6 +178,7 @@ alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 alias p="python3"
 alias k="kubectl"
 alias z="zfs-snapshot-browser"
+alias zt="zfs list -t snapshot -o name,creation,used,refer -s creation"
 alias wt='wrap "typing-test -n 20" 0.2'
 alias ci='curl ifconfig.me'
 alias r='openssl rand -base64'
