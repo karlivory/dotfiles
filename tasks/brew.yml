@@ -46,13 +46,14 @@
     name:
       # - karl/local/bruno
       # - karl/local/insomnia
+      - karl/local/lazygit
       - karl/local/jetbrains-toolbox
       - karl/local/typing-test
       - dive
       - helm
       # - homebrew/linux-fonts/font-ubuntu-mono-nerd-font
       - kubectl
-      - lazygit
+      # - lazygit
       - lf
       - neovim
       - sops
