@@ -1,6 +1,5 @@
 # TODO: more elegant way to enable/start picom
 systemctl --user enable picom && systemctl --user start picom
-systemctl --user enable syncthing && systemctl --user start syncthing
 systemctl --user enable redshift && systemctl --user start redshift
 systemctl --user start gpg-agent.service
 
