@@ -1,3 +1,105 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+usage() {
+  cat <<'EOF'
+Usage:
+  down -a
+    Stop and remove all containers.
+
+  down mongodb
+    Stop and remove only containers matching "mongodb".
+
+  down -n mongodb grafana
+    Stop and remove everything except containers matching "mongodb" or "grafana".
+EOF
+}
+
+remove_all=false
+negate=false
+patterns=()
+
+while (($#)); do
+  case "$1" in
+  -a | --all)
+    remove_all=true
+    shift
+    ;;
+  -n | --not | --except)
+    negate=true
+    shift
+    ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  --)
+    shift
+    patterns+=("$@")
+    break
+    ;;
+  -*)
+    echo "Unknown option: $1" >&2
+    usage >&2
+    exit 2
+    ;;
+  *)
+    patterns+=("$1")
+    shift
+    ;;
+  esac
+done
+
+if [[ "$remove_all" == true && ${#patterns[@]} -gt 0 ]]; then
+  echo "Error: -a cannot be combined with container name patterns." >&2
+  usage >&2
+  exit 2
+fi
+
+if [[ "$remove_all" == true && "$negate" == true ]]; then
+  echo "Error: -a cannot be combined with -n." >&2
+  usage >&2
+  exit 2
+fi
+
+if [[ "$remove_all" == false && ${#patterns[@]} -eq 0 ]]; then
+  echo "Error: specify a container pattern, or use -a to remove everything." >&2
+  usage >&2
+  exit 2
+fi
+
+mapfile -t containers < <(docker ps -a --format '{{.ID}} {{.Names}}')
+
+selected=()
+
+for row in "${containers[@]}"; do
+  id="${row%% *}"
+  name="${row#* }"
+
+  if [[ "$remove_all" == true ]]; then
+    selected+=("$id")
+    continue
+  fi
+
+  matched=false
+  for pattern in "${patterns[@]}"; do
+    if [[ "$name" == *"$pattern"* ]]; then
+      matched=true
+      break
+    fi
+  done
+
+  if [[ "$negate" == true && "$matched" == false ]]; then
+    selected+=("$id")
+  elif [[ "$negate" == false && "$matched" == true ]]; then
+    selected+=("$id")
+  fi
+done
+
+if ((${#selected[@]} == 0)); then
+  echo "No matching containers."
+  exit 0
+fi
+
+docker stop "${selected[@]}" >/dev/null || true
+docker rm "${selected[@]}"
