@@ -1,18 +1,80 @@
--- Customize Treesitter
--- --------------------
--- Treesitter customizations are handled with AstroCore
--- as nvim-treesitter simply provides a download utility for parsers
-
 ---@type LazySpec
 return {
-  "AstroNvim/astrocore",
-  ---@type AstroCoreOpts
-  opts = {
-    treesitter = {
-      highlight = true, -- enable/disable treesitter based highlighting
-      indent = true, -- enable/disable treesitter based indentation
-      auto_install = true, -- enable/disable automatic installation of detected languages
-      ensure_installed = "all",
-    },
+  {
+    "AstroNvim/astrocore",
+    opts = function(_, opts)
+      opts.treesitter = opts.treesitter or {}
+      opts.treesitter.highlight = true
+      opts.treesitter.indent = true
+      opts.treesitter.auto_install = true
+      opts.treesitter.ensure_installed = {
+        "lua",
+        "luadoc",
+        "vim",
+        "vimdoc",
+        "query",
+        "bash",
+        "python",
+        "requirements",
+        "regex",
+        "java",
+        "kotlin",
+        "groovy",
+        "c_sharp",
+        "vue",
+        "javascript",
+        "typescript",
+        "tsx",
+        "html",
+        "css",
+        "scss",
+        "jsdoc",
+        "json",
+        "json5",
+        "jsonc",
+        "yaml",
+        "toml",
+        "xml",
+        "graphql",
+        "http",
+        "sql",
+        "properties",
+        "ini",
+        "dotenv",
+        "dockerfile",
+        "terraform",
+        "hcl",
+        "helm",
+        "jinja",
+        "jinja_inline",
+        "nginx",
+        "ssh_config",
+        "editorconfig",
+        "proto",
+        "make",
+        "cmake",
+        "gradle",
+        "git_config",
+        "git_rebase",
+        "gitattributes",
+        "gitcommit",
+        "gitignore",
+        "diff",
+        "markdown",
+        "markdown_inline",
+        "c",
+        "cpp",
+        "go",
+        "gomod",
+        "gosum",
+        "gowork",
+        "rust",
+        "nix",
+        "jq",
+        "csv",
+        "tmux",
+        "pem",
+      }
+    end,
   },
 }
