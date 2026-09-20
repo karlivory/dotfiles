@@ -34,8 +34,8 @@ return {
       mappings = {
         -- ["<c-S-TAB>"] = "prev_source",
         -- ["<c-Tab>"] = "next_source",
-        ["<C-w>s"] = "open_split",
-        ["<C-w>v"] = "open_vsplit",
+        ["\\"] = "open_vsplit",
+        ["|"] = "close_window",
         ["?"] = "show_help",
         ["R"] = "refresh",
         ["a"] = { "add", config = { show_path = "relative" } }, -- show_path: "none", "relative", "absolute"
