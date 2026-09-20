@@ -59,3 +59,82 @@ index ca09e0b..a897297 100644
 
  # Uncomment for the netwmicon patch / NETWMICON_PATCH
  #NETWMICON_LIBS = `$(PKG_CONFIG) --libs gdlib`
+
+diff --git a/patch/fixkeyboardinput.c b/patch/fixkeyboardinput.c
+--- a/patch/fixkeyboardinput.c
++++ b/patch/fixkeyboardinput.c
+@@ -3,35 +3,6 @@
+  * to be mapped below, add them to this array.
+  */
+ static KeySym mappedkeys[] = {
+-	XK_space,
+-	XK_m,
+-	XK_i,
+-	XK_A,
+-	XK_B,
+-	XK_C,
+-	XK_D,
+-	XK_E,
+-	XK_F,
+-	XK_G,
+-	XK_H,
+-	XK_I,
+-	XK_K,
+-	XK_J,
+-	XK_L,
+-	XK_M,
+-	XK_N,
+-	XK_O,
+-	XK_P,
+-	XK_Q,
+-	XK_R,
+-	XK_S,
+-	XK_T,
+-	XK_U,
+-	XK_V,
+-	XK_W,
+-	XK_X,
+-	XK_Y,
+-	XK_Z,
+ 	XK_0,
+ 	XK_1,
+ 	XK_2,
+@@ -42,38 +13,6 @@
+ 	XK_7,
+ 	XK_8,
+ 	XK_9,
+-	XK_exclam,
+-	XK_quotedbl,
+-	XK_numbersign,
+-	XK_dollar,
+-	XK_percent,
+-	XK_ampersand,
+-	XK_apostrophe,
+-	XK_parenleft,
+-	XK_parenright,
+-	XK_asterisk,
+-	XK_plus,
+-	XK_comma,
+-	XK_minus,
+-	XK_period,
+-	XK_slash,
+-	XK_colon,
+-	XK_semicolon,
+-	XK_less,
+-	XK_equal,
+-	XK_greater,
+-	XK_question,
+-	XK_at,
+-	XK_bracketleft,
+-	XK_backslash,
+-	XK_bracketright,
+-	XK_asciicircum,
+-	XK_underscore,
+-	XK_grave,
+-	XK_braceleft,
+-	XK_bar,
+-	XK_braceright,
+-	XK_asciitilde,
+ };
+ 
+ /*
