@@ -72,7 +72,6 @@ return {
         "nix",
         "jq",
         "csv",
-        "tmux",
         "pem",
       }
     end,
