@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 0e89947..d26694b 100644
+index b5ea78b..098656c 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -18,7 +18,7 @@ static int incremental = 0;                 /* -r  option; if 1, outputs text ea
@@ -11,7 +11,7 @@ index 0e89947..d26694b 100644
  static int min_width = 500;                 /* minimum width when centered */
  #endif // CENTER_PATCH
  #if BARPADDING_PATCH
-@@ -38,7 +38,7 @@ static char *fonts[] =
+@@ -41,7 +41,7 @@ static char *fonts[] =
  static const char *fonts[] =
  #endif // XRESOURCES_PATCH
  {
@@ -20,8 +20,8 @@ index 0e89947..d26694b 100644
  };
  #endif // PANGO_PATCH
  #if MANAGED_PATCH
-@@ -117,7 +117,7 @@ char *colors[][2] = {
- 	#endif // EMOJI_HIGHLIGHT_PATCH
+@@ -132,7 +132,7 @@ char *colors[][2] = {
+ 	#endif // CARET_SCHEME_PATCH
  };
  /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
 -static unsigned int lines      = 0;
@@ -29,7 +29,7 @@ index 0e89947..d26694b 100644
  #if GRID_PATCH
  /* -g option; if nonzero, dmenu uses a grid comprised of columns and lines */
  static unsigned int columns    = 0;
-@@ -142,7 +142,7 @@ static const char worddelimiters[] = " ";
+@@ -171,7 +171,7 @@ static Key quit_keys[] = {
  
  #if BORDER_PATCH
  /* Size of the window border */
@@ -38,3 +38,16 @@ index 0e89947..d26694b 100644
  #endif // BORDER_PATCH
  
  #if PREFIXCOMPLETION_PATCH
+diff --git a/config.mk b/config.mk
+index c2aede8..9ae6232 100644
+--- a/config.mk
++++ b/config.mk
+@@ -23,7 +23,7 @@ FREETYPEINC = /usr/include/freetype2
+ #EXTRAFLAGS=-D_GNU_SOURCE
+ 
+ # Uncomment for the alpha patch / ALPHA_PATCH
+-#XRENDER = -lXrender
++XRENDER = -lXrender
+ 
+ # Uncomment for the bidi patch / BIDI_PATCH
+ #BIDILIBS = `pkg-config --libs fribidi`
