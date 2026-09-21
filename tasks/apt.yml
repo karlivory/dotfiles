@@ -76,21 +76,6 @@
     enabled: yes
   changed_when: false # keyserver.ubuntu.com returns key metadata in random order
 
-- name: Add mozilla apt repository
-  become: true
-  ansible.builtin.deb822_repository:
-    name: mozilla
-    types: [deb]
-    uris:
-      - http://ppa.launchpad.net/mozillateam/ppa/ubuntu
-    signed_by: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0AB215679C571D1C8325275B9BDB3D89CE49EC21
-    suites: [lunar]
-    components: [main]
-    state: present
-    architectures: amd64
-    enabled: yes
-  changed_when: false # keyserver.ubuntu.com returns key metadata in random order
-
 - name: Add Lens Desktop repository
   become: true
   ansible.builtin.deb822_repository:
