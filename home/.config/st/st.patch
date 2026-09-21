@@ -10,7 +10,21 @@ diff --git a/config.def.h b/config.def.h
  #if FONT2_PATCH
  /* Spare fonts */
  static char *font2[] = {
-@@ -527,6 +527,8 @@
+@@ -418,6 +418,13 @@
+ 
+ static Shortcut shortcuts[] = {
+ 	/* mask                 keysym          function         argument   screen */
++	{ MODKEY,               XK_k,           kscrollup,       {.i = 1} },
++	{ MODKEY,               XK_j,           kscrolldown,     {.i = 1} },
++	{ MODKEY,               XK_u,           kscrollup,       {.i = -1} },
++	{ MODKEY,               XK_d,           kscrolldown,     {.i = -1} },
++	{ ControlMask,          XK_equal,       zoom,            {.f = +1} },
++	{ ControlMask,          XK_minus,       zoom,            {.f = -1} },
++	{ ControlMask,          XK_0,           zoomreset,       {.f =  0} },
+ 	{ XK_ANY_MOD,           XK_Break,       sendbreak,       {.i =  0} },
+ 	{ ControlMask,          XK_Print,       toggleprinter,   {.i =  0} },
+ 	{ ShiftMask,            XK_Print,       printscreen,     {.i =  0} },
+@@ -527,6 +534,8 @@
   */
  static Key key[] = {
  	/* keysym           mask            string      appkey appcursor */
