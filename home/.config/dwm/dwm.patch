@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 1a44983..abeee93 100644
+index e62d328..97604e0 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -5,7 +5,7 @@
+@@ -9,7 +9,7 @@
  static const unsigned int borderpx       = 0;   /* border pixel of windows */
  static const int corner_radius           = 10;
  #else
@@ -11,7 +11,7 @@ index 1a44983..abeee93 100644
  #endif // ROUNDED_CORNERS_PATCH
  #if BAR_BORDER_PATCH
  /* This allows the bar border size to be explicitly set separately from borderpx.
-@@ -24,10 +24,10 @@ static const int scalepreview            = 4;        /* Tag preview scaling */
+@@ -28,10 +28,10 @@ static const int scalepreview            = 4;        /* Tag preview scaling */
  static int nomodbuttons                  = 1;   /* allow client mouse button bindings that have no modifier */
  #endif // NO_MOD_BUTTONS_PATCH
  #if VANITYGAPS_PATCH
@@ -26,7 +26,7 @@ index 1a44983..abeee93 100644
  static const int smartgaps_fact          = 1;   /* gap factor when there is only one client; 0 = no gaps, 3 = 3x outer gaps */
  #endif // VANITYGAPS_PATCH
  #if AUTOSTART_PATCH
-@@ -162,7 +162,7 @@ static void (*bartabmonfns[])(Monitor *) = { NULL /* , customlayoutfn */ };
+@@ -170,7 +170,7 @@ static void (*bartabmonfns[])(Monitor *) = { NULL /* , customlayoutfn */ };
  #if BAR_PANGO_PATCH
  static const char font[]                 = "monospace 10";
  #else
@@ -35,7 +35,7 @@ index 1a44983..abeee93 100644
  #endif // BAR_PANGO_PATCH
  static const char dmenufont[]            = "monospace:size=10";
  
-@@ -409,10 +409,16 @@ static const char *const autostart[] = {
+@@ -438,10 +438,16 @@ static const char *const autostart[] = {
  #if RENAMED_SCRATCHPADS_PATCH
  static const char *scratchpadcmd[] = {"s", "st", "-n", "spterm", NULL};
  #elif SCRATCHPADS_PATCH
@@ -54,7 +54,7 @@ index 1a44983..abeee93 100644
  };
  #endif // SCRATCHPADS_PATCH
  
-@@ -497,12 +503,15 @@ static const Rule rules[] = {
+@@ -526,12 +532,15 @@ static const Rule rules[] = {
  	RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
  	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
  	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
@@ -73,7 +73,7 @@ index 1a44983..abeee93 100644
  	#endif // SCRATCHPADS_PATCH
  };
  
-@@ -769,7 +778,7 @@ static const char *xkb_layouts[]  = {
+@@ -811,7 +820,7 @@ static const char *xkb_layouts[]  = {
  #endif // XKB_PATCH
  
  /* key definitions */
@@ -82,7 +82,7 @@ index 1a44983..abeee93 100644
  #if COMBO_PATCH && SWAPTAGS_PATCH && TAGOTHERMONITOR_PATCH
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      comboview,      {.ui = 1 << TAG} }, \
-@@ -836,11 +845,12 @@ static const char *xkb_layouts[]  = {
+@@ -878,11 +887,7 @@ static const char *xkb_layouts[]  = {
  #define STACKKEYS(MOD,ACTION) \
  	{ MOD, XK_j,     ACTION##stack, {.i = INC(+1) } }, \
  	{ MOD, XK_k,     ACTION##stack, {.i = INC(-1) } }, \
@@ -91,25 +91,20 @@ index 1a44983..abeee93 100644
 -	{ MOD, XK_e,     ACTION##stack, {.i = 1 } }, \
 -	{ MOD, XK_a,     ACTION##stack, {.i = 2 } }, \
 -	{ MOD, XK_z,     ACTION##stack, {.i = -1 } },
-+	{ MOD, XK_a,     ACTION##stack, {.i = 0 } }, \
-+	// { MOD, XK_s,     ACTION##stack, {.i = PREVSEL } }, \
-+	// { MOD, XK_w,     ACTION##stack, {.i = 0 } }, \
-+	// { MOD, XK_e,     ACTION##stack, {.i = 1 } }, \
-+	// { MOD, XK_a,     ACTION##stack, {.i = 2 } }, \
-+	// { MOD, XK_z,     ACTION##stack, {.i = -1 } },
++	{ MOD, XK_a,     ACTION##stack, {.i = 0 } },
  #endif // STACKER_PATCH
  
  #if BAR_HOLDBAR_PATCH
-@@ -895,7 +905,7 @@ static const Key on_empty_keys[] = {
+@@ -1040,7 +1045,7 @@ ResourcePref resources[] = {
  };
- #endif // ON_EMPTY_KEYS_PATCH
+ #endif // XRESOURCES_PATCH
  
 -static const Key keys[] = {
 +static const Key _unused_keys[] = {
  	/* modifier                     key            function                argument */
  	#if KEYMODES_PATCH
  	{ MODKEY,                       XK_Escape,     setkeymode,             {.ui = COMMANDMODE} },
-@@ -1303,6 +1313,37 @@ static const Key keys[] = {
+@@ -1457,6 +1462,37 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_9,                                  8)
  };
  
@@ -147,7 +142,7 @@ index 1a44983..abeee93 100644
  #if KEYMODES_PATCH
  static const Key cmdkeys[] = {
  	/* modifier                    keys                     function         argument */
-@@ -1593,6 +1634,7 @@ static const Signal signals[] = {
+@@ -1755,6 +1791,7 @@ static const Signal signals[] = {
  static Signal signals[] = {
  	/* signum       function        argument  */
  	{ 1,            setlayout,      {.v = 0} },
