@@ -13,7 +13,7 @@
   git:
     repo: https://github.com/shdown/luastatus
     dest: "{{ dotfiles_data_dir }}/luastatus"
-    version: 99123f6613332631fbfd2a11c2f32f0854e19d3d
+    version: 8d88d258d88e5de7f01ec44d72b2dae3982d1d67
     depth: 1
     update: yes
   register: clone_luastatus
