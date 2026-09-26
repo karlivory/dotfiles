@@ -39,11 +39,26 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
+      "kmp_lsp",
       -- "pyright"
     },
     -- customize language server configuration passed to `vim.lsp.config`
     -- client specific configuration can also go in `lsp/` in your configuration root (see `:h lsp-config`)
     config = {
+      kmp_lsp = {
+        cmd = { "kmp-lsp" },
+        filetypes = { "kotlin", "java", "swift" },
+        root_markers = {
+          "build.gradle",
+          "build.gradle.kts",
+          "pom.xml",
+          "settings.gradle",
+          "settings.gradle.kts",
+          "Package.swift",
+          ".git",
+        },
+        settings = {},
+      },
       -- ["*"] = { capabilities = {} }, -- modify default LSP client settings such as capabilities
     },
     -- customize how language servers are attached
