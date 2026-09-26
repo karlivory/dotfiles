@@ -78,4 +78,9 @@ setup_luastatus() {
     root make -C "$dest/build"
     root make -C "$dest/build" install
   fi
+  # CMake can leave installed resource directories inaccessible when the
+  # installer inherits a restrictive umask. Repair existing installs too.
+  if [[ -d /usr/local/share/luastatus ]]; then
+    root chmod -R a+rX /usr/local/share/luastatus
+  fi
 }
