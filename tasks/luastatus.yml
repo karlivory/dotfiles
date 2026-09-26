@@ -18,9 +18,14 @@
     update: yes
   register: clone_luastatus
 
+- name: Check if luastatus is installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/luastatus
+  register: luastatus_binary
+
 - name: build luastatus
   become: true
-  when: clone_luastatus.changed
+  when: clone_luastatus.changed or not luastatus_binary.stat.exists
   command: "cmake ."
   args:
     chdir: "{{ dotfiles_data_dir }}/luastatus"
@@ -28,7 +33,7 @@
 
 - name: build luastatus
   become: true
-  when: clone_luastatus.changed
+  when: clone_luastatus.changed or not luastatus_binary.stat.exists
   command: "make"
   args:
     chdir: "{{ dotfiles_data_dir }}/luastatus"
@@ -36,7 +41,7 @@
 
 - name: build luastatus
   become: true
-  when: clone_luastatus.changed
+  when: clone_luastatus.changed or not luastatus_binary.stat.exists
   command: "make install"
   args:
     chdir: "{{ dotfiles_data_dir }}/luastatus"

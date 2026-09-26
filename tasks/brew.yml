@@ -32,33 +32,33 @@
     state: link
     force: true
 
-- name: Create symbolic link for fonts installed via homebrew/linux-fonts
-  ansible.builtin.file:
-    src: /home/linuxbrew/.linuxbrew/share/fonts
-    dest: "{{ home }}/.local/share/fonts"
-    state: link
-
 - name: Install packages via homebrew
   register: homebrew_result
   community.general.homebrew:
     path: /home/linuxbrew/.linuxbrew/bin
     state: present
     name:
-      # - karl/local/bruno
-      # - karl/local/insomnia
       - karl/local/lazygit
       - karl/local/jetbrains-toolbox
       - karl/local/typing-test
-      - dive
+      - fnm
+      - go
       - helm
-      # - homebrew/linux-fonts/font-ubuntu-mono-nerd-font
-      - kubectl
-      # - lazygit
       - lf
       - neovim
-      - sops
       - yt-dlp
+      # - dive
+      # - kubectl
+      # - lazygit
+      # - sops
+
+- name: Install UbuntuMono Nerd Font cask
+  register: font_cask_result
+  community.general.homebrew_cask:
+    path: /home/linuxbrew/.linuxbrew/bin
+    name: font-ubuntu-mono-nerd-font
+    state: present
 
 - name: Refresh font cache
   ansible.builtin.command: fc-cache -fv
-  when: homebrew_result.changed
+  when: homebrew_result.changed or font_cask_result.changed

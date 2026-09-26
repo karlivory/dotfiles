@@ -27,23 +27,15 @@
       Pin: release a=*
       Pin-Priority: -10
 
-##====================================== REPOS ========================================##
-#########################################################################################
-# examples of new format: https://gist.github.com/roib20/27fde10af195cee1c1f8ac5f68be7e9b
+      Explanation: Prefer Firefox packages from Mozilla's APT repository
+      Package: firefox*
+      Pin: origin packages.mozilla.org
+      Pin-Priority: 1000
 
-# - name: Add spotify apt repository
-#   become: true
-#   ansible.builtin.deb822_repository:
-#     name: spotify
-#     types: [deb]
-#     uris:
-#       - http://repository.spotify.com
-#     signed_by: https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
-#     suites: [stable]
-#     components: [non-free]
-#     state: present
-#     architectures: amd64
-#     enabled: yes
+      Explanation: Prevent Ubuntu's Firefox Snap transition package
+      Package: firefox
+      Pin: release o=Ubuntu
+      Pin-Priority: -1
 
 - name: Add google apt repository
   become: true
@@ -52,29 +44,13 @@
     types: [deb]
     uris:
       - http://dl.google.com/linux/chrome/deb
-      - http://dl.google.com/linux/earth/deb
     signed_by: https://dl.google.com/linux/linux_signing_key.pub
     suites: [stable]
     components: [main]
     state: present
     architectures: amd64
     enabled: yes
-
-# https://support.yubico.com/hc/en-us/articles/360016649039-Installing-Yubico-Software-on-Linux
-- name: Add yubico apt repository
-  become: true
-  ansible.builtin.deb822_repository:
-    name: yubico
-    types: [deb]
-    uris:
-      - http://ppa.launchpad.net/yubico/stable/ubuntu
-    signed_by: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3653E21064B19D134466702E43D5C49532CBA1A9
-    suites: [lunar]
-    components: [main]
-    state: present
-    architectures: amd64
-    enabled: yes
-  changed_when: false # keyserver.ubuntu.com returns key metadata in random order
+  register: google_apt_repository
 
 - name: Add Lens Desktop repository
   become: true
@@ -89,6 +65,30 @@
     state: present
     architectures: amd64
     enabled: yes
+  register: lens_apt_repository
+
+- name: Add Mozilla APT repository
+  become: true
+  ansible.builtin.deb822_repository:
+    name: mozilla
+    types: [deb]
+    uris:
+      - https://packages.mozilla.org/apt
+    suites: [mozilla]
+    components: [main]
+    signed_by: https://packages.mozilla.org/apt/repo-signing-key.gpg
+    state: present
+    enabled: yes
+  register: mozilla_apt_repository
+
+- name: Refresh apt cache after repository changes
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+  when: >-
+    google_apt_repository.changed or
+    lens_apt_repository.changed or
+    mozilla_apt_repository.changed
 
 ##==================================== PACKAGES =======================================##
 #########################################################################################
@@ -116,15 +116,18 @@
       - dnsmasq
       - dnsutils
       - docx2txt
+      - fastfetch
       - dunst
       - expect
       - fd-find
       - feh
+      - firefox
       - ffmpeg
       - ffmpegthumbnailer
       - firmware-sof-signed # audio
       - flameshot
       - fontconfig
+      - fonts-noto-color-emoji
       - fzf
       - gimp
       - gir1.2-nm-1.0
@@ -135,6 +138,7 @@
       - htop
       - intel-media-va-driver-non-free
       - jq
+      - fonts-noto-color-emoji
       - libasound2-dev
       - libdbus-1-dev
       - libfontconfig1-dev
@@ -173,12 +177,12 @@
       - moreutils
       - mpv
       - ncal
-      - neofetch
       - net-tools
       - network-manager-gnome
       - odt2txt
-      - openjdk-17-jdk
-      - openjdk-21-jdk
+      - openjdk-17-jdk-headless
+      - openjdk-21-jdk-headless
+      - openjdk-25-jdk-headless
       - openvpn-systemd-resolved
       - p7zip-full
       - parallel
@@ -193,8 +197,7 @@
       - python3-docutils
       - python3-pip
       - python3-pynvim
-      - python3.12-venv
-      - qemu-kvm
+      - python3.14-venv
       - ranger
       - redshift
       - ripgrep

@@ -31,4 +31,5 @@ prerequisites
 setup_venv
 
 ansible-galaxy collection install -r ansible-requirements.yml
+ansible-galaxy role install -r ansible-requirements.yml
 ansible-playbook -K playbook.yml $ARGS
