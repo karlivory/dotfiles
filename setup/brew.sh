@@ -19,6 +19,12 @@ setup_brew_font() {
   fi
 }
 
+setup_brew_install() {
+  local installer
+  installer=$(as_user curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+  as_user env NONINTERACTIVE=1 /bin/bash -c "$installer"
+}
+
 setup_brew() {
   local brew=$BREW_PREFIX/bin/brew tap=$BREW_PREFIX/Homebrew/Library/Taps/karl/homebrew-local
   local formula_dir=$SETUP_HOME/.config/homebrew-formulas
@@ -35,8 +41,7 @@ setup_brew() {
   )
   need curl
   if [[ ! -x $brew ]]; then
-    run_step "install Homebrew" as_user env NONINTERACTIVE=1 /bin/bash -c \
-      "\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    run_step "install Homebrew" setup_brew_install
   fi
   [[ -x $brew ]] || die "Homebrew not found at $brew (check config.sh)"
   run_step "update" as_user "$brew" update
