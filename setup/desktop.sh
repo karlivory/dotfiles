@@ -60,7 +60,7 @@ setup_dmenu() { build_flexipatch dmenu; }
 setup_slock() { build_flexipatch slock; }
 
 setup_luastatus() {
-  local dest=$DATA_DIR/luastatus rev
+  local dest=$DATA_DIR/luastatus rev path
   need git
   need cmake
   root mkdir -p "$DATA_DIR"
@@ -80,7 +80,7 @@ setup_luastatus() {
   fi
   # Repair resource permissions after a restrictive-umask install, including
   # files and existing installs that do not need rebuilding.
-  if [[ -d /usr/local/share/luastatus ]]; then
-    root chmod -R a+rx /usr/local/share/luastatus
-  fi
+  for path in /usr/local/share/luastatus /usr/local/lib/luastatus; do
+    if [[ -d $path ]]; then root chmod -R a+rx "$path"; fi
+  done
 }
