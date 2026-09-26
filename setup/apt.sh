@@ -196,4 +196,5 @@ setup_apt() {
   run_step "prerequisites" root apt-get install -y --no-install-recommends "${APT_PREREQUISITES[@]}"
   run_step "repositories" setup_apt_repositories
   run_step "packages" setup_apt_packages
+  run_step "sudo alternative" root update-alternatives --set sudo /usr/bin/sudo.ws
 }
