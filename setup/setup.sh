@@ -78,6 +78,12 @@ else
         needs_root=1
         break
         ;;
+      brew)
+        if [[ $BREW_PREFIX == /home/linuxbrew/.linuxbrew && ! -x $BREW_PREFIX/bin/brew ]]; then
+          needs_root=1
+          break
+        fi
+        ;;
     esac
   done
   if ((needs_root)); then

@@ -73,6 +73,8 @@ EOF
       ;;
     brew)
       cat <<EOF
+  If installing Homebrew at the standard Linux prefix, create /home/linuxbrew
+    for $SETUP_USER only if absent; refuse to change existing permissions
   Install Homebrew at $BREW_PREFIX if absent; update it
   Link $SETUP_HOME/.config/homebrew-formulas as local tap Formula/
   Install local lazygit, jetbrains-toolbox, typing-test; fnm, go, helm, lf,

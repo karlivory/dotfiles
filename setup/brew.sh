@@ -19,10 +19,24 @@ setup_brew_font() {
   fi
 }
 
+setup_brew_prefix() {
+  # Homebrew's Linux installer needs a writable ancestor of its default prefix.
+  # Do not change ownership of an existing directory that may belong to someone else.
+  [[ $BREW_PREFIX == /home/linuxbrew/.linuxbrew ]] || return 0
+  local parent=/home/linuxbrew
+  [[ ! -L $parent ]] || die "$parent is a symlink; review it before installing Homebrew"
+  if [[ ! -e $parent ]]; then
+    root install -d -m 0755 -o "$SETUP_USER" -g "$(id -gn "$SETUP_USER")" "$parent"
+  fi
+  if ! as_user test -d "$parent" || ! as_user test -w "$parent" || ! as_user test -x "$parent"; then
+    die "$parent must be a writable directory for $SETUP_USER; refusing to change existing permissions"
+  fi
+}
+
 setup_brew_install() {
   local installer
   installer=$(as_user curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
-  as_user env NONINTERACTIVE=1 /bin/bash -c "$installer"
+  as_user env NONINTERACTIVE=1 HOMEBREW_NO_SUDO=1 /bin/bash -c "$installer"
 }
 
 setup_brew() {
@@ -41,6 +55,7 @@ setup_brew() {
   )
   need curl
   if [[ ! -x $brew ]]; then
+    run_step "Homebrew prefix" setup_brew_prefix
     run_step "install Homebrew" setup_brew_install
   fi
   [[ -x $brew ]] || die "Homebrew not found at $brew (check config.sh)"
