@@ -18,6 +18,17 @@ die() {
   exit 1
 }
 need() { command -v "$1" >/dev/null || die "Missing command: $1"; }
+is_chroot() {
+  local detected pid1_root current_root
+  if command -v systemd-detect-virt >/dev/null; then
+    if detected=$(systemd-detect-virt --chroot 2>&1); then return 0; fi
+    [[ -n $detected ]] || return 1
+  fi
+  pid1_root=$(stat -Lc '%d:%i' /proc/1/root 2>/dev/null) ||
+    die "Cannot determine whether this is a chroot; mount /proc before running setup"
+  current_root=$(stat -Lc '%d:%i' / 2>/dev/null) || die "Cannot inspect root directory"
+  [[ $pid1_root != "$current_root" ]]
+}
 root() {
   [[ $(id -u) -eq 0 ]] || die "Root session required for: $*"
   "$@"

@@ -9,6 +9,7 @@ plan_setup() {
   printf 'DRY RUN: no sudo, installers, stow, or system changes will run.\n'
   printf 'Managed file sources: %s/files/ (.in files use config.sh values)\n' "$SETUP_DIR"
   printf 'Backups of replaced files: %s/backups/dotfiles/\n' "$DATA_DIR"
+  printf 'If this is a chroot, ZFS/firewall/service operations and Docker are deferred until boot.\n'
   printf 'Target: %s %s; configured user: %s; root dataset: %s\n' \
     "${NAME:-unknown}" "${VERSION_ID:-unknown}" "$SETUP_USER" "$ROOT_ZFS_DATASET"
   if [[ ${ID:-} != ubuntu || ${VERSION_ID:-} != 26.04 ]]; then
@@ -41,15 +42,13 @@ EOF
       ;;
     system)
       cat <<EOF
-  Create/update ZFS $DOCKER_ZFS_DATASET (mountpoint $DOCKER_DATA_DIR, dedup on)
-  Set snapdir=visible on $ROOT_ZFS_DATASET
-  Mask systemd-networkd-wait-online; set HandleLidSwitch=ignore
-  Remove /lib/systemd/system/autorandr.service (back up first), reload systemd
-  Write (backing up changed files) /etc/sanoid/sanoid.conf,
-    /etc/apt/apt.conf.d/20apt-esm-hook.conf, /etc/profile.d/global_env.sh,
-    /etc/netplan/netcfg.yaml; create /usr/local/bin
-  Enable UFW with default deny incoming (keep existing rules)
-  Disable SSH password authentication; restart ssh only if config changes
+  Always: write target logind, SSH, apt, profile, and netplan config;
+    remove the target autorandr service (backing it up)
+  In a chroot: no host ZFS, UFW, or systemd operations; defer sanoid config
+  When booted: create/update ZFS $DOCKER_ZFS_DATASET (mountpoint $DOCKER_DATA_DIR,
+    dedup on); set snapdir=visible on $ROOT_ZFS_DATASET; write sanoid config
+    Mask systemd-networkd-wait-online; enable UFW with default deny incoming
+    (keep existing rules); restart SSH if its config changed
 EOF
       ;;
     stow)
@@ -82,12 +81,11 @@ EOF
       ;;
     docker)
       cat <<EOF
-  Fetch Docker signing key into /etc/apt/keyrings/docker.gpg
-  Add official Ubuntu 26.04 Docker apt source; refresh apt
-  Install docker-ce, docker-ce-cli, containerd.io, buildx and compose plugins
-  Write /etc/docker/daemon.json (data-root $DOCKER_DATA_DIR,
+  In a chroot: defer the entire Docker component until boot
+  When booted: add official Docker apt source; install Docker packages;
+    write /etc/docker/daemon.json (data-root $DOCKER_DATA_DIR,
     bip 172.20.0.1/24, default-address-pool 172.20.0.0/16 size 24)
-  Restart Docker if config changed; enable/start Docker
+    Restart Docker if config changed; enable/start Docker
 EOF
       ;;
   esac

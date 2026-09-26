@@ -92,6 +92,9 @@ else
   fi
 fi
 
+IN_CHROOT=0
+if ((root_session)) && is_chroot; then IN_CHROOT=1; fi
+
 current_log=
 component_active=0
 step_active=0
@@ -213,6 +216,7 @@ run_component() {
 
 total_started=$(now_us)
 total=${#components[@]}
+deferred=0
 component_noun=components
 if ((total == 1)); then component_noun=component; fi
 for index in "${!components[@]}"; do
@@ -220,6 +224,12 @@ for index in "${!components[@]}"; do
   component_started=$(now_us)
   component_active=1
   printf '[%d/%d] %s\n' "$((index + 1))" "$total" "$component" >&3
+  if ((IN_CHROOT)) && [[ $component == docker ]]; then
+    printf '  docker deferred until boot (packages, daemon, and service)\n\n' >&3
+    deferred=$((deferred + 1))
+    component_active=0
+    continue
+  fi
   if ((verbose)); then
     run_component "$component"
   else
@@ -228,13 +238,30 @@ for index in "${!components[@]}"; do
     rm -f -- "$current_log"
     current_log=
   fi
-  printf '  %s✓%s %s completed in %s\n\n' "$green" "$reset" "$component" \
-    "$(elapsed "$(($(now_us) - component_started))")" >&3
+  if ((IN_CHROOT)) && [[ $component == system ]]; then
+    printf '  %s✓%s system target files prepared in %s (runtime work deferred)\n\n' \
+      "$green" "$reset" "$(elapsed "$(($(now_us) - component_started))")" >&3
+    deferred=$((deferred + 1))
+  else
+    printf '  %s✓%s %s completed in %s\n\n' "$green" "$reset" "$component" \
+      "$(elapsed "$(($(now_us) - component_started))")" >&3
+  fi
   component_active=0
 done
-printf 'Finished %d %s in %s.\n' "$total" "$component_noun" \
-  "$(elapsed "$(($(now_us) - total_started))")" >&3
-if ((full_setup)); then
+if ((deferred)); then
+  printf 'Chroot preparation finished in %s; %d runtime %s deferred until boot.\n' \
+    "$(elapsed "$(($(now_us) - total_started))")" "$deferred" \
+    "$([[ $deferred == 1 ]] && echo component || echo components)" >&3
+  printf 'After boot, review ROOT_ZFS_DATASET in setup/config.sh, then run: %s/setup.sh system docker\n' \
+    "$SETUP_DIR" >&3
+  if ((full_setup)); then
+    printf 'After completing booted setup, optionally run: %s/promote.sh\n' "$SETUP_DIR" >&3
+  fi
+else
+  printf 'Finished %d %s in %s.\n' "$total" "$component_noun" \
+    "$(elapsed "$(($(now_us) - total_started))")" >&3
+fi
+if ((full_setup && !IN_CHROOT)); then
   origin=$(as_user git -C "$REPO_DIR" config --get remote.origin.url || true)
   if [[ $origin == https://github.com/karlivory/dotfiles ||
     $origin == https://github.com/karlivory/dotfiles.git ||

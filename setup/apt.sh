@@ -175,6 +175,7 @@ setup_apt_packages() {
     yubico-piv-tool
     yubikey-manager
     zathura
+    zfsutils-linux
   )
   root apt-get install -y --no-install-recommends "${packages[@]}"
   # GNOME purge intentionally omitted.
