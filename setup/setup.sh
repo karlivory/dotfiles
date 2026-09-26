@@ -6,20 +6,18 @@ source "$SETUP_DIR/lib.sh"
 
 usage() {
   cat <<'EOF'
-Usage: setup/setup.sh [--dry-run] [--verbose] [--no-spinner] [all | system | apt | stow | desktop | dwm | st | dmenu | slock | luastatus | brew | docker]...
+Usage: setup/setup.sh [--verbose] [--no-spinner] [all | system | apt | stow | desktop | dwm | st | dmenu | slock | luastatus | brew | docker]...
 
 No arguments runs all components. Selected components run in the order given.
 Desktop is shorthand for dwm, st, dmenu, luastatus, and slock.
 For desktop builds, install packages and initialize submodules first (or run all).
 Machine settings live in setup/config.sh. Ubuntu 26.04 is expected.
---dry-run prints a read-only plan; it does not check whether each step is needed.
 Successful components and selected subtasks show elapsed time (e.g. 0.43s).
 --verbose also streams command output.
 --no-spinner disables the terminal spinner without changing output or timings.
 EOF
 }
 
-dry_run=0
 verbose=0
 no_spinner=0
 root_session=0
@@ -31,7 +29,6 @@ for arg in "$@"; do
       usage
       exit 0
       ;;
-    --dry-run) dry_run=1 ;;
     --verbose) verbose=1 ;;
     --no-spinner) no_spinner=1 ;;
     --root-session) root_session=1 ;;
@@ -57,14 +54,6 @@ if ((all_selected || ${#components[@]} == 0)); then
   )
 else
   full_setup=0
-fi
-
-if ((dry_run)); then
-  # Do not source component scripts: some of them perform work during setup.
-  # shellcheck source=/dev/null
-  source "$SETUP_DIR/plan.sh"
-  plan_setup "${components[@]}"
-  exit 0
 fi
 
 # shellcheck source=/dev/null
