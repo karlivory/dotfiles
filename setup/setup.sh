@@ -6,7 +6,7 @@ source "$SETUP_DIR/lib.sh"
 
 usage() {
   cat <<'EOF'
-Usage: setup/setup.sh [--dry-run] [--verbose] [all | system | apt | stow | desktop | dwm | st | dmenu | slock | luastatus | brew | docker]...
+Usage: setup/setup.sh [--dry-run] [--verbose] [--no-spinner] [all | system | apt | stow | desktop | dwm | st | dmenu | slock | luastatus | brew | docker]...
 
 No arguments runs all components. Selected components run in the order given.
 Desktop is shorthand for dwm, st, dmenu, luastatus, and slock.
@@ -15,11 +15,13 @@ Machine settings live in setup/config.sh. Ubuntu 26.04 is expected.
 --dry-run prints a read-only plan; it does not check whether each step is needed.
 Successful components and selected subtasks show elapsed time (e.g. 0.43s).
 --verbose also streams command output.
+--no-spinner disables the terminal spinner without changing output or timings.
 EOF
 }
 
 dry_run=0
 verbose=0
+no_spinner=0
 root_session=0
 all_selected=0
 components=()
@@ -31,6 +33,7 @@ for arg in "$@"; do
       ;;
     --dry-run) dry_run=1 ;;
     --verbose) verbose=1 ;;
+    --no-spinner) no_spinner=1 ;;
     --root-session) root_session=1 ;;
     all) all_selected=1 ;;
     system | apt | stow | desktop | dwm | st | dmenu | slock | luastatus | brew | docker)
@@ -89,6 +92,7 @@ else
   if ((needs_root)); then
     options=()
     if ((verbose)); then options+=(--verbose); fi
+    if ((no_spinner)); then options+=(--no-spinner); fi
     # One foreground sudo process for the entire setup. User-owned steps
     # run through runuser; no new timestamp is needed between components.
     if ((full_setup)); then
@@ -101,72 +105,8 @@ fi
 IN_CHROOT=0
 if ((root_session)) && is_chroot; then IN_CHROOT=1; fi
 
-current_log=
-component_active=0
-step_active=0
-exec 3>&1
-if [[ -t 3 && -z ${NO_COLOR:-} && ${TERM:-} != dumb ]]; then
-  green=$'\033[32m'
-  red=$'\033[31m'
-  reset=$'\033[0m'
-else
-  green='' red='' reset=''
-fi
-
-now_us() { printf '%s' "${EPOCHREALTIME/./}"; }
-elapsed() {
-  local micros=$1 centiseconds
-  if ((micros < 0)); then micros=0; fi
-  centiseconds=$(((micros + 5000) / 10000))
-  printf '%d.%02ds' "$((centiseconds / 100))" "$((centiseconds % 100))"
-}
-
-run_step() {
-  local name=$1 started duration
-  shift
-  step_name=$name
-  step_active=1
-  started=$(now_us)
-  step_started=$started
-  if ((verbose)); then
-    printf '    %-18s\n' "$name" >&3
-  else
-    printf '    %-18s ' "$name" >&3
-  fi
-  "$@"
-  duration=$(elapsed "$(($(now_us) - started))")
-  if ((verbose)); then
-    printf '    %s✓%s %-18s %s\n' "$green" "$reset" "$name" "$duration" >&3
-  else
-    printf '%s✓%s %s\n' "$green" "$reset" "$duration" >&3
-  fi
-  step_active=0
-}
-
-finish() {
-  local status=$?
-  trap - EXIT INT TERM
-  if ((status != 0)); then
-    if ((step_active)); then
-      if ((verbose)); then printf '    %-18s ' "$step_name" >&3; fi
-      printf '%s✗%s failed (%s)\n' "$red" "$reset" \
-        "$(elapsed "$(($(now_us) - step_started))")" >&3
-    fi
-    if ((component_active)); then
-      printf '  %s✗%s %s failed after %s\n' "$red" "$reset" "$component" \
-        "$(elapsed "$(($(now_us) - component_started))")" >&3
-    fi
-    if [[ -n $current_log && -f $current_log ]]; then
-      printf '\nCaptured output for %s:\n' "$component" >&2
-      cat "$current_log" >&2
-    fi
-  fi
-  [[ -z $current_log ]] || rm -f -- "$current_log"
-  exit "$status"
-}
-trap finish EXIT
-trap 'exit 130' INT
-trap 'exit 143' TERM
+# shellcheck source=setup/util/progress.sh
+source "$SETUP_DIR/util/progress.sh"
 
 init_public_submodules() {
   local -a paths=(
@@ -178,6 +118,11 @@ init_public_submodules() {
   as_user git -C "$REPO_DIR" submodule update --init -- "${paths[@]}"
 }
 
+setup_stow() {
+  need stow
+  (cd "$REPO_DIR" && as_user bash "$REPO_DIR/stow.sh")
+}
+
 run_component() {
   local component=$1 item
   case $component in
@@ -187,8 +132,7 @@ run_component() {
       "setup_$component"
       ;;
     stow)
-      need stow
-      (cd "$REPO_DIR" && as_user bash "$REPO_DIR/stow.sh")
+      run_step "dotfiles" setup_stow
       ;;
     desktop)
       # shellcheck source=/dev/null
