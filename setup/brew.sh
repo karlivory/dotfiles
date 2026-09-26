@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+BREW_FORMULAS=(
+  karl/local/lazygit
+  karl/local/jetbrains-toolbox
+  karl/local/typing-test
+  fnm
+  go
+  helm
+  lf
+  neovim
+  yt-dlp
+)
+
 setup_brew_tap() {
   local tap=$1 formula_dir=$2
   as_user mkdir -p "$tap"
@@ -42,17 +54,6 @@ setup_brew_install() {
 setup_brew() {
   local brew=$BREW_PREFIX/bin/brew tap=$BREW_PREFIX/Homebrew/Library/Taps/karl/homebrew-local
   local formula_dir=$SETUP_HOME/.config/homebrew-formulas
-  local -a formulas=(
-    karl/local/lazygit
-    karl/local/jetbrains-toolbox
-    karl/local/typing-test
-    fnm
-    go
-    helm
-    lf
-    neovim
-    yt-dlp
-  )
   need curl
   if [[ ! -x $brew ]]; then
     run_step "Homebrew prefix" setup_brew_prefix
@@ -62,6 +63,6 @@ setup_brew() {
   run_step "update" as_user "$brew" update
   [[ -d $formula_dir ]] || die "Run stow first (missing $formula_dir)"
   run_step "local tap" setup_brew_tap "$tap" "$formula_dir"
-  run_step "formulas" as_user "$brew" install "${formulas[@]}"
+  run_step "formulas" as_user "$brew" install "${BREW_FORMULAS[@]}"
   run_step "font" setup_brew_font "$brew"
 }
