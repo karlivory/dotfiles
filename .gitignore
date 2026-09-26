@@ -2,9 +2,3 @@ logs
 home/.config/themes/dmenu/theme
 home/.config/themes/dwm/theme
 home/.config/themes/luastatus/color.lua
-venv
-
-home/.config/slock/slock.bak
-home/.config/dwm/dwm.bak
-home/.config/st/st.bak
-home/.config/dmenu/dmenu.bak

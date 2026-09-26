@@ -8,7 +8,7 @@
 |---------------------------|------------------------------------------------------------------------------------------------------------|
 | **Bootloader:**           | [zfsbootmenu](https://github.com/zbm-dev/zfsbootmenu)                                                      |
 | **File system:**          | zfs                                                                                                        |
-| **OS:**                   | Ubuntu 24.04                                                                                               |
+| **OS:**                   | Ubuntu 26.04                                                                                               |
 | **Package manager:**      | apt, homebrew                                                                                              |
 | **Shell:**                | bash                                                                                                       |
 | **Window manager:**       | [dwm](https://github.com/bakkeby/dwm-flexipatch)                                                           |

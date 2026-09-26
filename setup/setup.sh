@@ -94,8 +94,8 @@ fi
 IN_CHROOT=0
 if ((root_session)) && is_chroot; then IN_CHROOT=1; fi
 
-# shellcheck source=setup/util/progress.sh
-source "$SETUP_DIR/util/progress.sh"
+# shellcheck source=setup/progress.sh
+source "$SETUP_DIR/progress.sh"
 
 init_public_submodules() {
   local -a paths=(
