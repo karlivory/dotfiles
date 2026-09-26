@@ -39,19 +39,39 @@ I've remapped some keys for ergonomics:
 
 ## Installation
 
-For a full install:
+For a full Bash install:
 
 ```sh
-./run.sh
+./setup/setup.sh
 ```
 
-Or specify a tag to install a specific item:
+Or install a specific item:
 
 ```sh
-./run.sh -t dwm
+./setup/setup.sh dwm
 ```
 
 ------------------
+
+## zfsbootmenu
+
+Debootstrap.
+
+Mount and chroot:
+
+```sh
+mount -t proc proc /mnt/proc
+mount -t sysfs sys /mnt/sys
+mount -B /dev /mnt/dev
+mount -t devpts pts /mnt/dev/pts
+chroot /mnt /bin/bash
+```
+
+Unmount:
+
+```sh
+umount -nR /mnt
+```
 
 ## Credit
 
@@ -59,4 +79,3 @@ Borrowed inspiration and code from:
 
 * https://github.com/junnunkarim/dotfiles-linux
 * https://github.com/LukeSmithxyz/voidrice
-
