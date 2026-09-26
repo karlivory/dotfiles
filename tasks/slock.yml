@@ -1,6 +1,0 @@
----
-- name: build and install slock
-  become: true
-  ansible.builtin.command: bash setup/build-flexipatch.sh slock
-  args:
-    chdir: "{{ playbook_dir }}"

@@ -1,2 +1,0 @@
-ansible==14.4.0
-python-debian==1.1.1

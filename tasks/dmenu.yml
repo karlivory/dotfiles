@@ -1,6 +1,0 @@
----
-- name: build and install dmenu
-  become: true
-  ansible.builtin.command: bash setup/build-flexipatch.sh dmenu
-  args:
-    chdir: "{{ playbook_dir }}"

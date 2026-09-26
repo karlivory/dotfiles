@@ -1,6 +1,0 @@
----
-- name: build and install dwm
-  become: true
-  ansible.builtin.command: bash setup/build-flexipatch.sh dwm
-  args:
-    chdir: "{{ playbook_dir }}"

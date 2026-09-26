@@ -1,5 +1,0 @@
----
-dotfiles_root_zfs_dataset: zroot/ROOT/ubuntu3
-dotfiles_data_dir: "/config"
-username: karl
-home: "/home/{{ username }}"

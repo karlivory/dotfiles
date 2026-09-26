@@ -1,7 +1,0 @@
----
-- name: stow dotfiles
-  become: true
-  become_user: "{{ username }}"
-  command: bash stow.sh
-  register: stow_result
-  changed_when: stow_result.stdout_lines | length > 0

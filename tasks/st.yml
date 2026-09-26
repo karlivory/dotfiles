@@ -1,6 +1,0 @@
----
-- name: build and install st
-  become: true
-  ansible.builtin.command: bash setup/build-flexipatch.sh st
-  args:
-    chdir: "{{ playbook_dir }}"
