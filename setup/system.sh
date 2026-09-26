@@ -31,12 +31,72 @@ setup_system_config_files() {
   install_config etc/netplan/netcfg.yaml
 }
 
+restore_ssh_config() {
+  local rollback_dir=$1 had_previous=$2
+  if ((had_previous)); then
+    root cp -a -- "$rollback_dir/previous" /etc/ssh/sshd_config
+  else
+    root rm -f -- /etc/ssh/sshd_config
+  fi
+  rm -f -- "$rollback_dir/previous"
+  rmdir -- "$rollback_dir"
+}
+
+setup_ssh_config() {
+  local rollback_dir had_previous=0 changed effective password_auth keyboard_auth
+  if ((IN_CHROOT)); then
+    install_config etc/ssh/sshd_config
+    return
+  fi
+
+  if ! command -v sshd >/dev/null 2>&1; then
+    install_config etc/ssh/sshd_config
+    log "OpenSSH server is not installed; staged sshd_config without validation or reload"
+    return
+  fi
+
+  rollback_dir=$(mktemp -d)
+  if root test -e /etc/ssh/sshd_config; then
+    root cp -a -- /etc/ssh/sshd_config "$rollback_dir/previous"
+    had_previous=1
+  fi
+
+  install_config etc/ssh/sshd_config
+  changed=$WRITE_CHANGED
+
+  if ! root sshd -t; then
+    restore_ssh_config "$rollback_dir" "$had_previous"
+    die "sshd configuration is invalid; restored the previous sshd_config"
+  fi
+  if ! effective=$(root sshd -T | awk '
+    $1 == "passwordauthentication" { password = $2 }
+    $1 == "kbdinteractiveauthentication" { keyboard = $2 }
+    END {
+      if (password == "" || keyboard == "") exit 1
+      printf "%s %s\n", password, keyboard
+    }
+  '); then
+    restore_ssh_config "$rollback_dir" "$had_previous"
+    die "Could not read effective sshd configuration; restored the previous sshd_config"
+  fi
+  read -r password_auth keyboard_auth <<<"$effective"
+  if [[ $password_auth != no || $keyboard_auth != no ]]; then
+    restore_ssh_config "$rollback_dir" "$had_previous"
+    die "PasswordAuthentication/KbdInteractiveAuthentication are still effective as '$password_auth/$keyboard_auth'; restored the previous sshd_config"
+  fi
+
+  rm -f -- "$rollback_dir/previous"
+  rmdir -- "$rollback_dir"
+  if ((changed)) && root systemctl is-active --quiet ssh; then
+    root systemctl reload ssh
+  fi
+}
+
 setup_system_security() {
   # Do not reset existing rules: remote access and user-defined rules survive.
   root ufw default deny incoming
   root ufw --force enable
-  set_directive /etc/ssh/sshd_config PasswordAuthentication no
-  if ((WRITE_CHANGED)); then root systemctl restart ssh; fi
+  setup_ssh_config
 }
 
 setup_system_chroot_files() {
@@ -49,7 +109,7 @@ setup_system_chroot_files() {
   install_config etc/apt/apt.conf.d/20apt-esm-hook.conf
   install_config etc/profile.d/global_env.sh
   install_config etc/netplan/netcfg.yaml
-  set_directive /etc/ssh/sshd_config PasswordAuthentication no
+  setup_ssh_config
 }
 
 setup_system() {
