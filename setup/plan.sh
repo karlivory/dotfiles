@@ -30,6 +30,8 @@ plan_component() {
     case $1 in
         apt)
             cat <<EOF
+  Install /etc/apt/sources.list.d/ubuntu.sources with all Ubuntu components
+    and pockets; back up/remove the minimal legacy /etc/apt/sources.list if present
   apt-get update; install ca-certificates, curl, gnupg
   Write (backing up changed files) /etc/apt/preferences.d/custom.pref
   Fetch repository keys for Google Chrome, Lens, and Mozilla into /etc/apt/keyrings/

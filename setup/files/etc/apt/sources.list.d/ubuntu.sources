@@ -1,0 +1,23 @@
+Types: deb
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: resolute
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: resolute-updates
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: resolute-security
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: resolute-backports
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg

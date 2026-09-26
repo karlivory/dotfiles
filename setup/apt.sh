@@ -15,6 +15,18 @@ apt_source() {
     (( WRITE_CHANGED == 0 )) || APT_SOURCES_CHANGED=1
 }
 
+setup_apt_ubuntu_sources() {
+    local legacy=/etc/apt/sources.list content
+    if root test -f "$legacy"; then
+        content=$(root sed -e '/^[[:space:]]*#/d' -e '/^[[:space:]]*$/d' "$legacy")
+        [[ $content == 'deb http://archive.ubuntu.com/ubuntu resolute main' ]] || \
+            die "Refusing to replace custom $legacy; migrate its entries to ubuntu.sources manually"
+        backup_root_file "$legacy"
+    fi
+    install_config etc/apt/sources.list.d/ubuntu.sources
+    if root test -f "$legacy"; then root rm -- "$legacy"; fi
+}
+
 setup_apt_repositories() {
     install_config etc/apt/preferences.d/custom.pref
     root mkdir -p /etc/apt/keyrings
@@ -174,6 +186,7 @@ setup_apt() {
         gnupg
     )
     APT_SOURCES_CHANGED=0
+    run_step "Ubuntu sources" setup_apt_ubuntu_sources
     run_step "apt cache" root apt-get update
     # curl/gnupg are needed to provision signed repositories on a clean host.
     run_step "prerequisites" root apt-get install -y --no-install-recommends "${prerequisites[@]}"
