@@ -1,0 +1,6 @@
+network:
+  ethernets:
+    all:
+      match:
+        name: e*
+      dhcp4: true

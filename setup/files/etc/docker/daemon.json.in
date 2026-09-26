@@ -1,0 +1,7 @@
+{
+  "bip": "172.20.0.1/24",
+  "data-root": "@DOCKER_DATA_DIR@",
+  "default-address-pools": [
+    {"base": "172.20.0.0/16", "size": 24}
+  ]
+}

@@ -1,0 +1,29 @@
+Explanation: Prevent installation of snapd
+Package: snapd
+Pin: release a=*
+Pin-Priority: -10
+
+Explanation: Prevent installation of ubuntu-desktop-minimal
+Package: ubuntu-desktop-minimal
+Pin: release a=*
+Pin-Priority: -10
+
+Explanation: Prevent installation of ubuntu-desktop
+Package: ubuntu-desktop
+Pin: release a=*
+Pin-Priority: -10
+
+Explanation: Prevent installation of gdm3
+Package: gdm3
+Pin: release a=*
+Pin-Priority: -10
+
+Explanation: Prefer Firefox packages from Mozilla's APT repository
+Package: firefox*
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000
+
+Explanation: Prevent Ubuntu's Firefox Snap transition package
+Package: firefox
+Pin: release o=Ubuntu
+Pin-Priority: -1

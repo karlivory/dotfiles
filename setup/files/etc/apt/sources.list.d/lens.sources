@@ -1,0 +1,6 @@
+Types: deb
+URIs: https://downloads.k8slens.dev/apt/debian
+Suites: stable
+Components: main
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/lens.gpg
