@@ -1,8 +1,6 @@
 ---
-- name: build slock
+- name: build and install slock
   become: true
-  shell: "{{ home }}/.bin/_build_flexipatch slock"
+  ansible.builtin.command: bash setup/build-flexipatch.sh slock
   args:
-    chdir: home/.config/slock
-  register: slock
-  changed_when: slock.stdout is search("c99 -o") or slock.stdout is search("CC -o")
+    chdir: "{{ playbook_dir }}"

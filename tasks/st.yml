@@ -1,29 +1,6 @@
 ---
-- name: build st
+- name: build and install st
   become: true
-  shell: "{{ home }}/.bin/_build_flexipatch st"
+  ansible.builtin.command: bash setup/build-flexipatch.sh st
   args:
-    chdir: home/.config/st
-  register: st
-  changed_when: "'TASK_CHANGED' in st.stdout"
-
-- name: Ensure /usr/share/applications exists
-  become: true
-  when: st.changed
-  file:
-    path: /usr/share/applications
-    state: directory
-
-- name: Create st desktop application entry at /usr/share/applications/st.desktop
-  become: true
-  when: st.changed
-  ansible.builtin.copy:
-    dest: /usr/share/applications/st.desktop
-    content: |
-      [Desktop Entry]
-      Type=Application
-      Name=st
-      Comment=simple-terminal emulator for X
-      Icon=utilities-terminal
-      Exec=st
-      Categories=System;TerminalEmulator
+    chdir: "{{ playbook_dir }}"

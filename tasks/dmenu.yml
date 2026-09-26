@@ -1,9 +1,6 @@
 ---
-- name: build dmenu
+- name: build and install dmenu
   become: true
-  shell: "{{ home }}/.bin/_build_flexipatch dmenu"
+  ansible.builtin.command: bash setup/build-flexipatch.sh dmenu
   args:
-    chdir: home/.config/dmenu
-  register: dmenu
-  changed_when: dmenu.stdout is search("c99 -o") or dmenu.stdout is search("cc -o")
-
+    chdir: "{{ playbook_dir }}"

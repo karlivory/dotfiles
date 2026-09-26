@@ -1,15 +1,15 @@
-[submodule "home/.config/st/st-flexipatch"]
-	path = home/.config/st/st-flexipatch
+[submodule "st/st-flexipatch"]
+	path = st/st-flexipatch
 	url = https://github.com/bakkeby/st-flexipatch
 [submodule "dotfiles-personal"]
 	path = dotfiles-personal
 	url = git@github.com:karlivory/dotfiles-personal.git
-[submodule "home/.config/dmenu/dmenu-flexipatch"]
-	path = home/.config/dmenu/dmenu-flexipatch
+[submodule "dmenu/dmenu-flexipatch"]
+	path = dmenu/dmenu-flexipatch
 	url = https://github.com/bakkeby/dmenu-flexipatch
-[submodule "home/.config/slock/slock-flexipatch"]
-	path = home/.config/slock/slock-flexipatch
+[submodule "slock/slock-flexipatch"]
+	path = slock/slock-flexipatch
 	url = https://github.com/bakkeby/slock-flexipatch
-[submodule "home/.config/dwm/dwm-flexipatch"]
-	path = home/.config/dwm/dwm-flexipatch
+[submodule "dwm/dwm-flexipatch"]
+	path = dwm/dwm-flexipatch
 	url = https://github.com/bakkeby/dwm-flexipatch

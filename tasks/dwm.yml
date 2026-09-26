@@ -1,29 +1,6 @@
 ---
 - name: build and install dwm
   become: true
-  shell: "{{ home }}/.bin/_build_flexipatch dwm"
+  ansible.builtin.command: bash setup/build-flexipatch.sh dwm
   args:
-    chdir: home/.config/dwm
-  register: dwm
-  changed_when: dwm.stdout is search("c99 -o") or dwm.stdout is search("cc -o")
-
-- name: Ensure /usr/share/xsessions exists
-  become: true
-  when: dwm.changed
-  file:
-    path: /usr/share/xsessions
-    state: directory
-
-- name: Create dwm xsession entry at /usr/share/xsessions/dwm.desktop
-  become: true
-  when: dwm.changed
-  ansible.builtin.copy:
-    dest: /usr/share/xsessions/dwm.desktop
-    content: |
-      [Desktop Entry]
-      Encoding=UTF-8
-      Name=Dwm
-      Comment=the dynamic window manager
-      Exec=dwm
-      Icon=dwm
-      Type=XSession
+    chdir: "{{ playbook_dir }}"

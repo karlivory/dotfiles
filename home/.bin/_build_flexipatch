@@ -1,39 +1,11 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-set -e
-
-if [[ -z "$1" ]]; then
-  echo "Usage: _build_flexipatch <flexipatch>"
-  echo "TASK_FAILED"
-  exit 1
+[[ $# -eq 1 ]] || { echo "Usage: _build_flexipatch <dwm|st|dmenu|slock>" >&2; exit 2; }
+case $1 in dwm|st|dmenu|slock) ;; *) echo "Unknown flexipatch: $1" >&2; exit 2 ;; esac
+script=$(readlink -f -- "${BASH_SOURCE[0]}")
+repo=$(cd -- "$(dirname -- "$script")/../.." && pwd)
+if [[ $(id -u) -eq 0 ]]; then
+    exec bash "$repo/setup/build-flexipatch.sh" "$1"
 fi
-FLEXIPATCH="$1"
-
-case "$FLEXIPATCH" in
-st | dwm | slock | dmenu) ;;
-*)
-  echo "Invalid flexipatch. Choose one of: st, dwm, slock, dmenu."
-  exit 1
-  ;;
-esac
-
-cd "$FLEXIPATCH-flexipatch" || exit 1
-git restore .
-git apply "../$FLEXIPATCH.patch"
-
-if [ ! -f config.h ] || ! cmp -s config.def.h config.h; then
-  sudo cp config.def.h config.h
-fi
-if [ ! -f patches.h ] || ! cmp -s ../patches.h patches.h; then
-  sudo cp ../patches.h patches.h
-fi
-
-touch "$FLEXIPATCH"
-sudo cp "$FLEXIPATCH" "../$FLEXIPATCH.bak"
-sudo make install
-
-if [ "$(md5sum "../$FLEXIPATCH.bak" | cut -d ' ' -f1)" != "$(md5sum "$FLEXIPATCH" | cut -d ' ' -f1)" ]; then
-  echo "TASK_CHANGED"
-fi
-
-git apply "../$FLEXIPATCH.patch" --reverse
+exec sudo -- bash "$repo/setup/build-flexipatch.sh" "$1"
