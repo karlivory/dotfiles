@@ -7,10 +7,11 @@ setup_system_zfs() {
     die "Root is mounted from $mounted_root, but config.sh specifies $ROOT_ZFS_DATASET"
   root install -d -m 0755 /usr/local/bin
   if ! root zfs list -H -o name "$DOCKER_ZFS_DATASET" >/dev/null 2>&1; then
-    root zfs create -o mountpoint="$DOCKER_DATA_DIR" -o dedup=on "$DOCKER_ZFS_DATASET"
+    root zfs create -o mountpoint="$DOCKER_DATA_DIR" -o dedup=off -o compression=lz4 "$DOCKER_ZFS_DATASET"
   fi
   [[ $(root zfs get -H -o value mountpoint "$DOCKER_ZFS_DATASET") == "$DOCKER_DATA_DIR" ]] || root zfs set mountpoint="$DOCKER_DATA_DIR" "$DOCKER_ZFS_DATASET"
-  [[ $(root zfs get -H -o value dedup "$DOCKER_ZFS_DATASET") == on ]] || root zfs set dedup=on "$DOCKER_ZFS_DATASET"
+  [[ $(root zfs get -H -o value dedup "$DOCKER_ZFS_DATASET") == off ]] || root zfs set dedup=off "$DOCKER_ZFS_DATASET"
+  [[ $(root zfs get -H -o value compression "$DOCKER_ZFS_DATASET") == lz4 ]] || root zfs set compression=lz4 "$DOCKER_ZFS_DATASET"
   [[ $(root zfs get -H -o value snapdir "$ROOT_ZFS_DATASET") == visible ]] || root zfs set snapdir=visible "$ROOT_ZFS_DATASET"
 }
 
