@@ -30,6 +30,7 @@ setup_system_config_files() {
   install_config etc/apt/apt.conf.d/20apt-esm-hook.conf
   install_config etc/profile.d/global_env.sh
   install_config etc/netplan/netcfg.yaml
+  write_root /etc/sudoers.d/timeout 0440 <"$SETUP_DIR/files/etc/sudoers.d/timeout"
 }
 
 restore_ssh_config() {
@@ -110,6 +111,7 @@ setup_system_chroot_files() {
   install_config etc/apt/apt.conf.d/20apt-esm-hook.conf
   install_config etc/profile.d/global_env.sh
   install_config etc/netplan/netcfg.yaml
+  write_root /etc/sudoers.d/timeout 0440 <"$SETUP_DIR/files/etc/sudoers.d/timeout"
   setup_ssh_config
 }
 
