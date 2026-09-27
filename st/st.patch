@@ -98,7 +98,8 @@ diff --git a/patch/fixkeyboardinput.c b/patch/fixkeyboardinput.c
  	XK_0,
  	XK_1,
  	XK_2,
-@@ -42,38 +13,6 @@
+@@ -41,39 +12,6 @@
+-	XK_6,
  	XK_7,
  	XK_8,
  	XK_9,

@@ -15,7 +15,6 @@ return {
           ["<C-3>"] = { function() require("astrocore.buffer").nav_to(3) end, desc = "go to tab 3" },
           ["<C-4>"] = { function() require("astrocore.buffer").nav_to(4) end, desc = "go to tab 4" },
           ["<C-5>"] = { function() require("astrocore.buffer").nav_to(5) end, desc = "go to tab 5" },
-          ["<C-6>"] = { function() require("astrocore.buffer").nav_to(6) end, desc = "go to tab 6" },
           ["<C-7>"] = { function() require("astrocore.buffer").nav_to(7) end, desc = "go to tab 7" },
           ["<C-8>"] = { function() require("astrocore.buffer").nav_to(8) end, desc = "go to tab 8" },
           ["<C-9>"] = { function() require("astrocore.buffer").nav_to(9) end, desc = "go to tab 9" },
