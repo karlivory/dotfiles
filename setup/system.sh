@@ -25,12 +25,54 @@ setup_system_services() {
   fi
 }
 
+setup_system_hosts() {
+  local entries=$REPO_DIR/dotfiles-personal/hosts.entries
+  local begin='# BEGIN dotfiles-personal hosts' end='# END dotfiles-personal hosts' temp
+  [[ -f $entries ]] || return 0
+
+  temp=$(mktemp)
+  if ! root cat /etc/hosts | awk -v begin="$begin" -v end="$end" -v entries="$entries" \
+    -v has_entries="$( [[ -s $entries ]] && printf 1 || printf 0 )" '
+    function block(   line) {
+      print begin
+      while ((getline line < entries) > 0) print line
+      close(entries)
+      print end
+    }
+    $0 == begin {
+      if (inside || seen++) exit 1
+      inside = 1
+      if (has_entries) block()
+      next
+    }
+    $0 == end {
+      if (!inside) exit 1
+      inside = 0
+      next
+    }
+    !inside { print }
+    END {
+      if (inside) exit 1
+      if (!seen && has_entries) {
+        print ""
+        block()
+      }
+    }
+  ' >"$temp"; then
+    rm -f -- "$temp"
+    die "Malformed managed block in /etc/hosts"
+  fi
+  write_root /etc/hosts <"$temp"
+  rm -f -- "$temp"
+}
+
 setup_system_config_files() {
   install_config etc/sanoid/sanoid.conf.in
   install_config etc/apt/apt.conf.d/20apt-esm-hook.conf
   install_config etc/profile.d/global_env.sh
   install_config etc/netplan/netcfg.yaml
   write_root /etc/sudoers.d/timeout 0440 <"$SETUP_DIR/files/etc/sudoers.d/timeout"
+  setup_system_hosts
 }
 
 restore_ssh_config() {
@@ -112,6 +154,7 @@ setup_system_chroot_files() {
   install_config etc/profile.d/global_env.sh
   install_config etc/netplan/netcfg.yaml
   write_root /etc/sudoers.d/timeout 0440 <"$SETUP_DIR/files/etc/sudoers.d/timeout"
+  setup_system_hosts
   setup_ssh_config
 }
 
