@@ -138,3 +138,14 @@ diff --git a/patch/fixkeyboardinput.c b/patch/fixkeyboardinput.c
  };
  
  /*
+@@ -135,3 +135,4 @@
+ 	{ XK_Right,         XK_ANY_MOD,     "\033[C",        0,   -1},
+ 	{ XK_Right,         XK_ANY_MOD,     "\033OC",        0,   +1},
++	{ XK_ISO_Left_Tab,  ShiftMask|ControlMask, "\033[1;6Z", 0, 0},
+ 	{ XK_ISO_Left_Tab,  ShiftMask,      "\033[Z",        0,    0},
+@@ -479,4 +418,4 @@
+ 	{ XK_BackSpace,    ShiftMask,                      "\033[127;2u", 0,  0},
+ 	{ XK_Tab,          ControlMask,                    "\033[9;5u",   0,  0},
+-	{ XK_Tab,          ControlMask|ShiftMask,          "\033[1;5Z",   0,  0},
++	{ XK_Tab,          ControlMask|ShiftMask,          "\033[1;6Z",   0,  0},
+ 	{ XK_Tab,          Mod1Mask,                       "\033[1;3Z",   0,  0},
