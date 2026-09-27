@@ -25,7 +25,7 @@ cmd open ${{
 cmd create_file %{{
     # arguments are pre-split by newlines somehow? this fixes it
     file=$(echo "$*" | tr "\n" " " | sed 's/.$//')
-    case "$file" in 
+    case "$file" in
         */) mkdir "$file" ;;
         *) [ ! -f "$file" ] && echo "#" > "$file" ;;
     esac
@@ -62,6 +62,7 @@ map ` mark-load
 map d delete
 map x cut
 map <esc> :clear; unselect
+map <a-esc> :clear; unselect
 map E extract
 map R reload
 map . set hidden!
