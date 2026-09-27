@@ -1,0 +1,262 @@
+#!/usr/bin/env bash
+
+# Full-screen terminal version. Run with an optional duration, e.g. ./countdown.sh 40s.
+# Requires Bash 5 and stty.
+
+parse_duration() {
+    local rest=${1//[[:space:]]/} amount unit
+    duration=0
+    while [[ -n $rest ]]; do
+        if [[ $rest =~ ^([0-9]+)([hmsHMS])(.*)$ ]]; then
+            amount=${BASH_REMATCH[1]}
+            unit=${BASH_REMATCH[2],,}
+            rest=${BASH_REMATCH[3]}
+            # Avoid Bash interpreting leading zeroes as octal.
+            amount=$((10#$amount))
+            case $unit in
+                h) duration=$((duration + amount * 3600)) ;;
+                m) duration=$((duration + amount * 60)) ;;
+                s) duration=$((duration + amount)) ;;
+            esac
+        else
+            return 1
+        fi
+    done
+    (( duration > 0 ))
+}
+
+if (( $# > 1 )); then
+    printf 'Usage: %s [duration]\n' "$0" >&2
+    exit 2
+fi
+if [[ ${1-} == -h || ${1-} == --help ]]; then
+    printf 'Usage: %s [duration]\nExample: %s 40s\n' "$0" "$0"
+    exit 0
+fi
+if (( $# == 1 )) && ! parse_duration "$1"; then
+    printf 'Invalid duration: %s\nUsage: %s [duration]\n' "$1" "$0" >&2
+    exit 2
+fi
+
+if [[ ! -t 0 || ! -t 1 ]]; then
+    printf 'countdown.sh needs to run in a terminal.\n' >&2
+    exit 1
+fi
+
+SAVED_TTY=$(stty -g) || exit 1
+# This function is invoked indirectly by the EXIT trap.
+# shellcheck disable=SC2329
+restore_terminal() {
+    stty "$SAVED_TTY" 2>/dev/null || :
+    printf '\033[0m\033[?25h\033[2J\033[H'
+}
+trap restore_terminal EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+stty -echo -icanon min 0 time 1
+printf '\033[?25l\033[2J\033[H'
+
+cols=${COLUMNS:-80}
+lines=${LINES:-24}
+resized=0
+trap 'resized=1' WINCH
+
+update_size() {
+    local rows columns
+    if read -r rows columns < <(stty size 2>/dev/null) && [[ $rows =~ ^[0-9]+$ && $columns =~ ^[0-9]+$ ]]; then
+        lines=$rows
+        cols=$columns
+    fi
+}
+update_size
+
+center_at() {
+    local row=$1 text=$2 col
+    col=$(( (cols - ${#text}) / 2 + 1 ))
+    (( col < 1 )) && col=1
+    printf '\033[%d;%dH%s' "$row" "$col" "$text"
+}
+
+draw_entry() {
+    local message=$1 center=$((lines / 2))
+    printf '\033[2J'
+    center_at "$((center - 5))" 'ENTER DURATION'
+    printf '\033[2m'
+    center_at "$((center - 3))" '(example: 4h or 30s)'
+    printf '\033[0m'
+    center_at "$center" "$input"
+    printf '\033[2m'
+    center_at "$((center + 3))" '(enter starts)'
+    if [[ -n $message ]]; then
+        printf '\033[31m'
+        center_at "$((center + 5))" "$message"
+        printf '\033[0m'
+    fi
+    printf '\033[H'
+}
+
+now_cs() {
+    local seconds=${EPOCHREALTIME%.*} fraction=${EPOCHREALTIME#*.}
+    fraction=${fraction:0:2}
+    NOW_CS=$((10#$seconds * 100 + 10#$fraction))
+}
+
+input=${1-}
+esc_deadline=-1
+if (( $# == 0 )); then
+    entry_message=''
+    draw_entry "$entry_message"
+    while :; do
+        key=''
+        IFS= read -r -s -N 1 -t 0.1 key || :
+        case $key in
+            $'\r'|$'\n')
+                if parse_duration "$input"; then
+                    break
+                fi
+                entry_message='invalid duration'
+                draw_entry "$entry_message"
+                ;;
+            $'\177'|$'\b')
+                input=${input%?}
+                entry_message=''
+                draw_entry "$entry_message"
+                ;;
+            [0-9hmsHMS])
+                input+=$key
+                entry_message=''
+                draw_entry "$entry_message"
+                ;;
+            $'\e')
+                now_cs
+                if (( esc_deadline >= NOW_CS )); then
+                    exit 0
+                fi
+                esc_deadline=$((NOW_CS + 500))
+                entry_message='press esc again within 5 seconds to quit'
+                draw_entry "$entry_message"
+                ;;
+        esac
+        if (( resized )); then
+            resized=0
+            update_size
+            draw_entry "$entry_message"
+        fi
+    done
+fi
+
+glyph_rows() {
+    case $1 in
+        0) GLYPH=(11111 10001 10001 10001 10001 10001 11111) ;;
+        1) GLYPH=(00100 01100 00100 00100 00100 00100 01110) ;;
+        2) GLYPH=(11111 00001 00001 11111 10000 10000 11111) ;;
+        3) GLYPH=(11111 00001 00001 01111 00001 00001 11111) ;;
+        4) GLYPH=(10001 10001 10001 11111 00001 00001 00001) ;;
+        5) GLYPH=(11111 10000 10000 11111 00001 00001 11111) ;;
+        6) GLYPH=(11111 10000 10000 11111 10001 10001 11111) ;;
+        7) GLYPH=(11111 00001 00010 00100 01000 01000 01000) ;;
+        8) GLYPH=(11111 10001 10001 11111 10001 10001 11111) ;;
+        9) GLYPH=(11111 10001 10001 11111 00001 00001 11111) ;;
+        :) GLYPH=(00000 00000 00100 00000 00000 00100 00000) ;;
+    esac
+}
+
+render_timer() {
+    local seconds=$1 red=$2 green=$3 blue=$4 time row repeat char bits line col pixel pixel_repeat x_scale line_width
+    if (( duration >= 3600 )); then
+        printf -v time '%02d:%02d:%02d' "$((seconds / 3600))" "$(((seconds / 60) % 60))" "$((seconds % 60))"
+    else
+        printf -v time '%02d:%02d' "$((seconds / 60))" "$((seconds % 60))"
+    fi
+
+    x_scale=2
+    (( line_width = ${#time} * (5 * x_scale + 2) ))
+    if (( line_width > cols )); then
+        x_scale=1
+        (( line_width = ${#time} * (5 * x_scale + 2) ))
+    fi
+    for ((row = 0; row < 7; row++)); do
+        line=''
+        for ((col = 0; col < ${#time}; col++)); do
+            char=${time:col:1}
+            glyph_rows "$char"
+            bits=${GLYPH[row]}
+            for ((repeat = 0; repeat < 5; repeat++)); do
+                if [[ ${bits:repeat:1} == 1 ]]; then
+                    pixel='█'
+                else
+                    pixel=' '
+                fi
+                for ((pixel_repeat = 0; pixel_repeat < x_scale; pixel_repeat++)); do
+                    line+=$pixel
+                done
+            done
+            line+='  '
+        done
+        local row_text=$(( (lines - 14) / 2 + row * 2 + 1 ))
+        (( row_text < 1 )) && row_text=1
+        col=$(( (cols - line_width) / 2 + 1 ))
+        (( col < 1 )) && col=1
+        for repeat in 0 1; do
+            printf '\033[%d;%dH\033[38;2;%d;%d;%dm%s' "$((row_text + repeat))" "$col" "$red" "$green" "$blue" "$line"
+        done
+    done
+    printf '\033[0m'
+}
+
+now_cs
+start_cs=$NOW_CS
+orange_flash_at=$(( (duration - 600) * 100 ))
+printf '\033[2J'
+while :; do
+    if (( resized )); then
+        resized=0
+        update_size
+        printf '\033[2J'
+    fi
+    now_cs
+    elapsed_cs=$((NOW_CS - start_cs))
+    elapsed=$((elapsed_cs / 100))
+    remaining=$((duration - elapsed))
+    (( remaining < 0 )) && remaining=0
+
+    if (( remaining == 0 )); then
+        if (( (elapsed_cs / 40) % 2 == 0 )); then
+            color_r=255 color_g=32 color_b=20
+        else
+            color_r=0 color_g=0 color_b=0
+        fi
+    elif (( remaining > 600 )); then
+        color_r=255 color_g=255 color_b=255
+    else
+        progress=$((600 - remaining))
+        color_r=255
+        color_g=$((120 - progress * 88 / 600))
+        color_b=$((progress * 20 / 600))
+        if (( duration > 600 && elapsed_cs >= orange_flash_at && elapsed_cs < orange_flash_at + 300 )); then
+            if (( ((elapsed_cs - orange_flash_at) / 30) % 2 == 1 )); then
+                color_r=0 color_g=0 color_b=0
+            fi
+        fi
+    fi
+
+    render_timer "$remaining" "$color_r" "$color_g" "$color_b"
+    printf '\033[%d;1H\033[2K' "$lines"
+    if (( esc_deadline >= NOW_CS )); then
+        printf '\033[0m'
+        center_at "$lines" 'press esc again within 5 seconds to quit'
+    fi
+
+    key=''
+    IFS= read -r -s -N 1 -t 0.05 key || :
+    if [[ $key == $'\e' ]]; then
+        now_cs
+        if (( esc_deadline >= NOW_CS )); then
+            break
+        fi
+        esc_deadline=$((NOW_CS + 500))
+    fi
+done
+
+exit 0
