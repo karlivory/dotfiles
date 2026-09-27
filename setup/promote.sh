@@ -8,15 +8,13 @@ source "$SETUP_DIR/lib.sh"
 [[ $# -eq 0 ]] || die "Usage: setup/promote.sh"
 [[ $(id -un) == "$SETUP_USER" ]] || die "Run as $SETUP_USER, not root"
 
-https_origin=https://github.com/karlivory/dotfiles
-ssh_origin=git@github.com:karlivory/dotfiles.git
 origin=$(git -C "$REPO_DIR" config --get remote.origin.url) || die "No origin remote is configured"
 case $origin in
-  "$https_origin" | "$https_origin.git" | "$ssh_origin") ;;
+  "$HTTPS_ORIGIN" | "$HTTPS_ORIGIN.git" | "$SSH_ORIGIN") ;;
   *) die "Refusing to replace unexpected origin: $origin" ;;
 esac
 
-if [[ $origin == "$ssh_origin" && -e $REPO_DIR/dotfiles-personal/.git ]]; then
+if [[ $origin == "$SSH_ORIGIN" && -e $REPO_DIR/dotfiles-personal/.git ]]; then
   echo "Already promoted: private submodule is initialized and origin uses SSH."
   exit 0
 fi
@@ -36,7 +34,7 @@ if [[ ! -e $REPO_DIR/dotfiles-personal/.git ]]; then
 fi
 [[ -e $REPO_DIR/dotfiles-personal/.git ]] || die "dotfiles-personal was not initialized"
 
-if [[ $origin != "$ssh_origin" ]]; then
-  git -C "$REPO_DIR" remote set-url origin "$ssh_origin"
+if [[ $origin != "$SSH_ORIGIN" ]]; then
+  git -C "$REPO_DIR" remote set-url origin "$SSH_ORIGIN"
 fi
-echo "Promotion complete: dotfiles-personal is initialized and origin uses $ssh_origin"
+echo "Promotion complete: dotfiles-personal is initialized and origin uses $SSH_ORIGIN"

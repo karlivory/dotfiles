@@ -4,6 +4,9 @@ set -euo pipefail
 
 SETUP_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 REPO_DIR=$(cd -- "$SETUP_DIR/.." && pwd)
+# Accepted origins; promote.sh moves HTTPS clones to SSH.
+HTTPS_ORIGIN=https://github.com/karlivory/dotfiles
+SSH_ORIGIN=git@github.com:karlivory/dotfiles.git
 # shellcheck source=setup/config.sh
 source "$SETUP_DIR/config.sh"
 SETUP_HOME=$(getent passwd "$SETUP_USER" | cut -d: -f6)

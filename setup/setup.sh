@@ -95,10 +95,10 @@ else
     if ((no_spinner)); then options+=(--no-spinner); fi
     # One foreground sudo process for the entire setup. User-owned steps
     # run through runuser; no new timestamp is needed between components.
-    if ((full_setup)); then
-      exec sudo -- bash "$SETUP_DIR/setup.sh" --root-session "${options[@]}" all
-    fi
-    exec sudo -- bash "$SETUP_DIR/setup.sh" --root-session "${options[@]}" "${components[@]}"
+    # sudo resets the environment; env carries NO_COLOR (empty means unset).
+    if ((full_setup)); then components=(all); fi
+    exec sudo -- env NO_COLOR="${NO_COLOR:-}" \
+      bash "$SETUP_DIR/setup.sh" --root-session "${options[@]}" "${components[@]}"
   fi
 fi
 
@@ -204,11 +204,12 @@ else
 fi
 if ((full_setup && !IN_CHROOT)); then
   origin=$(as_user git -C "$REPO_DIR" config --get remote.origin.url || true)
-  if [[ $origin == https://github.com/karlivory/dotfiles ||
-    $origin == https://github.com/karlivory/dotfiles.git ||
-    $origin == git@github.com:karlivory/dotfiles.git ]] &&
-    { [[ $origin != git@github.com:karlivory/dotfiles.git ]] ||
-      [[ ! -e $REPO_DIR/dotfiles-personal/.git ]]; }; then
+  suggest_promote=0
+  case $origin in
+    "$HTTPS_ORIGIN" | "$HTTPS_ORIGIN.git") suggest_promote=1 ;;
+    "$SSH_ORIGIN") [[ -e $REPO_DIR/dotfiles-personal/.git ]] || suggest_promote=1 ;;
+  esac
+  if ((suggest_promote)); then
     printf '\nOptional next step after configuring GitHub SSH: %s/promote.sh\n' "$SETUP_DIR" >&3
     printf 'This initializes dotfiles-personal and switches origin to SSH.\n' >&3
   fi
