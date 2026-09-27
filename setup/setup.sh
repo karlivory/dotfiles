@@ -4,13 +4,20 @@ SETUP_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 # shellcheck source=setup/lib.sh
 source "$SETUP_DIR/lib.sh"
 
-usage() {
-  cat <<'EOF'
-Usage: setup/setup.sh [--verbose] [--no-spinner] [all | system | apt | stow | desktop | dwm | st | dmenu | slock | luastatus | brew | docker]...
+DESKTOP_ITEMS=(dwm st dmenu luastatus slock)
+# Canonical run order. Selected components are sorted into it.
+COMPONENTS=(apt system stow desktop "${DESKTOP_ITEMS[@]}" brew docker)
+DEFAULT_COMPONENTS=(apt system stow desktop brew docker)
 
-No arguments runs all components. Selected components run in the order given.
-Desktop is shorthand for dwm, st, dmenu, luastatus, and slock.
-For desktop builds, install packages and initialize submodules first (or run all).
+usage() {
+  local list
+  printf -v list '%s | ' all "${COMPONENTS[@]}"
+  cat <<EOF
+Usage: setup/setup.sh [--verbose] [--no-spinner] [${list% | }]...
+
+No arguments runs all components. Selected components run once each, in the
+order listed above. Desktop is shorthand for ${DESKTOP_ITEMS[*]}.
+Desktop builds need apt packages; include apt or run it beforehand.
 Machine settings live in setup/config.sh. Ubuntu 26.04 is expected.
 Successful components and selected subtasks show elapsed time (e.g. 0.43s).
 --verbose also streams command output.
@@ -22,7 +29,8 @@ verbose=0
 no_spinner=0
 root_session=0
 all_selected=0
-components=()
+declare -A known=() selected=()
+for component in "${COMPONENTS[@]}"; do known[$component]=1; done
 for arg in "$@"; do
   case $arg in
     -h | --help)
@@ -33,27 +41,29 @@ for arg in "$@"; do
     --no-spinner) no_spinner=1 ;;
     --root-session) root_session=1 ;;
     all) all_selected=1 ;;
-    system | apt | stow | desktop | dwm | st | dmenu | slock | luastatus | brew | docker)
-      components+=("$arg")
-      ;;
     *)
-      usage >&2
-      die "Unknown component: $arg"
+      if [[ -z ${known[$arg]:-} ]]; then
+        usage >&2
+        die "Unknown component: $arg"
+      fi
+      selected[$arg]=1
       ;;
   esac
 done
-if ((all_selected || ${#components[@]} == 0)); then
+components=()
+if ((all_selected || ${#selected[@]} == 0)); then
   full_setup=1
-  components=(
-    apt
-    system
-    stow
-    desktop
-    brew
-    docker
-  )
+  components=("${DEFAULT_COMPONENTS[@]}")
 else
   full_setup=0
+  for component in "${COMPONENTS[@]}"; do
+    [[ -n ${selected[$component]:-} ]] || continue
+    # Desktop already covers its items.
+    if [[ -n ${selected[desktop]:-} && " ${DESKTOP_ITEMS[*]} " == *" $component "* ]]; then
+      continue
+    fi
+    components+=("$component")
+  done
 fi
 
 # shellcheck source=/dev/null
@@ -66,15 +76,16 @@ else
   needs_root=0
   for component in "${components[@]}"; do
     case $component in
-      apt | system | desktop | dwm | st | dmenu | luastatus | slock | docker)
-        needs_root=1
-        break
-        ;;
+      stow) ;;
       brew)
         if [[ $BREW_PREFIX == /home/linuxbrew/.linuxbrew && ! -x $BREW_PREFIX/bin/brew ]]; then
           needs_root=1
           break
         fi
+        ;;
+      *)
+        needs_root=1
+        break
         ;;
     esac
   done
@@ -97,13 +108,14 @@ if ((root_session)) && is_chroot; then IN_CHROOT=1; fi
 # shellcheck source=setup/progress.sh
 source "$SETUP_DIR/progress.sh"
 
+# luastatus is fetched by desktop.sh at LUASTATUS_REV, not a submodule.
 init_public_submodules() {
-  local -a paths=(
-    dwm/dwm-flexipatch
-    st/st-flexipatch
-    dmenu/dmenu-flexipatch
-    slock/slock-flexipatch
-  )
+  local item
+  local -a paths=()
+  for item in "$@"; do
+    [[ $item == luastatus ]] || paths+=("$item/$item-flexipatch")
+  done
+  ((${#paths[@]})) || return 0
   as_user git -C "$REPO_DIR" submodule update --init -- "${paths[@]}"
 }
 
@@ -126,28 +138,18 @@ run_component() {
     desktop)
       # shellcheck source=/dev/null
       source "$SETUP_DIR/desktop.sh"
-      run_step "public submodules" init_public_submodules
-      local -a desktop_items=(
-        dwm
-        st
-        dmenu
-        luastatus
-        slock
-      )
-      for item in "${desktop_items[@]}"; do
+      run_step "public submodules" init_public_submodules "${DESKTOP_ITEMS[@]}"
+      for item in "${DESKTOP_ITEMS[@]}"; do
         run_step "$item" setup_desktop "$item"
       done
       ;;
-    dwm | st | dmenu | slock)
+    *)
+      # A single desktop item.
       # shellcheck source=/dev/null
       source "$SETUP_DIR/desktop.sh"
-      run_step "submodule" as_user git -C "$REPO_DIR" submodule update --init -- \
-        "$component/$component-flexipatch"
-      run_step "build" setup_desktop "$component"
-      ;;
-    luastatus)
-      # shellcheck source=/dev/null
-      source "$SETUP_DIR/desktop.sh"
+      if [[ $component != luastatus ]]; then
+        run_step "submodule" init_public_submodules "$component"
+      fi
       run_step "build" setup_desktop "$component"
       ;;
   esac

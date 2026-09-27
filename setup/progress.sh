@@ -101,11 +101,15 @@ finish() {
         "$(elapsed "$((finished - component_started))")" >&3
     fi
     if [[ -n $current_log && -f $current_log ]]; then
-      printf '\nCaptured output for %s:\n' "$component" >&2
-      cat "$current_log" >&2
+      # Root session logs are kept for the user who started setup.
+      if [[ $(id -u) -eq 0 ]]; then chown -- "$SETUP_USER" "$current_log" || true; fi
+      printf '\nLast 100 lines of output for %s:\n' "$component" >&2
+      tail -n 100 -- "$current_log" >&2
+      printf '\nFull log: %s\n' "$current_log" >&2
     fi
+  elif [[ -n $current_log ]]; then
+    rm -f -- "$current_log"
   fi
-  [[ -z $current_log ]] || rm -f -- "$current_log"
   exit "$status"
 }
 trap finish EXIT
