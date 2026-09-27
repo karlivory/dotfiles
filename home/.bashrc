@@ -136,6 +136,7 @@ export PATH=${PATH}:$HOME/go/bin
 export PATH=${PATH}:$HOME/.cargo/bin
 # export PATH=${PATH}:$HOME/.dotnet
 export PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin
+export PATH="$HOME/git/dotfiles/dotfiles-personal/bin:$PATH"
 
 # for colored man-pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
@@ -164,7 +165,6 @@ alias rsb='redshift -PO 3000'
 alias b='bluetoothctl'
 alias lg='lazygit'
 alias v='nvim'
-alias drm='docker rm $(docker ps -q) --force'
 alias cdg='cd $(git rev-parse --show-toplevel)'
 alias fcd='cd $(find -type d 2>/dev/null | fzf)'
 alias tt='typing-test'
