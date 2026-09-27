@@ -100,6 +100,27 @@ install_config() {
   rm -f "$temp"
 }
 
+# apt_key and apt_source set APT_SOURCES_CHANGED=1 when they change a file;
+# callers reset it and run apt-get update only when it is set.
+apt_key() {
+  local name=$1 url=$2 temp
+  need curl
+  need gpg
+  temp=$(mktemp)
+  curl -fsSL "$url" | gpg --dearmor >"$temp"
+  write_root "/etc/apt/keyrings/$name.gpg" <"$temp"
+  ((WRITE_CHANGED == 0)) || APT_SOURCES_CHANGED=1
+  rm -f "$temp"
+}
+
+# Uses files/etc/apt/sources.list.d/<name>.sources, or its .in template.
+apt_source() {
+  local file=etc/apt/sources.list.d/$1.sources
+  [[ -f $SETUP_DIR/files/$file ]] || file+=.in
+  install_config "$file"
+  ((WRITE_CHANGED == 0)) || APT_SOURCES_CHANGED=1
+}
+
 # Replace a key-value directive without dropping unrelated settings.
 set_directive() {
   local file=$1 key=$2 value=$3 temp

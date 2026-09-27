@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 
 setup_docker_repository() {
-  local arch codename keytemp
-  need curl
-  need gpg
-  arch=$(dpkg --print-architecture)
-  # shellcheck source=/dev/null
-  source /etc/os-release
-  [[ ${ID:-} == ubuntu && -n ${VERSION_CODENAME:-} ]] || die "Docker setup requires Ubuntu"
-  codename=$VERSION_CODENAME
-  root install -m 0755 -d /etc/apt/keyrings
-  keytemp=$(mktemp)
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor >"$keytemp"
-  write_root /etc/apt/keyrings/docker.gpg <"$keytemp"
-  rm -f "$keytemp"
-  DOCKER_CODENAME=$codename DOCKER_ARCH=$arch install_config etc/apt/sources.list.d/docker.sources.in
-  root apt-get update
+  # setup.sh has already sourced /etc/os-release and checked the release.
+  [[ -n ${VERSION_CODENAME:-} ]] || die "VERSION_CODENAME missing from /etc/os-release"
+  APT_SOURCES_CHANGED=0
+  apt_key docker https://download.docker.com/linux/ubuntu/gpg
+  DOCKER_CODENAME=$VERSION_CODENAME DOCKER_ARCH=$(dpkg --print-architecture) apt_source docker
+  # Also update when a previous run wrote the source but never refreshed.
+  if ((APT_SOURCES_CHANGED)) || ! apt-cache show docker-ce >/dev/null 2>&1; then
+    root apt-get update
+  fi
 }
 
 setup_docker_packages() {

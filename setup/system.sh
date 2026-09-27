@@ -5,7 +5,6 @@ setup_system_zfs() {
   mounted_root=$(findmnt -n -o SOURCE /)
   [[ $mounted_root == "$ROOT_ZFS_DATASET" ]] ||
     die "Root is mounted from $mounted_root, but config.sh specifies $ROOT_ZFS_DATASET"
-  root install -d -m 0755 /usr/local/bin
   if ! root zfs list -H -o name "$DOCKER_ZFS_DATASET" >/dev/null 2>&1; then
     root zfs create -o mountpoint="$DOCKER_DATA_DIR" -o dedup=off -o compression=lz4 "$DOCKER_ZFS_DATASET"
   fi
@@ -15,8 +14,11 @@ setup_system_zfs() {
   [[ $(root zfs get -H -o value snapdir "$ROOT_ZFS_DATASET") == visible ]] || root zfs set snapdir=visible "$ROOT_ZFS_DATASET"
 }
 
+# In a chroot, steps that need the booted system or its final ZFS layout are
+# skipped; setup.sh tells the user to rerun system after boot.
+
 setup_system_services() {
-  root systemctl mask systemd-networkd-wait-online.service
+  if ((!IN_CHROOT)); then root systemctl mask systemd-networkd-wait-online.service; fi
   set_directive /etc/systemd/logind.conf HandleLidSwitch ignore
   mask_autorandr
 }
@@ -75,7 +77,9 @@ setup_system_hosts() {
 }
 
 setup_system_config_files() {
-  install_config etc/sanoid/sanoid.conf.in
+  root install -d -m 0755 /usr/local/bin
+  # ROOT_ZFS_DATASET is only reviewed after boot.
+  if ((!IN_CHROOT)); then install_config etc/sanoid/sanoid.conf.in; fi
   install_config etc/apt/apt.conf.d/20apt-esm-hook.conf
   install_config etc/profile.d/global_env.sh
   install_config etc/netplan/netcfg.yaml 0600
@@ -150,31 +154,19 @@ setup_ssh_config() {
 
 setup_system_security() {
   # Do not reset existing rules: remote access and user-defined rules survive.
-  root ufw default deny incoming
-  root ufw --force enable
-  setup_ssh_config
-}
-
-setup_system_chroot_files() {
-  root install -d -m 0755 /usr/local/bin
-  set_directive /etc/systemd/logind.conf HandleLidSwitch ignore
-  mask_autorandr
-  install_config etc/apt/apt.conf.d/20apt-esm-hook.conf
-  install_config etc/profile.d/global_env.sh
-  install_config etc/netplan/netcfg.yaml 0600
-  install_sudoers timeout
-  setup_system_hosts
+  if ((!IN_CHROOT)); then
+    root ufw default deny incoming
+    root ufw --force enable
+  fi
   setup_ssh_config
 }
 
 setup_system() {
-  if ((IN_CHROOT)); then
-    run_step "target files" setup_system_chroot_files
-    return
+  if ((!IN_CHROOT)); then
+    need zfs
+    need ufw
+    run_step "ZFS" setup_system_zfs
   fi
-  need zfs
-  need ufw
-  run_step "ZFS" setup_system_zfs
   run_step "services" setup_system_services
   run_step "config files" setup_system_config_files
   run_step "security" setup_system_security

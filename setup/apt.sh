@@ -145,21 +145,6 @@ APT_PREREQUISITES=(
   gnupg
 )
 
-apt_key() {
-  local name=$1 url=$2 temp
-  temp=$(mktemp)
-  curl -fsSL "$url" | gpg --dearmor >"$temp"
-  write_root "/etc/apt/keyrings/$name.gpg" <"$temp"
-  ((WRITE_CHANGED == 0)) || APT_SOURCES_CHANGED=1
-  rm -f "$temp"
-}
-
-apt_source() {
-  local dest=$1
-  install_config "etc/apt/sources.list.d/$dest.sources"
-  ((WRITE_CHANGED == 0)) || APT_SOURCES_CHANGED=1
-}
-
 setup_apt_ubuntu_sources() {
   local legacy=/etc/apt/sources.list content
   if root test -f "$legacy"; then
