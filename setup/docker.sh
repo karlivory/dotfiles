@@ -37,7 +37,16 @@ setup_docker_service() {
   root systemctl enable --now docker
 }
 
+# daemon.json points data-root here; refuse to fill the root dataset instead.
+check_docker_data_dir() {
+  local source
+  source=$(findmnt -n -o SOURCE --mountpoint "$DOCKER_DATA_DIR" || true)
+  [[ $source == "$DOCKER_ZFS_DATASET" ]] ||
+    die "$DOCKER_DATA_DIR is not mounted from $DOCKER_ZFS_DATASET; run setup.sh system first"
+}
+
 setup_docker() {
+  run_step "data dir" check_docker_data_dir
   run_step "repository" setup_docker_repository
   run_step "packages" setup_docker_packages
   run_step "service" setup_docker_service

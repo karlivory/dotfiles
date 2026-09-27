@@ -57,6 +57,7 @@ backup_root_file() {
 }
 
 # Install stdin only when it differs. Preserve the old file once per change.
+# An unchanged file still gets its mode corrected.
 write_root() {
   local dest=$1 mode=${2:-0644} temp
   temp=$(mktemp)
@@ -69,6 +70,10 @@ write_root() {
     root install -m "$mode" "$temp" "$dest"
     log "Updated $dest"
     WRITE_CHANGED=1
+  elif ((8#$(root stat -c %a "$dest") != 8#$mode)); then
+    root chmod "$mode" "$dest"
+    log "Set mode $mode on $dest"
+    WRITE_CHANGED=1
   else
     WRITE_CHANGED=0
   fi
@@ -77,7 +82,7 @@ write_root() {
 
 # Source files mirror their /etc destinations. .in files use config.sh values.
 install_config() {
-  local relative=$1 source_file=$SETUP_DIR/files/$1 temp line
+  local relative=$1 mode=${2:-0644} source_file=$SETUP_DIR/files/$1 temp line
   [[ -f $source_file ]] || die "Missing setup file: $source_file"
   temp=$(mktemp)
   if [[ $relative == *.in ]]; then
@@ -91,7 +96,7 @@ install_config() {
   else
     cp "$source_file" "$temp"
   fi
-  write_root "/${relative%.in}" <"$temp"
+  write_root "/${relative%.in}" "$mode" <"$temp"
   rm -f "$temp"
 }
 

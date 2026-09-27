@@ -13,7 +13,7 @@ setup_desktop() {
 # the checkout. Prior root-run builds may have left root-owned binaries there.
 build_flexipatch() (
   local item=$1 source_dir=$REPO_DIR/$1
-  local checkout=$source_dir/$1-flexipatch build_dir path mode temp_base=/tmp/opencode
+  local checkout=$source_dir/$1-flexipatch build_dir path mode temp_base=${TMPDIR:-/tmp}
   need git
   need make
   need tar
@@ -28,7 +28,6 @@ build_flexipatch() (
     log "$item checkout has the previous patch applied; leaving it untouched"
   fi
 
-  [[ -d $temp_base && -w $temp_base ]] || temp_base=${TMPDIR:-/tmp}
   build_dir=$(as_user mktemp -d "$temp_base/flexipatch.XXXXXXXX")
   trap 'as_user rm -rf -- "$build_dir"' EXIT
   as_user git -C "$checkout" archive HEAD | as_user tar -x -C "$build_dir"

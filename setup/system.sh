@@ -18,11 +18,19 @@ setup_system_zfs() {
 setup_system_services() {
   root systemctl mask systemd-networkd-wait-online.service
   set_directive /etc/systemd/logind.conf HandleLidSwitch ignore
-  if root test -e /lib/systemd/system/autorandr.service; then
-    backup_root_file /lib/systemd/system/autorandr.service
-    root rm /lib/systemd/system/autorandr.service
-    root systemctl daemon-reload
-  fi
+  mask_autorandr
+}
+
+# Masking survives package upgrades, unlike deleting the packaged unit.
+mask_autorandr() {
+  root systemctl mask autorandr.service
+}
+
+# A broken sudoers drop-in disables sudo, so validate before installing.
+install_sudoers() {
+  local source_file=$SETUP_DIR/files/etc/sudoers.d/$1
+  root visudo -cqf "$source_file" || die "Invalid sudoers file: $source_file"
+  write_root "/etc/sudoers.d/$1" 0440 <"$source_file"
 }
 
 setup_system_hosts() {
@@ -70,17 +78,21 @@ setup_system_config_files() {
   install_config etc/sanoid/sanoid.conf.in
   install_config etc/apt/apt.conf.d/20apt-esm-hook.conf
   install_config etc/profile.d/global_env.sh
-  install_config etc/netplan/netcfg.yaml
-  write_root /etc/sudoers.d/timeout 0440 <"$SETUP_DIR/files/etc/sudoers.d/timeout"
+  install_config etc/netplan/netcfg.yaml 0600
+  install_sudoers timeout
   setup_system_hosts
 }
+
+# Ubuntu's sshd_config includes sshd_config.d before its own settings, and
+# sshd keeps the first value it reads, so this drop-in wins.
+SSH_DROP_IN=/etc/ssh/sshd_config.d/10-no-passwords.conf
 
 restore_ssh_config() {
   local rollback_dir=$1 had_previous=$2
   if ((had_previous)); then
-    root cp -a -- "$rollback_dir/previous" /etc/ssh/sshd_config
+    root cp -a -- "$rollback_dir/previous" "$SSH_DROP_IN"
   else
-    root rm -f -- /etc/ssh/sshd_config
+    root rm -f -- "$SSH_DROP_IN"
   fi
   rm -f -- "$rollback_dir/previous"
   rmdir -- "$rollback_dir"
@@ -89,28 +101,28 @@ restore_ssh_config() {
 setup_ssh_config() {
   local rollback_dir had_previous=0 changed effective password_auth keyboard_auth
   if ((IN_CHROOT)); then
-    install_config etc/ssh/sshd_config
+    install_config "${SSH_DROP_IN#/}"
     return
   fi
 
   if ! command -v sshd >/dev/null 2>&1; then
-    install_config etc/ssh/sshd_config
-    log "OpenSSH server is not installed; staged sshd_config without validation or reload"
+    install_config "${SSH_DROP_IN#/}"
+    log "OpenSSH server is not installed; staged $SSH_DROP_IN without validation or reload"
     return
   fi
 
   rollback_dir=$(mktemp -d)
-  if root test -e /etc/ssh/sshd_config; then
-    root cp -a -- /etc/ssh/sshd_config "$rollback_dir/previous"
+  if root test -e "$SSH_DROP_IN"; then
+    root cp -a -- "$SSH_DROP_IN" "$rollback_dir/previous"
     had_previous=1
   fi
 
-  install_config etc/ssh/sshd_config
+  install_config "${SSH_DROP_IN#/}"
   changed=$WRITE_CHANGED
 
   if ! root sshd -t; then
     restore_ssh_config "$rollback_dir" "$had_previous"
-    die "sshd configuration is invalid; restored the previous sshd_config"
+    die "sshd configuration is invalid; restored the previous $SSH_DROP_IN"
   fi
   if ! effective=$(root sshd -T | awk '
     $1 == "passwordauthentication" { password = $2 }
@@ -121,12 +133,12 @@ setup_ssh_config() {
     }
   '); then
     restore_ssh_config "$rollback_dir" "$had_previous"
-    die "Could not read effective sshd configuration; restored the previous sshd_config"
+    die "Could not read effective sshd configuration; restored the previous $SSH_DROP_IN"
   fi
   read -r password_auth keyboard_auth <<<"$effective"
   if [[ $password_auth != no || $keyboard_auth != no ]]; then
     restore_ssh_config "$rollback_dir" "$had_previous"
-    die "PasswordAuthentication/KbdInteractiveAuthentication are still effective as '$password_auth/$keyboard_auth'; restored the previous sshd_config"
+    die "PasswordAuthentication/KbdInteractiveAuthentication are still effective as '$password_auth/$keyboard_auth'; restored the previous $SSH_DROP_IN"
   fi
 
   rm -f -- "$rollback_dir/previous"
@@ -146,14 +158,11 @@ setup_system_security() {
 setup_system_chroot_files() {
   root install -d -m 0755 /usr/local/bin
   set_directive /etc/systemd/logind.conf HandleLidSwitch ignore
-  if root test -e /lib/systemd/system/autorandr.service; then
-    backup_root_file /lib/systemd/system/autorandr.service
-    root rm /lib/systemd/system/autorandr.service
-  fi
+  mask_autorandr
   install_config etc/apt/apt.conf.d/20apt-esm-hook.conf
   install_config etc/profile.d/global_env.sh
-  install_config etc/netplan/netcfg.yaml
-  write_root /etc/sudoers.d/timeout 0440 <"$SETUP_DIR/files/etc/sudoers.d/timeout"
+  install_config etc/netplan/netcfg.yaml 0600
+  install_sudoers timeout
   setup_system_hosts
   setup_ssh_config
 }
