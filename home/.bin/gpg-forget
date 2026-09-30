@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# gpg wrapper for git's gpg.program: after each call, stop scdaemon so the
+# YubiKey forgets its verified PIN and the next signature asks again.
+# Works like the card's forcesig setting, which needs the admin PIN.
+
+gpg "$@"
+status=$?
+gpgconf --kill scdaemon
+exit "$status"

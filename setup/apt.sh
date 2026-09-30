@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 APT_PACKAGES=(
+  poppler-utils
+  time
   age
   atool
   autorandr
