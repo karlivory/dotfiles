@@ -4,7 +4,10 @@ rm_if_link() { [ ! -L "$1" ] || rm -v "$1"; }
 rm_if_not_link() { [ -L "$1" ] || rm -rfv "$1"; }
 
 mkdir -p ~/.local/share/lf
-mkdir -p ~/.local/share/gnupg
+# Pre-create so stow links files inside it instead of folding the whole
+# directory into the repo (apps install their own .desktop files here).
+mkdir -p ~/.local/share/applications
+install -d -m 700 ~/.local/share/gnupg # gpg rejects a group-writable homedir
 mkdir -p ~/.config/systemd/user
 
 # remove existing files/dirs
@@ -28,6 +31,7 @@ rm_if_not_link ~/.config/mimeapps.list
 rm_if_not_link ~/.local/share/lf/marks
 rm_if_not_link ~/.local/share/gnupg/gpg.conf
 rm_if_not_link ~/.local/share/gnupg/gpg-agent.conf
+rm_if_not_link ~/.local/share/gnupg/scdaemon.conf
 
 stow home -v -t ~ 2>&1
 if [ ! $(find dotfiles-personal -maxdepth 0 -empty) ]; then

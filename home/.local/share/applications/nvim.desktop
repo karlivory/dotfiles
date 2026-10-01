@@ -1,0 +1,11 @@
+# Homebrew's nvim.desktop is outside XDG_DATA_DIRS, so mimeapps.list could
+# not use it. A real file here (not a symlink: stow rejects absolute ones).
+[Desktop Entry]
+Name=Neovim
+GenericName=Text Editor
+TryExec=nvim
+Exec=nvim %F
+Terminal=true
+Type=Application
+Icon=nvim
+Categories=Utility;TextEditor;

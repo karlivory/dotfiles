@@ -44,6 +44,7 @@ APT_PACKAGES=(
   jq
   libasound2-dev
   libdbus-1-dev
+  libfile-mimeinfo-perl
   libfontconfig1-dev
   libfreetype-dev
   libharfbuzz-dev
