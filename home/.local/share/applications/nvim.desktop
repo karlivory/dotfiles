@@ -1,5 +1,7 @@
 # Homebrew's nvim.desktop is outside XDG_DATA_DIRS, so mimeapps.list could
 # not use it. A real file here (not a symlink: stow rejects absolute ones).
+# MimeType makes nvim the fallback for these types: this directory is
+# searched before /usr/share/applications.
 [Desktop Entry]
 Name=Neovim
 GenericName=Text Editor
@@ -9,3 +11,4 @@ Terminal=true
 Type=Application
 Icon=nvim
 Categories=Utility;TextEditor;
+MimeType=text/plain;text/english;text/x-log;text/markdown;text/x-patch;text/x-tex;text/x-c;text/x-csrc;text/x-chdr;text/x-c++;text/x-c++src;text/x-c++hdr;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-makefile;text/x-python;text/x-script.python;text/x-lua;text/rust;text/x-go;text/javascript;application/javascript;text/vnd.trolltech.linguist;text/css;text/x-dbus-service;application/json;application/x-ndjson;application/xml;text/xml;application/toml;application/yaml;application/x-yaml;application/x-shellscript;application/sql;application/x-desktop;

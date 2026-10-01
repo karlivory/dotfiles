@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# ssh "Match exec" test: succeeds when the calling ssh is a Claude desktop
+# background fetch, so ~/.ssh/config can keep it away from the YubiKey
+# (each one pops a PIN dialog).
+#
+# Claude desktop's own git spawns use a git-shadow GIT_CONFIG_GLOBAL; agent
+# shells and normal git do not. Only fetches (git-upload-pack) match, so
+# pushes from the app still authenticate.
+#
+# workaround for ISSUE: https://github.com/anthropics/claude-code/issues/96661
+
+[[ ${GIT_CONFIG_GLOBAL:-} == "$HOME"/.config/Claude/git-shadow/* ]] || exit 1
+
+# ssh runs this through a shell, so ssh is the parent or the grandparent.
+# Check only ssh's own command line, not anything above it.
+pid=$PPID
+for _ in 1 2; do
+  if [[ $(cat "/proc/$pid/comm" 2>/dev/null) == ssh ]]; then
+    tr '\0' ' ' <"/proc/$pid/cmdline" | grep -q ' git-upload-pack '
+    exit
+  fi
+  pid=$(ps -o ppid= -p "$pid" | tr -d ' ')
+done
+exit 1

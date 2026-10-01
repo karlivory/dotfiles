@@ -7,6 +7,8 @@ mkdir -p ~/.local/share/lf
 # Pre-create so stow links files inside it instead of folding the whole
 # directory into the repo (apps install their own .desktop files here).
 mkdir -p ~/.local/share/applications
+# Claude Code keeps its state in ~/.claude; only settings.json is stowed.
+mkdir -p ~/.claude
 install -d -m 700 ~/.local/share/gnupg # gpg rejects a group-writable homedir
 mkdir -p ~/.config/systemd/user
 
@@ -28,6 +30,7 @@ rm_if_not_link ~/.config/lazygit
 rm_if_not_link ~/.config/nvim/lua/user
 rm_if_not_link ~/.config/user-dirs.dirs
 rm_if_not_link ~/.config/mimeapps.list
+rm_if_not_link ~/.claude/settings.json
 rm_if_not_link ~/.local/share/lf/marks
 rm_if_not_link ~/.local/share/gnupg/gpg.conf
 rm_if_not_link ~/.local/share/gnupg/gpg-agent.conf
@@ -39,6 +42,9 @@ if [ ! $(find dotfiles-personal -maxdepth 0 -empty) ]; then
   stow home -v -t ~
   cd ..
 fi
+
+# Index the stowed .desktop files (nvim.desktop MimeType) for xdg-mime.
+update-desktop-database ~/.local/share/applications
 
 # Init themes if they do not exist
 if [ ! -f ~/.config/themes/dwm/theme ]; then
