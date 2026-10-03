@@ -2,12 +2,14 @@
 # not use it. A real file here (not a symlink: stow rejects absolute ones).
 # MimeType makes nvim the fallback for these types: this directory is
 # searched before /usr/share/applications.
+# Runs in st itself: xdg-open ignores Terminal=true without a desktop
+# environment, which left nvim running invisibly when launched from lf.
 [Desktop Entry]
 Name=Neovim
 GenericName=Text Editor
-TryExec=nvim
-Exec=nvim %F
-Terminal=true
+TryExec=st
+Exec=st -e nvim %F
+Terminal=false
 Type=Application
 Icon=nvim
 Categories=Utility;TextEditor;

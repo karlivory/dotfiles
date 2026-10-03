@@ -9,6 +9,8 @@ mkdir -p ~/.local/share/lf
 mkdir -p ~/.local/share/applications
 # Claude Code keeps its state in ~/.claude; only settings.json is stowed.
 mkdir -p ~/.claude
+# OpenCode keeps runtime files here; only its config and instructions are stowed.
+mkdir -p ~/.config/opencode
 install -d -m 700 ~/.local/share/gnupg # gpg rejects a group-writable homedir
 mkdir -p ~/.config/systemd/user
 

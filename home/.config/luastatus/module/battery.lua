@@ -1,6 +1,11 @@
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/themes/luastatus/?.lua"
 local color = require("color")
 
+-- Yellow when full, then orange, red when low.
+local stops = {
+  { 15, color.red }, { 55, color.orange }, { 100, color.yellow },
+}
+
 widget = luastatus.require_plugin('battery-linux').widget {
   period = 2,
   cb = function(t)
@@ -16,14 +21,10 @@ widget = luastatus.require_plugin('battery-linux').widget {
         local m = math.floor(60 * (t.rem_time - h))
         rem_seg = string.format('%2dh%02dm ', h, m)
       end
-      local icon = color.sep
-      if (capacity < 15) then
-        icon = icon .. color.warn_fg .. color.warn_bg
-      else
-        icon = icon .. color.col2_ic_fg .. color.col2_ic_bg
-      end
-      icon = icon .. ' ' .. symbol .. ' '
-      local content = color.col2_fg .. color.col2_bg .. string.format(" %3d%% ", capacity)
+      local icon = color.sep .. color.col1_ic_fg .. color.gradient(stops, capacity, 2) ..
+        ' ' .. symbol .. ' '
+      local content = color.col1_fg .. color.gradient(stops, capacity, 1) ..
+        string.format(" %3d%% ", capacity)
       return {
         icon .. content,
         rem_seg,
