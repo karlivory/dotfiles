@@ -152,7 +152,7 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 #########################################################################################
 
 alias tree='tree -C'
-alias ls='ls --color=auto'
+alias ls='TERM=xterm-256color ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
