@@ -1,5 +1,7 @@
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/themes/luastatus/?.lua"
 local color = require("color")
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/luastatus/lib/?.lua"
+local gradient = require("gradient")
 
 local home = os.getenv("HOME")
 
@@ -19,16 +21,25 @@ local function usage(tool)
   return percent(line)
 end
 
--- Claude blue for the first 10% used, then light orange, dark orange and red.
+-- Colors, not from the theme: { content bg, icon bg }. The blue is claude.ai's
+-- usage bar, the rest are gruvbox-compatible (no yellow, it clashes).
+local blue = { { 0x2a, 0x78, 0xd6 }, { 0x22, 0x60, 0xab } }
+local mauve = { { 0x85, 0x7b, 0x85 }, { 0x6f, 0x5f, 0x68 } }
+local beige = { { 0xa3, 0x7d, 0x6a }, { 0x89, 0x5e, 0x51 } }
+local orange = { { 0xfe, 0x80, 0x19 }, { 0xd6, 0x5d, 0x0e } }
+local red = { { 0xfb, 0x49, 0x34 }, { 0xcc, 0x24, 0x1d } }
+
+-- Blue for the first 10% used, then a steady drift through mauve and beige to
+-- orange and red.
 local stops = {
-  { 10, color.blue }, { 40, color.light_orange }, { 70, color.dark_orange }, { 100, color.red },
+  { 10, blue }, { 30, mauve }, { 55, beige }, { 80, orange }, { 100, red },
 }
 
 local function segment(name, pct, limited)
   local text = pct and string.format(" %3d%% ", pct) or "   ? "
   if pct and limited then text = text .. "(?) " end
-  local icon_bg = color.gradient(stops, pct or 0, 2)
-  local content_bg = color.gradient(stops, pct or 0, 1)
+  local icon_bg = gradient(stops, pct or 0, 2)
+  local content_bg = gradient(stops, pct or 0, 1)
   return color.sep .. color.col0_ic_fg .. icon_bg .. " " .. name .. " " ..
     color.col0_fg .. content_bg .. text
 end
