@@ -2,3 +2,4 @@ logs
 home/.config/themes/dmenu/theme
 home/.config/themes/dwm/theme
 home/.config/themes/luastatus/color.lua
+config.local.sh

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Local machine settings. Edit these before running setup.sh on a different host.
-SETUP_USER=karl
-ROOT_ZFS_DATASET=zroot/ROOT/ubuntu4
+# Machine settings. Override per host in config.local.sh (untracked) instead of editing here.
+SETUP_USER=${SUDO_USER:-$(id -un)}
+ROOT_ZFS_DATASET=zroot/ROOT/ubuntu
 DOCKER_ZFS_DATASET=zroot/docker
 DATA_DIR=/setup
 DOCKER_DATA_DIR=/docker

@@ -18,7 +18,7 @@ Usage: setup/setup.sh [--verbose] [--no-spinner] [${list% | }]...
 No arguments runs all components. Selected components run once each, in the
 order listed above. Desktop is shorthand for ${DESKTOP_ITEMS[*]}.
 Desktop builds need apt packages; include apt or run it beforehand.
-Machine settings live in setup/config.sh. Ubuntu 26.04 is expected.
+Machine settings live in config.sh; override per host in config.local.sh. Ubuntu 26.04 is expected.
 Successful components and selected subtasks show elapsed time (e.g. 0.43s).
 --verbose also streams command output.
 --no-spinner disables the terminal spinner without changing output or timings.
@@ -193,7 +193,7 @@ if ((deferred)); then
   printf 'Chroot preparation finished in %s; %d runtime %s deferred until boot.\n' \
     "$(elapsed "$(($(now_us) - total_started))")" "$deferred" \
     "$([[ $deferred == 1 ]] && echo component || echo components)" >&3
-  printf 'After boot, review ROOT_ZFS_DATASET in setup/config.sh, then run: %s/setup.sh system docker\n' \
+  printf 'After boot, review ROOT_ZFS_DATASET (config.local.sh), then run: %s/setup.sh system docker\n' \
     "$SETUP_DIR" >&3
   if ((full_setup)); then
     printf 'After completing booted setup, optionally run: %s/promote.sh\n' "$SETUP_DIR" >&3

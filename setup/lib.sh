@@ -7,8 +7,21 @@ REPO_DIR=$(cd -- "$SETUP_DIR/.." && pwd)
 # Accepted origins; promote.sh moves HTTPS clones to SSH.
 HTTPS_ORIGIN=https://github.com/karlivory/dotfiles
 SSH_ORIGIN=git@github.com:karlivory/dotfiles.git
-# shellcheck source=setup/config.sh
-source "$SETUP_DIR/config.sh"
+# shellcheck source=config.sh
+source "$REPO_DIR/config.sh"
+# Untracked per-machine overrides; see config.local.sh.example. First run records
+# the invoking user and, on a ZFS root, the mounted dataset (not in a chroot).
+if [[ ! -f $REPO_DIR/config.local.sh ]]; then
+  {
+    echo '# Per-machine overrides of config.sh (untracked).'
+    echo "SETUP_USER=$SETUP_USER"
+    if [[ $(findmnt -n -o FSTYPE / 2>/dev/null) == zfs ]]; then
+      echo "ROOT_ZFS_DATASET=$(findmnt -n -o SOURCE /)"
+    fi
+  } >"$REPO_DIR/config.local.sh"
+fi
+# shellcheck source=/dev/null
+[[ ! -f $REPO_DIR/config.local.sh ]] || source "$REPO_DIR/config.local.sh"
 SETUP_HOME=$(getent passwd "$SETUP_USER" | cut -d: -f6)
 [[ -n $SETUP_HOME ]] || {
   echo "Unknown user: $SETUP_USER" >&2

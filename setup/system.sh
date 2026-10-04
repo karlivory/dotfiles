@@ -4,7 +4,7 @@ setup_system_zfs() {
   local mounted_root
   mounted_root=$(findmnt -n -o SOURCE /)
   [[ $mounted_root == "$ROOT_ZFS_DATASET" ]] ||
-    die "Root is mounted from $mounted_root, but config.sh specifies $ROOT_ZFS_DATASET"
+    die "Root is mounted from $mounted_root, but config.sh specifies $ROOT_ZFS_DATASET (see config.local.sh)"
   if ! root zfs list -H -o name "$DOCKER_ZFS_DATASET" >/dev/null 2>&1; then
     root zfs create -o mountpoint="$DOCKER_DATA_DIR" -o dedup=off -o compression=lz4 "$DOCKER_ZFS_DATASET"
   fi
