@@ -186,6 +186,7 @@ alias ci='curl ifconfig.me'
 alias r='openssl rand -base64'
 alias vv='[ -d venv ] || virtualenv venv; source venv/bin/activate'
 alias dc='docker compose'
+alias scu='systemctl --user'
 
 ##==================================== MISC ===========================================##
 #########################################################################################
