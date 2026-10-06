@@ -9,28 +9,34 @@ setup_desktop() {
   "setup_$item"
 }
 
-# Build the pinned submodule revision in a disposable directory, not inside
-# the checkout. Prior root-run builds may have left root-owned binaries there.
+# Fetch one pinned commit into its own user-owned cache dir (<name>-<rev>) and
+# print the dir. A new rev gets a new dir; an existing one is reused as is.
+fetch_pinned() {
+  local name=$1 url=$2 rev=$3 dir
+  dir=$SETUP_HOME/.cache/dotfiles/$name-$rev
+  need git
+  if ! as_user git -C "$dir" cat-file -e "$rev^{commit}" 2>/dev/null; then
+    as_user mkdir -p "$dir"
+    as_user git -C "$dir" init --quiet
+    as_user git -C "$dir" fetch --quiet --depth 1 "$url" "$rev" >&2 ||
+      die "Cannot fetch $name revision $rev from $url"
+  fi
+  printf '%s\n' "$dir"
+}
+
+# Build the pinned flexipatch revision (<ITEM>_REV in config.sh) in a disposable
+# directory so nothing root-built is left behind.
 build_flexipatch() (
   local item=$1 source_dir=$REPO_DIR/$1
-  local checkout=$source_dir/$1-flexipatch build_dir path mode temp_base=${TMPDIR:-/tmp}
-  need git
+  local rev_var=${1^^}_REV rev cache build_dir path mode temp_base=${TMPDIR:-/tmp}
+  rev=${!rev_var}
   need make
   need tar
-  [[ -d $checkout/.git || -f $checkout/.git ]] || die "Initialize the $item submodule first"
-
-  # Allow the exact patch left by the old helper after an interrupted build,
-  # but do not silently ignore other tracked edits in a submodule.
-  if [[ -n $(as_user git -C "$checkout" status --porcelain --untracked-files=no) ]]; then
-    if ! cmp -s <(as_user git -C "$checkout" diff --binary) "$source_dir/$item.patch"; then
-      die "$checkout has local changes other than $item.patch; refusing to ignore them"
-    fi
-    log "$item checkout has the previous patch applied; leaving it untouched"
-  fi
+  cache=$(fetch_pinned "$item-flexipatch" "https://github.com/bakkeby/$item-flexipatch" "$rev") || exit 1
 
   build_dir=$(as_user mktemp -d "$temp_base/flexipatch.XXXXXXXX")
   trap 'as_user rm -rf -- "$build_dir"' EXIT
-  as_user git -C "$checkout" archive HEAD | as_user tar -x -C "$build_dir"
+  as_user git -C "$cache" archive "$rev" | as_user tar -x -C "$build_dir"
   as_user git -C "$build_dir" apply "$source_dir/$item.patch"
   as_user cp "$build_dir/config.def.h" "$build_dir/config.h"
   as_user cp "$source_dir/patches.h" "$build_dir/patches.h"
@@ -58,28 +64,24 @@ setup_st() { build_flexipatch st; }
 setup_dmenu() { build_flexipatch dmenu; }
 setup_slock() { build_flexipatch slock; }
 
-setup_luastatus() {
-  local dest=$DATA_DIR/luastatus rev path
-  need git
+setup_luastatus() (
+  local cache work path stamp=$SETUP_HOME/.cache/dotfiles/luastatus.installed
   need cmake
-  root mkdir -p "$DATA_DIR"
-  if ! root test -d "$dest/.git"; then
-    root test ! -e "$dest" || die "$dest exists but is not a git checkout"
-    root git clone https://github.com/shdown/luastatus "$dest"
-  fi
-  rev=$(root git -C "$dest" rev-parse HEAD)
-  if [[ $rev != "$LUASTATUS_REV" ]]; then
-    root git -C "$dest" fetch origin "$LUASTATUS_REV"
-    root git -C "$dest" checkout --detach "$LUASTATUS_REV"
-  fi
-  if [[ $rev != "$LUASTATUS_REV" ]] || ! root test -x /usr/local/bin/luastatus; then
-    root cmake -S "$dest" -B "$dest/build"
-    root make -C "$dest/build"
-    root make -C "$dest/build" install
+  need make
+  need tar
+  cache=$(fetch_pinned luastatus https://github.com/shdown/luastatus "$LUASTATUS_REV") || exit 1
+  if [[ $(cat "$stamp" 2>/dev/null) != "$LUASTATUS_REV" ]] || ! [[ -x /usr/local/bin/luastatus ]]; then
+    work=$(as_user mktemp -d "${TMPDIR:-/tmp}/luastatus.XXXXXXXX")
+    trap 'root rm -rf -- "$work"' EXIT
+    as_user git -C "$cache" archive "$LUASTATUS_REV" | as_user tar -x -C "$work"
+    as_user cmake -S "$work" -B "$work/build"
+    as_user make -C "$work/build"
+    root make -C "$work/build" install
+    printf '%s\n' "$LUASTATUS_REV" | as_user tee "$stamp" >/dev/null
   fi
   # Repair resource permissions after a restrictive-umask install, including
   # files and existing installs that do not need rebuilding.
   for path in /usr/local/share/luastatus /usr/local/lib/luastatus; do
     if [[ -d $path ]]; then root chmod -R a+rx "$path"; fi
   done
-}
+)

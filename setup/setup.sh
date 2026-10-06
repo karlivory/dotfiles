@@ -108,17 +108,6 @@ if ((root_session)) && is_chroot; then IN_CHROOT=1; fi
 # shellcheck source=setup/progress.sh
 source "$SETUP_DIR/progress.sh"
 
-# luastatus is fetched by desktop.sh at LUASTATUS_REV, not a submodule.
-init_public_submodules() {
-  local item
-  local -a paths=()
-  for item in "$@"; do
-    [[ $item == luastatus ]] || paths+=("$item/$item-flexipatch")
-  done
-  ((${#paths[@]})) || return 0
-  as_user git -C "$REPO_DIR" submodule update --init -- "${paths[@]}"
-}
-
 setup_stow() {
   need stow
   (cd "$REPO_DIR" && as_user bash "$REPO_DIR/stow.sh")
@@ -138,7 +127,6 @@ run_component() {
     desktop)
       # shellcheck source=/dev/null
       source "$SETUP_DIR/desktop.sh"
-      run_step "public submodules" init_public_submodules "${DESKTOP_ITEMS[@]}"
       for item in "${DESKTOP_ITEMS[@]}"; do
         run_step "$item" setup_desktop "$item"
       done
@@ -147,9 +135,6 @@ run_component() {
       # A single desktop item.
       # shellcheck source=/dev/null
       source "$SETUP_DIR/desktop.sh"
-      if [[ $component != luastatus ]]; then
-        run_step "submodule" init_public_submodules "$component"
-      fi
       run_step "build" setup_desktop "$component"
       ;;
   esac
