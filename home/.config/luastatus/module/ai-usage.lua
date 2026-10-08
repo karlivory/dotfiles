@@ -10,7 +10,8 @@ local function percent(line)
   local pct, resets, suffix = (line or ""):match("^(%S+) (%d+)(.*)$")
   if not pct then return nil end
   local limited = suffix:find("?", 1, true) ~= nil
-  if not limited and tonumber(resets) < os.time() then return 0, false end
+  -- A reset epoch of 0 means the service has not supplied a reset time.
+  if not limited and tonumber(resets) > 0 and tonumber(resets) < os.time() then return 0, false end
   return tonumber(pct), limited
 end
 
