@@ -1,11 +1,34 @@
 ---
+gui:
+  skipSwitchWorktreeOnCheckoutWarning: true
+  showBottomLine: false
+  theme:
+    selectedLineBgColor:
+      - reverse
+      - bold
+    activeBorderColor:
+      - yellow
+      - bold
+    inactiveBorderColor:
+      - '#665c54'
 git:
   autoFetch: false
 notARepository: quit
-# gui:
-#   theme:
-#     activeBorderColor:
-#       - yellow
-#       - bold
-#     inactiveBorderColor:
-#       - red
+keybinding:
+  universal:
+    pullFiles: 'l'
+    pushFiles: 'p'
+    nextBlock-alt: '<disabled>'
+  branches:
+    rebaseBranch: '<c-r>'
+  commits:
+    pickCommit: 'P'
+customCommands:
+  - key: 'r'
+    context: 'localBranches'
+    description: 'Simple rebase onto selected branch'
+    command: 'git -c sequence.editor=true rebase --interactive --autostash --keep-empty --no-autosquash --rebase-merges {{.SelectedLocalBranch.Name | quote}}'
+    loadingText: 'Rebasing'
+    output: log
+    after:
+      checkForConflicts: true
