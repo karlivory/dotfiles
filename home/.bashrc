@@ -45,6 +45,22 @@ _common_dirs() {
     [[ -n "$dir" ]] && cd "$dir" || return
 }
 
+# Switch to a worktree of the current repository; arguments seed the fzf query.
+wt() {
+    local record selected
+    local -a worktrees=()
+    while IFS= read -r -d '' record; do
+        [[ $record == 'worktree '* ]] && worktrees+=("${record#worktree }")
+    done < <(git worktree list --porcelain -z)
+    ((${#worktrees[@]})) || return 1
+
+    IFS= read -r -d '' selected < <(
+        printf '%s\0' "${worktrees[@]}" |
+            fzf --read0 --print0 --no-multi --height=40% --reverse --prompt='worktree> ' --query="$*"
+    ) || return
+    builtin cd -- "$selected"
+}
+
 _lfcd() {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1' HUP INT QUIT TERM PWR EXIT
@@ -167,7 +183,7 @@ alias lg='lazygit'
 alias v='nvim'
 alias cdg='cd $(git rev-parse --show-toplevel)'
 alias fcd='cd $(find -type d 2>/dev/null | fzf)'
-alias tt='typing-test'
+alias tt='wrap "typing-test -n 20" 0.2'
 alias cx='chmod +x'
 alias gc="git commit -m"
 alias gcn="git commit --no-gpg-sign -m"
@@ -181,7 +197,6 @@ alias p="python3"
 alias k="kubectl"
 alias z="zfs-snapshot-browser"
 alias zt="zfs list -t snapshot -o name,creation,used,refer -s creation"
-alias wt='wrap "typing-test -n 20" 0.2'
 alias ci='curl ifconfig.me'
 alias r='openssl rand -base64'
 alias vv='[ -d venv ] || virtualenv venv; source venv/bin/activate'
