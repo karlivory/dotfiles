@@ -40,9 +40,6 @@ super + semicolon
 super + Print
 	flameshot gui # take screenshot
 
-super + shift + Print
-	flameshot gui -p /st/docs/private/wiki/static/$(date -I)-$(openssl rand -hex 2) # take screenshot
-
 super + shift + t
 	theme_changer
 

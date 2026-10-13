@@ -1,0 +1,3 @@
+[Unit]
+Description=Services of the X session started from .xinitrc
+Wants=picom.service

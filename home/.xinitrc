@@ -1,10 +1,9 @@
-# TODO: more elegant way to enable/start picom
-systemctl --user enable picom && systemctl --user start picom
-systemctl --user enable redshift && systemctl --user start redshift
-systemctl --user start gpg-agent.service
-
-# fixes slow gtk application (thunar, virt-manager etc) startup issue
+# fixes slow gtk application (thunar, virt-manager etc) startup issue; also
+# gives the user units below DISPLAY
 dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY PATH
+
+# desktop.target pulls in picom; other layers add units with a Wants= drop-in.
+systemctl --user start desktop.target gpg-agent.service
 
 remaps
 

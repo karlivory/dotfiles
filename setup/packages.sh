@@ -2,7 +2,7 @@
 
 # Everything the public components need, installed before them: stow (and
 # update-desktop-database for stow.sh), the build dependencies of the suckless
-# tools and luastatus (with its plugins), Xorg to run them, and the YubiKey tools.
+# tools and luastatus (with its plugins), Xorg to run them, and SSH with the YubiKey.
 setup_packages() {
   local -a packages=(
     build-essential
@@ -41,6 +41,7 @@ setup_packages() {
   # YubiKey for gpg and SSH, needed to clone dotfiles-personal (gpg-agent and
   # its sockets come with Ubuntu's gnupg; scdaemon.conf shares the key with pcscd).
   local -a yubikey=(
+    openssh-client
     pcscd
     pinentry-qt
     scdaemon

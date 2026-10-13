@@ -7,6 +7,3 @@ After=dbus.service graphical-session.target xorg.target
 ExecStart=picom -c
 Restart=always
 Slice=session.slice
-
-[Install]
-WantedBy=desktop.target

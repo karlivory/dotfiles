@@ -54,7 +54,8 @@ for binary in dwm st dmenu luastatus slock; do
 done
 if ldd /usr/local/bin/{dwm,st,dmenu,luastatus,slock} | grep 'not found'; then exit 1; fi
 as_tester infocmp st-256color >/dev/null
-for link in .bashrc .bin .xinitrc; do
+command -v ssh >/dev/null || { echo 'Not installed: ssh' >&2; exit 1; }
+for link in .bashrc .bin .xinitrc .config/systemd/user/desktop.target; do
   [[ -L $USER_HOME/$link && -e $USER_HOME/$link ]] || { echo "Not stowed: ~/$link" >&2; exit 1; }
 done
 
