@@ -16,7 +16,7 @@ local function percent(line)
 end
 
 local function usage(tool)
-  local h = io.popen(home .. "/git/dotfiles/dotfiles-personal/bin/usage " .. tool .. " 2>/dev/null")
+  local h = io.popen(home .. "/git/dotfiles/dotfiles-personal/bin/usage --status " .. tool .. " 2>/dev/null")
   local line = h:read("*l")
   h:close()
   return percent(line)
