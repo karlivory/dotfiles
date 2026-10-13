@@ -1,0 +1,19 @@
+# TODO: more elegant way to enable/start picom
+systemctl --user enable picom && systemctl --user start picom
+systemctl --user enable redshift && systemctl --user start redshift
+systemctl --user start gpg-agent.service
+
+# fixes slow gtk application (thunar, virt-manager etc) startup issue
+dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY PATH
+
+remaps
+
+unclutter -noevents &
+wrap "$HOME/.config/luastatus/statusbar.sh" &
+sxhkd &
+xrdb -merge -I$HOME $HOME/.config/X11/.Xresources
+
+autorandr -c
+set_default_wallpaper
+
+exec dwm

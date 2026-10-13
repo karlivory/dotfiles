@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# simple loop-wrap
+
+if [[ -z "$1" ]]; then
+	echo "No script specified! Exiting..." 
+	exit 1
+fi
+
+function run(){
+	eval $1
+}
+
+sleep_duration=0.4
+if echo "$2" | grep -qE "^\-?[0-9]?\.?[0-9]+$"; then
+	sleep_duration=$2
+fi
+
+while true; do
+	run "$1"
+	echo "Killed, restarting in $sleep_duration seconds..."
+	sleep $sleep_duration
+done

@@ -1,0 +1,2 @@
+# Copy to config.local.sh (untracked) and set per-machine overrides.
+SETUP_USER=karl

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Run the dotfiles setup from anywhere (not named setup*: clashes with setupcon completion).
+exec "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../../setup/setup.sh" "$@"

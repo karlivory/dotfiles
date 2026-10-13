@@ -1,0 +1,151 @@
+diff --git a/config.def.h b/config.def.h
+--- a/config.def.h
++++ b/config.def.h
+@@ -5,7 +5,7 @@
+  *
+  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+  */
+-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
++static char *font = "monospace:size=12";
+ #if FONT2_PATCH
+ /* Spare fonts */
+ static char *font2[] = {
+@@ -418,6 +418,13 @@
+ 
+ static Shortcut shortcuts[] = {
+ 	/* mask                 keysym          function         argument   screen */
++	{ MODKEY,               XK_k,           kscrollup,       {.i = 1} },
++	{ MODKEY,               XK_j,           kscrolldown,     {.i = 1} },
++	{ MODKEY,               XK_u,           kscrollup,       {.i = -1} },
++	{ MODKEY,               XK_d,           kscrolldown,     {.i = -1} },
++	{ ControlMask,          XK_equal,       zoom,            {.f = +1} },
++	{ ControlMask,          XK_minus,       zoom,            {.f = -1} },
++	{ ControlMask,          XK_0,           zoomreset,       {.f =  0} },
+ 	{ XK_ANY_MOD,           XK_Break,       sendbreak,       {.i =  0} },
+ 	{ ControlMask,          XK_Print,       toggleprinter,   {.i =  0} },
+ 	{ ShiftMask,            XK_Print,       printscreen,     {.i =  0} },
+@@ -527,6 +534,8 @@
+  */
+ static Key key[] = {
+ 	/* keysym           mask            string      appkey appcursor */
++	{ XK_Tab,           ControlMask,                    "\033[9;5u",   0,  +1},
++	{ XK_ISO_Left_Tab,  ShiftMask|ControlMask,          "\033[1;5Z",   0,  +1},
+ 	{ XK_KP_Home,       ShiftMask,      "\033[2J",       0,   -1},
+ 	{ XK_KP_Home,       ShiftMask,      "\033[1;2H",     0,   +1},
+ 	{ XK_KP_Home,       XK_ANY_MOD,     "\033[H",        0,   -1},
+
+diff --git a/config.mk b/config.mk
+--- a/config.mk
++++ b/config.mk
+@@ -21,14 +21,14 @@
+ #XCURSOR = `$(PKG_CONFIG) --libs xcursor`
+ 
+ # Uncomment the lines below for the ligatures patch / LIGATURES_PATCH
+-#LIGATURES_C = hb.c
+-#LIGATURES_H = hb.h
+-#LIGATURES_INC = `$(PKG_CONFIG) --cflags harfbuzz`
+-#LIGATURES_LIBS = `$(PKG_CONFIG) --libs harfbuzz`
++LIGATURES_C = hb.c
++LIGATURES_H = hb.h
++LIGATURES_INC = `$(PKG_CONFIG) --cflags harfbuzz`
++LIGATURES_LIBS = `$(PKG_CONFIG) --libs harfbuzz`
+ 
+ # Uncomment this for the SIXEL patch / SIXEL_PATCH
+-#SIXEL_C = sixel.c sixel_hls.c
+-#SIXEL_LIBS = `$(PKG_CONFIG) --libs imlib2`
++SIXEL_C = sixel.c sixel_hls.c
++SIXEL_LIBS = `$(PKG_CONFIG) --libs imlib2`
+ 
+ # Uncomment for the netwmicon patch / NETWMICON_PATCH
+ #NETWMICON_LIBS = `$(PKG_CONFIG) --libs gdlib`
+
+diff --git a/patch/fixkeyboardinput.c b/patch/fixkeyboardinput.c
+--- a/patch/fixkeyboardinput.c
++++ b/patch/fixkeyboardinput.c
+@@ -3,35 +3,6 @@
+  * to be mapped below, add them to this array.
+  */
+ static KeySym mappedkeys[] = {
+-	XK_space,
+-	XK_m,
+-	XK_i,
+-	XK_A,
+-	XK_B,
+-	XK_C,
+-	XK_D,
+-	XK_E,
+-	XK_F,
+-	XK_G,
+-	XK_H,
+-	XK_I,
+-	XK_K,
+-	XK_J,
+-	XK_L,
+-	XK_M,
+-	XK_N,
+-	XK_O,
+-	XK_P,
+-	XK_Q,
+-	XK_R,
+-	XK_S,
+-	XK_T,
+-	XK_U,
+-	XK_V,
+-	XK_W,
+-	XK_X,
+-	XK_Y,
+-	XK_Z,
+ 	XK_0,
+ 	XK_1,
+ 	XK_2,
+@@ -41,39 +12,6 @@
+-	XK_6,
+ 	XK_7,
+ 	XK_8,
+ 	XK_9,
+-	XK_exclam,
+-	XK_quotedbl,
+-	XK_numbersign,
+-	XK_dollar,
+-	XK_percent,
+-	XK_ampersand,
+-	XK_apostrophe,
+-	XK_parenleft,
+-	XK_parenright,
+-	XK_asterisk,
+-	XK_plus,
+-	XK_comma,
+-	XK_minus,
+-	XK_period,
+-	XK_slash,
+-	XK_colon,
+-	XK_semicolon,
+-	XK_less,
+-	XK_equal,
+-	XK_greater,
+-	XK_question,
+-	XK_at,
+-	XK_bracketleft,
+-	XK_backslash,
+-	XK_bracketright,
+-	XK_asciicircum,
+-	XK_underscore,
+-	XK_grave,
+-	XK_braceleft,
+-	XK_bar,
+-	XK_braceright,
+-	XK_asciitilde,
+ };
+ 
+ /*
+@@ -135,3 +135,4 @@
+ 	{ XK_Right,         XK_ANY_MOD,     "\033[C",        0,   -1},
+ 	{ XK_Right,         XK_ANY_MOD,     "\033OC",        0,   +1},
++	{ XK_ISO_Left_Tab,  ShiftMask|ControlMask, "\033[9;6u", 0, 0},
+ 	{ XK_ISO_Left_Tab,  ShiftMask,      "\033[Z",        0,    0},
+@@ -479,4 +418,4 @@
+ 	{ XK_BackSpace,    ShiftMask,                      "\033[127;2u", 0,  0},
+ 	{ XK_Tab,          ControlMask,                    "\033[9;5u",   0,  0},
+-	{ XK_Tab,          ControlMask|ShiftMask,          "\033[1;5Z",   0,  0},
++	{ XK_Tab,          ControlMask|ShiftMask,          "\033[9;6u",   0,  0},
+ 	{ XK_Tab,          Mod1Mask,                       "\033[1;3Z",   0,  0},
