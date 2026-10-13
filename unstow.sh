@@ -1,16 +1,9 @@
 #!/bin/bash
+# Remove the links stow.sh made: the personal layer first, then the public one.
 
-if [ "$0" != "./unstow.sh" ]; then
-    echo -e "\033[33mWARNING: script was run outside of its directory. Fixing...\033[0m"
-    cd "$(dirname "$0")" || exit 1
+cd "$(dirname "$0")" || exit 1
+
+if [ -n "$(find dotfiles-personal -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
+  (cd dotfiles-personal && stow -D home -v -t ~) || exit 1
 fi
-
-stow -D home -t ~
-if [ ! "$(find dotfiles-personal -maxdepth 0 -empty)" ]; then
-    echo "stowing personal dotfiles"
-    cd dotfiles-personal || exit 1
-    stow -D home -t ~
-    cd ..
-fi
-
-echo "done"
+stow -D home -v -t ~ || exit 1

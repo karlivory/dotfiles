@@ -11,29 +11,11 @@ setxkbmap -option altwin:swap_alt_win
 xmodmap -e 'keycode 108 = Super_R'
 xmodmap -e 'remove mod1 = Super_R' -e 'remove mod5 = Super_R' -e 'add mod4 = Super_R'
 # single-tap ctrl acts as escape
+pkill -x xcape
 xcape -e 'Control_L=Escape'
 
 xset r rate 200 50
 
-binds=$(cat <<EOF
-"xvkbd -xsendevent -text '\{+dead_diaeresis}u'"
-	Mod4 + u
-"xvkbd -xsendevent -text '\{+dead_diaeresis}U'"
-	Shift+Mod4 + u
-"xvkbd -xsendevent -text '\{+dead_diaeresis}o'"
-	Mod4 + i
-"xvkbd -xsendevent -text '\{+dead_diaeresis}O'"
-	Shift+Mod4 + i
-"xvkbd -xsendevent -text '\{+dead_tilde}o'"
-	Mod4 + o
-"xvkbd -xsendevent -text '\{+dead_tilde}O'"
-	Shift+Mod4 + O
-"xvkbd -xsendevent -text '\{+dead_diaeresis}a'"
-	Mod4 + p
-"xvkbd -xsendevent -text '\{+dead_diaeresis}A'"
-	Shift+Mod4 + p
-EOF
-)
-tmpfile="$(mktemp)"
-printf '%s\n' "${binds}" > "$tmpfile"
-xbindkeys -f "$tmpfile"
+# umlauts and tildes on super; replace any instance from an earlier run
+pkill -x xbindkeys
+xbindkeys -f ~/.config/xbindkeys/xbindkeysrc
