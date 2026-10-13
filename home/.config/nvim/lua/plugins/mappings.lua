@@ -38,7 +38,7 @@ return {
             function() require("plugins.custom.tmux_sessionizer").find() end,
             desc = "tmux-sessionizer",
           },
-          ["<C-C>"] = { "mZggVGy`Z", desc = "  yank whole file" },
+          ["<C-C>"] = { "mZggVGy`Z", desc = "󰆏  yank whole file" },
           ["<leader>z"] = {
             function() require("snacks.zen").zen() end,
             -- "<cmd> ZenMode <CR>",

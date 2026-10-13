@@ -9,7 +9,7 @@ zathura_dir="$HOME/.config/zathura"
 prompt="dmenu -l 9 "
 
 # Theme
-cancel="窱 Cancel"
+cancel="󰜺 Cancel"
 theme1=" Cozy-Night"
 theme2=" Dracula"
 theme3=" Gruvbox"
