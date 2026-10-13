@@ -37,7 +37,7 @@ I've remapped some keys for ergonomics:
 ## Installation
 
 Stows the dotfiles and builds dwm, st, dmenu, luastatus and slock (Ubuntu 26.04;
-apt installs the build dependencies):
+apt installs stow and the build dependencies):
 
 ```sh
 ./setup/setup.sh

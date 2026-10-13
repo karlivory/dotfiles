@@ -6,17 +6,17 @@ source "$SETUP_DIR/lib.sh"
 
 DESKTOP_ITEMS=(dwm st dmenu luastatus slock)
 # Canonical run order. Selected components are sorted into it.
-COMPONENTS=(stow desktop "${DESKTOP_ITEMS[@]}")
-DEFAULT_COMPONENTS=(stow desktop)
+COMPONENTS=(packages stow desktop "${DESKTOP_ITEMS[@]}")
+DEFAULT_COMPONENTS=(packages stow desktop)
 # In a chroot: components skipped until boot, ones that run only partly, and
 # a note on what to do after boot.
 CHROOT_DEFERRED=()
 CHROOT_PARTIAL=()
 CHROOT_AFTER_BOOT_NOTE=
-# The personal layer may redefine the lists above (keeping desktop and its
-# items) and add components as dotfiles-personal/setup/<name>.sh files that
-# define setup_<name>. Components need root unless needs_root_<name> fails;
-# stow never does.
+# The personal layer may redefine the lists above (keeping packages, stow,
+# desktop and its items) and add components as dotfiles-personal/setup/<name>.sh
+# files that define setup_<name>. Components need root unless needs_root_<name>
+# fails; stow never does.
 # shellcheck source=/dev/null
 [[ ! -f $PERSONAL_SETUP_DIR/components.sh ]] || source "$PERSONAL_SETUP_DIR/components.sh"
 
@@ -28,7 +28,7 @@ Usage: setup/setup.sh [--verbose] [--no-spinner] [${list% | }]...
 
 No arguments runs all components. Selected components run once each, in the
 order listed above. Desktop is shorthand for ${DESKTOP_ITEMS[*]}.
-Desktop installs its own build dependencies with apt.
+Packages installs what stow and desktop need with apt; run it before them.
 Machine settings live in config.sh; override per host in config.local.sh. Ubuntu 26.04 is expected.
 Successful components and selected subtasks show elapsed time (e.g. 0.43s).
 --verbose also streams command output.
@@ -114,6 +114,7 @@ source "$SETUP_DIR/progress.sh"
 
 setup_stow() {
   need stow
+  need update-desktop-database
   (cd "$REPO_DIR" && as_user bash "$REPO_DIR/stow.sh")
 }
 
@@ -127,13 +128,17 @@ in_list() {
 run_component() {
   local component=$1 item
   case $component in
+    packages)
+      # shellcheck source=setup/packages.sh
+      source "$SETUP_DIR/packages.sh"
+      run_step "apt" setup_packages
+      ;;
     stow)
       run_step "dotfiles" setup_stow
       ;;
     desktop)
       # shellcheck source=setup/desktop.sh
       source "$SETUP_DIR/desktop.sh"
-      run_step "packages" setup_desktop_packages
       for item in "${DESKTOP_ITEMS[@]}"; do
         run_step "$item" setup_desktop "$item"
       done
@@ -142,7 +147,6 @@ run_component() {
       if in_list "$component" "${DESKTOP_ITEMS[@]}"; then
         # shellcheck source=setup/desktop.sh
         source "$SETUP_DIR/desktop.sh"
-        run_step "packages" setup_desktop_packages
         run_step "build" setup_desktop "$component"
       else
         [[ -f $PERSONAL_SETUP_DIR/$component.sh ]] || die "Missing $PERSONAL_SETUP_DIR/$component.sh"

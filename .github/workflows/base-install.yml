@@ -1,0 +1,29 @@
+name: Base install
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  base-install:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container: ubuntu:26.04
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          submodules: false
+      - name: Install and verify public dotfiles
+        run: bash .github/scripts/test-base-install.sh
