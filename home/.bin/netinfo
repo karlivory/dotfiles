@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Network overview in three sections: interfaces, routing (gateway, nameservers), public IP.
+
+if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
+  bold=$'\e[1m' dim=$'\e[2m' reset=$'\e[0m'
+else
+  bold='' dim='' reset=''
+fi
+
+interfaces=$(ip -4 -o addr show scope global | awk '$2 !~ /^(virbr|br-|docker|veth)/ {sub("/.*", "", $4); print $2, $4}')
+gateways=$(ip -4 route show default | awk '{for (n = 1; n < NF; n++) if ($n == "via") print $(n + 1)}' | paste -sd' ')
+# systemd-resolved's stub in /etc/resolv.conf is 127.0.0.53; ask resolved for the real servers.
+dns=$(resolvectl dns 2>/dev/null | awk -F': ' 'NF > 1 {n = split($2, s, " "); for (k = 1; k <= n; k++) print s[k]}' | awk '!seen[$0]++' | paste -sd' ')
+[[ -n $dns ]] || dns=$(awk '$1 == "nameserver" {print $2}' /etc/resolv.conf | paste -sd' ')
+
+width=$(awk 'BEGIN {m = 7} length($1) > m {m = length($1)} END {print m}' <<< "$interfaces")
+
+section() { printf '%s%s%s\n' "$bold" "$1" "$reset"; }
+row() { printf '  %s%-*s%s  %s\n' "$dim" "$width" "$1" "$reset" "${2:--}"; }
+
+section Interfaces
+if [[ -n $interfaces ]]; then
+  while read -r name address; do row "$name" "$address"; done <<< "$interfaces"
+else
+  row none
+fi
+
+echo
+section Routing
+row gateway "$gateways"
+row dns "$dns"
+
+echo
+section Public
+# Printed last so the local sections show before the (1s at most) lookup.
+row ip "$(curl -fsS -m 1 ifconfig.me 2>/dev/null)"

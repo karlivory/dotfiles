@@ -97,7 +97,7 @@ bind -m "vi-insert" '"\C-o": "\eddi_lfcd\C-m"'
 #########################################################################################
 
 HISTCONTROL=ignoreboth
-HISTIGNORE="&:ls:l:clear:pwd:cd ..:_common_dirs:_lfcd:_tmux_sessionizer:_copy_readline"
+HISTIGNORE="&:_common_dirs:_lfcd:_tmux_sessionizer:_copy_readline"
 HISTSIZE=10000
 HISTFILESIZE=20000
 
@@ -191,6 +191,7 @@ alias gcn="git commit --no-gpg-sign -m"
 alias gd="git diff"
 alias gr="git restore --staged"
 alias ga="git add"
+alias yt720="yt-dlp -f 'bestvideo[height<=720]+bestaudio'"
 alias yt1080="yt-dlp -f 'bestvideo[height<=1080]+bestaudio'"
 alias yt1440="yt-dlp -f 'bestvideo[height<=1440]+bestaudio'"
 alias ytmp3="yt-dlp -x --audio-format mp3 --audio-quality 0"
@@ -203,6 +204,7 @@ alias r='openssl rand -base64'
 alias vv='[ -d venv ] || virtualenv venv; source venv/bin/activate'
 alias dc='docker compose'
 alias scu='systemctl --user'
+alias i='netinfo'
 
 ##==================================== MISC ===========================================##
 #########################################################################################
