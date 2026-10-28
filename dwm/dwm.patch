@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index e62d328..8661e58 100644
+index e62d328..18b1c28 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -9,7 +9,7 @@
@@ -54,7 +54,22 @@ index e62d328..8661e58 100644
  };
  #endif // SCRATCHPADS_PATCH
  
-@@ -526,12 +532,15 @@ static const Rule rules[] = {
+@@ -515,6 +521,14 @@ static const int tagrows = 2;
+  * Refer to the Rule struct definition for the list of available fields depending on
+  * the patches you enable.
+  */
++#if FOCUSONNETACTIVE_PATCH
++/* Only windows of these classes may switch the view to their tag when they ask to be
++ * activated; any other window is just marked urgent. */
++static const char *activateclasses[] = {
++	"Google-chrome",
++};
++#endif // FOCUSONNETACTIVE_PATCH
++
+ static const Rule rules[] = {
+ 	/* xprop(1):
+ 	 *	WM_CLASS(STRING) = instance, class
+@@ -526,12 +540,15 @@ static const Rule rules[] = {
  	RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
  	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
  	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
@@ -73,7 +88,7 @@ index e62d328..8661e58 100644
  	#endif // SCRATCHPADS_PATCH
  };
  
-@@ -811,7 +820,7 @@ static const char *xkb_layouts[]  = {
+@@ -811,7 +828,7 @@ static const char *xkb_layouts[]  = {
  #endif // XKB_PATCH
  
  /* key definitions */
@@ -82,7 +97,7 @@ index e62d328..8661e58 100644
  #if COMBO_PATCH && SWAPTAGS_PATCH && TAGOTHERMONITOR_PATCH
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      comboview,      {.ui = 1 << TAG} }, \
-@@ -878,11 +887,7 @@ static const char *xkb_layouts[]  = {
+@@ -878,11 +895,7 @@ static const char *xkb_layouts[]  = {
  #define STACKKEYS(MOD,ACTION) \
  	{ MOD, XK_j,     ACTION##stack, {.i = INC(+1) } }, \
  	{ MOD, XK_k,     ACTION##stack, {.i = INC(-1) } }, \
@@ -95,7 +110,7 @@ index e62d328..8661e58 100644
  #endif // STACKER_PATCH
  
  #if BAR_HOLDBAR_PATCH
-@@ -1040,7 +1045,7 @@ ResourcePref resources[] = {
+@@ -1040,7 +1053,7 @@ ResourcePref resources[] = {
  };
  #endif // XRESOURCES_PATCH
  
@@ -104,7 +119,7 @@ index e62d328..8661e58 100644
  	/* modifier                     key            function                argument */
  	#if KEYMODES_PATCH
  	{ MODKEY,                       XK_Escape,     setkeymode,             {.ui = COMMANDMODE} },
-@@ -1457,6 +1462,35 @@ static const Key keys[] = {
+@@ -1457,6 +1470,35 @@ static const Key keys[] = {
  	TAGKEYS(                        XK_9,                                  8)
  };
  
@@ -140,7 +155,7 @@ index e62d328..8661e58 100644
  #if KEYMODES_PATCH
  static const Key cmdkeys[] = {
  	/* modifier                    keys                     function         argument */
-@@ -1755,6 +1789,7 @@ static const Signal signals[] = {
+@@ -1755,6 +1797,7 @@ static const Signal signals[] = {
  static Signal signals[] = {
  	/* signum       function        argument  */
  	{ 1,            setlayout,      {.v = 0} },
@@ -148,3 +163,47 @@ index e62d328..8661e58 100644
  };
  #endif // DWMC_PATCH
  
+diff --git a/dwm.c b/dwm.c
+index b537743..c7b7d30 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -1426,6 +1426,27 @@ cleanupmon(Monitor *mon)
+ 	free(mon);
+ }
+ 
++#if FOCUSONNETACTIVE_PATCH
++/* Whether windows of this class may switch the view to their tag (see activateclasses). */
++static int
++isactivatable(Client *c)
++{
++	XClassHint ch = { NULL, NULL };
++	unsigned int i;
++	int ok = 0;
++
++	XGetClassHint(dpy, c->win, &ch);
++	for (i = 0; i < LENGTH(activateclasses) && ch.res_class; i++)
++		if (!strcmp(ch.res_class, activateclasses[i]))
++			ok = 1;
++	if (ch.res_class)
++		XFree(ch.res_class);
++	if (ch.res_name)
++		XFree(ch.res_name);
++	return ok;
++}
++#endif // FOCUSONNETACTIVE_PATCH
++
+ void
+ clientmessage(XEvent *e)
+ {
+@@ -1498,7 +1519,10 @@ clientmessage(XEvent *e)
+ 		}
+ 	} else if (cme->message_type == netatom[NetActiveWindow]) {
+ 		#if FOCUSONNETACTIVE_PATCH
+-		if (c->tags & c->mon->tagset[c->mon->seltags])
++		if (!isactivatable(c)) {
++			if (c != selmon->sel && !c->isurgent)
++				seturgent(c, 1);
++		} else if (c->tags & c->mon->tagset[c->mon->seltags])
+ 			focus(c);
+ 		else {
+ 			for (i = 0; i < NUMTAGS && !((1 << i) & c->tags); i++);
