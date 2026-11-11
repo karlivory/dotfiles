@@ -94,6 +94,13 @@ else
     if [[ -z $selected ]]; then
         exit 1
     fi
-    session_name=$(basename "$selected" | tr . _)
+    # Dirs nested deeper under ~/git are named by their path (~/git/a/b -> a_b),
+    # so they don't clash with a top-level ~/git/b.
+    rel=${selected#"$HOME/git/"}
+    if [[ $rel != "$selected" && $rel == */* ]]; then
+        session_name=$(echo "$rel" | tr ./ __)
+    else
+        session_name=$(basename "$selected" | tr . _)
+    fi
     new_session "$session_name" "$selected"
 fi
