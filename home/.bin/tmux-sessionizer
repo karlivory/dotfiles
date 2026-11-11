@@ -76,7 +76,7 @@ if [[ "$TMUX_SESSIONIZER_ACTION" == "LAST_SESSION" ]]; then
 	if [[ ! -f  "$last_session_file" ]]; then
         echo "ERROR! No last session file found! ($last_session_file)" && exit 1
 	fi
-	session_name=$(cat "$last_session_file" | tr -s '\n' ' ' | tr -dc 'a-zA-Z0-9_-')
+	session_name=$(cat "$last_session_file" | tr -s '\n' ' ' | tr -dc 'a-zA-Z0-9_/-')
 	if [[ -z "$session_name" ]]; then
         echo "ERROR! Could not determine session name from $last_session_file!" && exit 1
 	fi
@@ -94,11 +94,11 @@ else
     if [[ -z $selected ]]; then
         exit 1
     fi
-    # Dirs nested deeper under ~/git are named by their path (~/git/a/b -> a_b),
+    # Dirs nested deeper under ~/git are named by their path (~/git/a/b -> a/b),
     # so they don't clash with a top-level ~/git/b.
     rel=${selected#"$HOME/git/"}
     if [[ $rel != "$selected" && $rel == */* ]]; then
-        session_name=$(echo "$rel" | tr ./ __)
+        session_name=$(echo "$rel" | tr . _)
     else
         session_name=$(basename "$selected" | tr . _)
     fi
